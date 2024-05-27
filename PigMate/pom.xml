@@ -129,11 +129,13 @@
 
 		<!-- Spring에서 Mysql을 연결하기위한 드라이버 API -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.42</version>
+			<version>8.0.26</version>
 		</dependency>
+
 
 		<!-- Spring에서 JDBC(DB연결 및 사용)하기 위한 API -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
