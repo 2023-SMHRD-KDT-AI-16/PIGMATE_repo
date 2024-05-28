@@ -11,13 +11,9 @@ import lombok.ToString;
 @ToString
 public class Member {
 
-	private int memIdx;
-	private String memId;
-	private String memPassword;
-	private String memName;
-	private int memAge;
-	private String memGender;
-	private String memEmail;
-	private String memProfile;
-	
+	private String mem_id;
+	private String mem_pw;
+	private String mem_name;
+	private String mem_phone;
+	private String joined_at;
 }
