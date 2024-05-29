@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PigMate</title>
 <link rel="shortcut icon" type="image/png"
-	href="${contextPath}/assets/images/logos/favicon.png" />
-<link rel="stylesheet" href="/pigmate/src/main/webapp/WEB-INF/views/css/styles.min.css" />
+	href="../../../resources/images/person.png" />
+<link rel="stylesheet" href="../css/styles.css" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
@@ -43,7 +43,7 @@
 						<a href="${contextPath}/index.html"
 							class="text-nowrap logo-img text-center d-block py-3 w-100">
 							<!-- 로고 이미지 --> <img
-							src="${contextPath}/assets/images/logos/pigmate_200x50.png"
+							src="../../../resources/images/person.png"
 							alt="">
 						</a>
 						<div class="card mb-0">
@@ -103,11 +103,6 @@
 		</div>
 	</div>
 
-	<script src="${contextPath}/assets/libs/jquery/dist/jquery.min.js"></script>
-	<script
-		src="${contextPath}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- solar icons -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+	
 </body>
 </html>
