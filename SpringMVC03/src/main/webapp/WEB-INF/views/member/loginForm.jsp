@@ -59,7 +59,7 @@
 			</table>
 			</form>
 		</div>
-	    <div class="panel-footer">스프링게시판-이주희</div>
+	    <div class="panel-footer"></div>
 	  </div>
 	</div>
 	
