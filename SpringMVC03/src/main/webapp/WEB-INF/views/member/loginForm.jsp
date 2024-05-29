@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PigMate</title>
 <link rel="shortcut icon" type="image/png"
-	href="../../../resources/images/person.png" />
-<link rel="stylesheet" href="../css/styles.css" />
+	href="${pageContext.request.contextPath}/resources/images/person.png" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
@@ -42,8 +42,8 @@
 					<div class="col-md-8 col-lg-6 col-xxl-3">
 						<a href="${contextPath}/index.html"
 							class="text-nowrap logo-img text-center d-block py-3 w-100">
-							<!-- 로고 이미지 --> <img
-							src="../../../resources/images/person.png"
+							<!-- 로고 이미지 --> <img width="100" height = "100"
+							src="${pageContext.request.contextPath}/resources/images/person.png"
 							alt="">
 						</a>
 						<div class="card mb-0">
@@ -73,6 +73,8 @@
 									</div>
 								</form>
 								<!-- form태그 끝-->
+								
+
 
 							</div>
 						</div>

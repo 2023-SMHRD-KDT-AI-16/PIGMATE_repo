@@ -24,6 +24,7 @@
 	<!-- 해당되는 패키지에서 Controller(POJO)를 찾겠다 -->
 	<context:component-scan base-package="kr.board.controller" />
 	
+	<default-servlet-handler/>
 	
 	
 </beans:beans>
