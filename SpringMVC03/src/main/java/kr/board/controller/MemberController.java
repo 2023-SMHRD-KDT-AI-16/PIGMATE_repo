@@ -53,7 +53,6 @@ public class MemberController {
 			session.setAttribute("mvo", mvo);
 			return "redirect:/";
 		}
-
 	}
 
 	// 로그인 페이지 이동 /loginForm.do
