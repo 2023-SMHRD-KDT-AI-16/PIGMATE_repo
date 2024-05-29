@@ -8,6 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="shortcut icon" type="image/png"
+	href="../assets/images/logos/favicon.png" />
+<link rel="stylesheet" href="./styles.min.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
@@ -98,46 +101,45 @@
 									onclick="idCheck()">중복체크</button>
 							</td>
 						</tr>
-						
+
 						<tr>
 							<td style="vertical-align: middle; width: 110px;">비밀번호</td>
-							<td colspan="2">
-								<input type="password" maxlength="20" onkeyup="passwordCheck()" name="mem_pw1" id="mem_pw1" class="form-control" placeholder="비밀번호를 입력하세요.">
-							</td>
+							<td colspan="2"><input type="password" maxlength="20"
+								onkeyup="passwordCheck()" name="mem_pw1" id="mem_pw1"
+								class="form-control" placeholder="비밀번호를 입력하세요."></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: middle; width: 110px;">비밀번호확인</td>
-							<td colspan="2">
-								<input type="password" maxlength="20" onkeyup="passwordCheck()" name="mem_pw2" id="mem_pw2" class="form-control" placeholder="비밀번호를 입력하세요.">
-							</td>
+							<td colspan="2"><input type="password" maxlength="20"
+								onkeyup="passwordCheck()" name="mem_pw2" id="mem_pw2"
+								class="form-control" placeholder="비밀번호를 입력하세요."></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: middle; width: 110px;">사용자이름</td>
-							<td colspan="2">
-								<input type="text" maxlength="20" name="mem_name" id="mem_name" class="form-control" placeholder="이름을 입력하세요.">
-							</td>
+							<td colspan="2"><input type="text" maxlength="20"
+								name="mem_name" id="mem_name" class="form-control"
+								placeholder="이름을 입력하세요."></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: middle; width: 110px;">전화번호</td>
-							<td colspan="2">
-								<input type="text" maxlength="50" name="mem_phone" id="mem_phone" class="form-control" placeholder="전화번호를 입력하세요.">
-							</td>
+							<td colspan="2"><input type="text" maxlength="50"
+								name="mem_phone" id="mem_phone" class="form-control"
+								placeholder="전화번호를 입력하세요."></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: middle; width: 110px;">이메일</td>
-							<td colspan="2">
-								<input type="email" maxlength="50" name="mem_email" id="mem_email" class="form-control" placeholder="이메일을 입력하세요.">
-							</td>
+							<td colspan="2"><input type="email" maxlength="50"
+								name="mem_email" id="mem_email" class="form-control"
+								placeholder="이메일을 입력하세요."></td>
 						</tr>
-						
+
 						<tr>
-							<td colspan="3">
-								<span id="passCheck" style="color: red;"></span>
+							<td colspan="3"><span id="passCheck" style="color: red;"></span>
 								<input type="submit" class="btn btn-sm btn-primary" value="회원가입">
 								<input type="reset" class="btn btn-sm btn-warning" value="초기화">
 							</td>
 						</tr>
-						
+
 
 					</table>
 

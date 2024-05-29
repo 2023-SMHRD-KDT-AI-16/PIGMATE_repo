@@ -112,7 +112,7 @@ public class MemberController {
 			// 회원가입 성공
 			
 			memberMapper.join(m);
-			System.out.println("회원가입 성공" + m.getMem_id());
+			System.out.println("회원가입 성공 " + m.getMem_id());
 			rttr.addFlashAttribute("msgType", "성공 메세지");
 			rttr.addFlashAttribute("msg", "회원가입에 성공했습니다.");
 			
