@@ -11,4 +11,9 @@ public interface MemberMapper {
 
 	public Member login(Member m);
 
+	public Member getMember(String mem_id);
+	
+	public int join(Member m);
+
+
 }
