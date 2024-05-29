@@ -69,7 +69,7 @@
 									<div class="d-flex align-items-center justify-content-center">
 										<p class="fs-4 mb-0 fw-bold">피그메이트가 처음이신가요?</p>
 										<a class="text-primary fw-bold ms-2"
-											href="${contextPath}/join.html">회원가입</a>
+											href="${contextPath}/joinForm.do">회원가입</a>
 									</div>
 								</form>
 								<!-- form태그 끝-->

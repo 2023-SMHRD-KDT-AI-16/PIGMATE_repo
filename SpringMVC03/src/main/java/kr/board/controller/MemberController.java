@@ -82,7 +82,7 @@ public class MemberController {
 		// m = null -> 사용 가능한 아이디 -> 1
 		// m != null -> 사용 불가능한 아이디 -> 0
 
-		System.out.println(m);
+
 		if (m == null) {
 			System.out.println("사용 가능한 아이디 " + mem_id);
 			return 1;
