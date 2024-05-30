@@ -88,41 +88,36 @@ public class MemberController {
 			System.out.println("사용 가능한 아이디 " + mem_id);
 			return 1;
 		} else {
-			 System.out.println("사용 불가능한 아이디 " + m.getMem_id());
+			System.out.println("사용 불가능한 아이디 " + m.getMem_id());
 			return 0;
 		}
 	}
 
-	// 회원가입 기능 /join.do
 	@PostMapping("/join.do")
 	public String join(Member m, RedirectAttributes rttr, HttpSession session, Model model) {
-
-		if (m.getMem_id() == null || m.getMem_id().equals("") || m.getMem_pw() == null || m.getMem_pw().equals("")
-				|| m.getMem_name() == null || m.getMem_name().equals("") || m.getMem_phone() == null
-				|| m.getMem_phone().equals("") || m.getMem_email() == null || m.getMem_email().equals("")) {
-
-			// 회원가입 실패 시
-
-			System.out.println("회원가입 실패");
-			rttr.addFlashAttribute("msgType", "실패 메세지");
-			rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
-
-			return "redirect:/joinForm.do";
-		} else {
-
-			// 회원가입 성공
-			memberMapper.join(m);
-			System.out.println("회원가입 성공 " + m.getMem_id());
-			rttr.addFlashAttribute("msgType", "성공 메세지");
-			rttr.addFlashAttribute("msg", "회원가입에 성공했습니다.");
-
-			// 회원가입 성공시 로그인 처리
-			session.setAttribute("m", m);
-			model.addAttribute("mm", m);
-			System.out.println("로그인 성공 " + m.getMem_id());
-			return "redirect:/myPage.do";
-		}
+	    if (m.getMem_id() == null || m.getMem_id().equals("") || m.getMem_pw() == null || m.getMem_pw().equals("")
+	            || m.getMem_name() == null || m.getMem_name().equals("") || m.getMem_phone() == null
+	            || m.getMem_phone().equals("") || m.getMem_email() == null || m.getMem_email().equals("")) {
+	    	
+	        // 회원가입 실패 시
+	        System.out.println("회원가입 실패");
+	        rttr.addFlashAttribute("msgType", "실패 메세지");
+	        rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
+	        return "redirect:/joinForm.do";
+	    } else {
+	        // 회원가입 성공
+	        memberMapper.join(m);
+	        System.out.println("회원가입 성공 " + m.getMem_id());
+	        rttr.addFlashAttribute("msgType", "성공 메세지");
+	        rttr.addFlashAttribute("msg", "회원가입에 성공했습니다.");
+	        // 회원가입 성공 시 로그인 처리
+	        session.setAttribute("mvo", m);
+	        model.addAttribute("mm", m);
+	        System.out.println("로그인 성공 " + m.getMem_id());
+	        return "redirect:/myPage.do";
+	    }
 	}
+
 
 	// 마이 페이지 이동 /myPage.do
 	@GetMapping("/myPage.do")
@@ -150,7 +145,8 @@ public class MemberController {
 		memberMapper.update(m);
 		session.setAttribute("mvo", m);
 		// System.out.println("업데이트 성공 " + m.getMem_name());
-		
+
 		return "redirect:/myPage.do";
 	}
+
 }

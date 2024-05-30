@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.board.entity.Farm;
 import kr.board.entity.Member;
 
 @Mapper

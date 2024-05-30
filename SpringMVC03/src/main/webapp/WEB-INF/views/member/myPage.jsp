@@ -40,8 +40,8 @@
 			<div>
 				<div
 					class="brand-logo d-flex align-items-center justify-content-between">
-					<a href="${contextPath}/index.jsp" class="text-nowrap logo-img"> <img
-						src="../assets/images/logos/pigmate_200x50.png" alt="" />
+					<a href="${contextPath}/index.jsp" class="text-nowrap logo-img">
+						<img src="../assets/images/logos/pigmate_200x50.png" alt="" />
 					</a>
 					<div
 						class="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
@@ -56,9 +56,9 @@
 								icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
 							<span class="hide-menu">Home</span></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="${pageContext.request.contextPath}/" aria-expanded="false"> <iconify-icon
-									icon="solar:widget-add-line-duotone"></iconify-icon> <span
-								class="hide-menu">홈</span>
+							href="${pageContext.request.contextPath}/" aria-expanded="false">
+								<iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+								<span class="hide-menu">홈</span>
 						</a></li>
 						<li><span class="sidebar-divider lg"></span></li>
 						<li class="nav-small-cap"><iconify-icon
@@ -75,17 +75,20 @@
 								class="hide-menu">환경 정보</span>
 						</a></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="${pageContext.request.contextPath}/newsBoardList.do" aria-expanded="false"> <iconify-icon
+							href="${pageContext.request.contextPath}/newsBoardList.do"
+							aria-expanded="false"> <iconify-icon
 									icon="solar:bookmark-square-minimalistic-line-duotone"></iconify-icon>
 								<span class="hide-menu">뉴스 게시판</span>
 						</a></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="${pageContext.request.contextPath}/reportList.do" aria-expanded="false"> <iconify-icon
+							href="${pageContext.request.contextPath}/reportList.do"
+							aria-expanded="false"> <iconify-icon
 									icon="solar:file-text-line-duotone"></iconify-icon> <span
 								class="hide-menu">리포트</span>
 						</a></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							 aria-expanded="false" href="${pageContext.request.contextPath}/myPage.do"> <iconify-icon
+							aria-expanded="false"
+							href="${pageContext.request.contextPath}/myPage.do"> <iconify-icon
 									icon="solar:text-field-focus-line-duotone"></iconify-icon> <span
 								class="hide-menu">마이페이지</span>
 						</a></li>
@@ -215,7 +218,7 @@
 											</div>
 											<div class="row">
 												<input type="submit"
-													class="btn btn-outline-success pull-right" value="수정">
+													class="btn btn-outline-success pull-right" value="수정 완료">
 											</div>
 										</form>
 									</div>
@@ -227,28 +230,31 @@
 								<div class="card-body p-4 ">
 									<h5>농장 정보</h5>
 									<hr>
-									<div class="d-flex">
-										<p style="color: black;">농장 위치</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">농장 위치</label>
+									<form action="updateFarm.do" method="post">
+										<div class="d-flex">
+											<p style="color: black;">농장 위치</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="farmLocation"
+													name="farm_location" placeholder="name@example.com">
+												<label for="farmLocation">농장 위치</label>
+											</div>
+											<p style="color: black;">사육 두수
+											<p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="numberOfPigs"
+													name="number_of_pigs" placeholder="name@example.com">
+												<label for="numberOfPigs">숫자 입력</label>
+											</div>
+											<div>
+												<button type="button"
+													class="btn btn-outline-success float-right">+</button>
+											</div>
+											<div class="row">
+												<input type="submit"
+													class="btn btn-outline-success pull-right" value="완료">
+											</div>
 										</div>
-										<p style="color: black;">사육 두수
-										<p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">숫자 입력</label>
-										</div>
-										<div>
-											<button class="btn btn-outline-success float-right">+</button>
-										</div>
-										<div class="row">
-											<input type="submit"
-												class="btn btn-outline-success pull-right" value="완료">
-										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 
@@ -257,50 +263,53 @@
 								<div class="card-body p-4 ">
 									<h5>농장별 환경 기준</h5>
 									<hr>
-									<div class="d-flex">
-										<p style="color: black;">농장 선택</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">농장 위치</label>
+									<form action="updateFarmEnvironment.do" method="post">
+										<div class="d-flex">
+											<p style="color: black;">농장 선택</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="farmSelect"
+													name="farm_select" placeholder="name@example.com">
+												<label for="farmSelect">농장 위치</label>
+											</div>
+											<p style="color: black;">온도</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="temperature"
+													name="temperature" placeholder="name@example.com">
+												<label for="temperature">숫자 입력</label>
+											</div>
+											<p style="color: black;">습도</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="humidity"
+													name="humidity" placeholder="name@example.com"> <label
+													for="humidity">숫자 입력</label>
+											</div>
+											<p style="color: black;">이산화탄소</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="co2" name="co2"
+													placeholder="name@example.com"> <label for="co2">숫자
+													입력</label>
+											</div>
+											<p style="color: black;">암모니아</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="ammonia"
+													name="ammonia" placeholder="name@example.com"> <label
+													for="ammonia">숫자 입력</label>
+											</div>
+											<p style="color: black;">미세먼지</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="pm" name="pm"
+													placeholder="name@example.com"> <label for="pm">숫자
+													입력</label>
+											</div>
+											<div class="row">
+												<input type="submit"
+													class="btn btn-outline-success pull-right" value="완료">
+											</div>
 										</div>
-										<p style="color: black;">온도</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">숫자 입력</label>
-										</div>
-										<p style="color: black;">습도</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">숫자 입력</label>
-										</div>
-										<p style="color: black;">이산화탄소</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">숫자 입력</label>
-										</div>
-										<p style="color: black;">암모니아</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">숫자 입력</label>
-										</div>
-										<p style="color: black;">미세먼지</p>
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput"
-												placeholder="name@example.com"> <label
-												for="floatingInput">숫자 입력</label>
-										</div>
-										<div class="row">
-											<input type="submit"
-												class="btn btn-outline-success pull-right" value="완료">
-										</div>
-									</div>
+									</form>
 								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
