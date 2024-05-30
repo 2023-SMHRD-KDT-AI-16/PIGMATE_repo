@@ -18,6 +18,8 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="${contextPath}/">Home</a></li>
+        <li class="active"><a href="${contextPath}/envList.do">환경</a></li>
+        
       </ul>
       
       <c:if test="${empty mvo}">
