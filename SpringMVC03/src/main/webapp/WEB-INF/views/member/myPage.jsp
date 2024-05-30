@@ -40,7 +40,7 @@
 			<div>
 				<div
 					class="brand-logo d-flex align-items-center justify-content-between">
-					<a href="./index.html" class="text-nowrap logo-img"> <img
+					<a href="${contextPath}/index.jsp" class="text-nowrap logo-img"> <img
 						src="../assets/images/logos/pigmate_200x50.png" alt="" />
 					</a>
 					<div
@@ -56,9 +56,9 @@
 								icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
 							<span class="hide-menu">Home</span></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="./index.html" aria-expanded="false"> <iconify-icon
+							href="${pageContext.request.contextPath}/" aria-expanded="false"> <iconify-icon
 									icon="solar:widget-add-line-duotone"></iconify-icon> <span
-								class="hide-menu">대시보드</span>
+								class="hide-menu">홈</span>
 						</a></li>
 						<li><span class="sidebar-divider lg"></span></li>
 						<li class="nav-small-cap"><iconify-icon
@@ -75,17 +75,17 @@
 								class="hide-menu">환경 정보</span>
 						</a></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="./newsBoard.html" aria-expanded="false"> <iconify-icon
+							href="${pageContext.request.contextPath}/newsBoardList.do" aria-expanded="false"> <iconify-icon
 									icon="solar:bookmark-square-minimalistic-line-duotone"></iconify-icon>
 								<span class="hide-menu">뉴스 게시판</span>
 						</a></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="./ui-forms.html" aria-expanded="false"> <iconify-icon
+							href="${pageContext.request.contextPath}/reportList.do" aria-expanded="false"> <iconify-icon
 									icon="solar:file-text-line-duotone"></iconify-icon> <span
 								class="hide-menu">리포트</span>
 						</a></li>
 						<li class="sidebar-item"><a class="sidebar-link"
-							href="./myPage.html" aria-expanded="false"> <iconify-icon
+							 aria-expanded="false" href="${pageContext.request.contextPath}/myPage.do"> <iconify-icon
 									icon="solar:text-field-focus-line-duotone"></iconify-icon> <span
 								class="hide-menu">마이페이지</span>
 						</a></li>
