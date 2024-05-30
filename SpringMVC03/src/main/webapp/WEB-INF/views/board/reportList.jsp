@@ -6,17 +6,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>뉴스 게시판</title>
-  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
-  <link rel="stylesheet" href="../assets/css/styles.min.css" />
+  <title>리포트 목록</title>
+<link rel="shortcut icon" type="image/png"
+	href="${pageContext.request.contextPath}/resources/images/person.png" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-
-
-
-
-
-
-
 
 <body>
   <!--  Body Wrapper -->
@@ -34,11 +34,6 @@
             <i class="ti ti-x fs-8"></i>
           </div>
         </div>
-        
-        
-        
-        
-        
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">
@@ -72,13 +67,13 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./newsBoard.html" aria-expanded="false">
+              <a class="sidebar-link" href="./newsBoardList.html" aria-expanded="false">
                 <iconify-icon icon="solar:bookmark-square-minimalistic-line-duotone"></iconify-icon>
                 <span class="hide-menu">뉴스 게시판</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+              <a class="sidebar-link" href="./reportList.html" aria-expanded="false">
                 <iconify-icon icon="solar:file-text-line-duotone"></iconify-icon>
                 <span class="hide-menu">리포트</span>
               </a>
@@ -108,8 +103,6 @@
     
     <!--  Main wrapper -->
     <div class="body-wrapper">
-    
-    
       <!--  Header Start -->
       <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -160,17 +153,14 @@
         </nav>
       </header>
       <!--  Header End -->
-      
-      
-      
       <div class="body-wrapper-inner">
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">뉴스 게시판</h5>
+              <h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
               <div class="table-responsive">
-                <table class="table table-striped table-hover" border="1" >
-                  <thead style="font-size: smaller;">
+                <table class="table  table-hover" border="1" >
+                  <thead class="table-primary" style="font-size: smaller;">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">제목</th>
@@ -180,7 +170,7 @@
                   <tbody style="font-size: smaller;">
                     <tr>
                       <th scope="row">1</th>
-                      <td> <a href="https://www.pignpork.com/news/articleView.html?idxno=11650">[기획] 늙어가는 사회, 소비침체에 맞설 한돈의 전략은?</a></td>
+                      <td> <a href="./reportContent.html">오늘의 리포트</a></td>
                       <td>2015-03-01</td>
                     </tr>
                     <tr>

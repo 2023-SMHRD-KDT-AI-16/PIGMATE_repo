@@ -53,7 +53,7 @@
 								<!-- form 태그 시작 -->
 								<form action="${contextPath}/login.do" method="post">
 									<div class="mb-3">
-										<label for="mem_id" class="form-label">아이디</label> <input
+										<label for="mem_id" class="formw-label">아이디</label> <input
 											type="text" class="form-control" id="mem_id" name="mem_id"
 											placeholder="아이디를 입력하세요." maxlength="20">
 									</div>
