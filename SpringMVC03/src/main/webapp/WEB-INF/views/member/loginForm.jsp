@@ -11,7 +11,7 @@
 <title>PigMate</title>
 <link rel="shortcut icon" type="image/png"
 	href="${pageContext.request.contextPath}/resources/images/person.png" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
