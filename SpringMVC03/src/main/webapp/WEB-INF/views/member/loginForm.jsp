@@ -9,15 +9,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PigMate</title>
-<link rel="shortcut icon" type="image/png"
-	href="${pageContext.request.contextPath}/resources/images/person.png" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	href="${pageContext.request.contextPath}/resources/css/styles.css" />
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
 <script type="text/javascript">
     $(document).ready(function(){
       if(${not empty msgType}){
@@ -43,7 +41,7 @@
 						<a href="${contextPath}/index.html"
 							class="text-nowrap logo-img text-center d-block py-3 w-100">
 							<!-- 로고 이미지 --> <img width="100" height = "100"
-							src="${pageContext.request.contextPath}/resources/images/person.png"
+							src="/pigmate/src/main/webapp/resources/img/logos/pigmate_small.png"
 							alt="">
 						</a>
 						<div class="card mb-0">
@@ -105,6 +103,13 @@
 		</div>
 	</div>
 
-	
+		<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+	<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="../assets/js/sidebarmenu.js"></script>
+	<script src="../assets/js/app.min.js"></script>
+	<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+	<!-- solar icons -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 </html>
