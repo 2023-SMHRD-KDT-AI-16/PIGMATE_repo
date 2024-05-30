@@ -6,15 +6,17 @@
 <title>Bootstrap Example</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="shortcut icon" type="image/png"
 	href="../assets/images/logos/favicon.png" />
-<link rel="stylesheet" href="./styles.min.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/styles.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./styles.min.css" />
+
 
 <script type="text/javascript">
 
@@ -77,76 +79,75 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
+		data-navbarbg="skin6" data-sidebartype="full"
+		data-sidebar-position="fixed" data-header-position="fixed">
+		<div
+			class="position-relative overflow-hidden text-bg-light min-vh-100 d-flex align-items-center justify-content-center">
+			<div class="d-flex align-items-center justify-content-center w-100">
+				<div class="row justify-content-center w-100">
+					<div class="col-md-8 col-lg-6 col-xxl-3">
+						<a href="./index.html"
+							class="text-nowrap logo-img text-center d-block py-3 w-100">
+							<img src="../assets/images/logos/pigmate_200x50.png" alt="">
+						</a>
+						<div class="card mb-0">
 
-		<jsp:include page="../common/header.jsp" />
-		<h2>Spring MVC03</h2>
-		<div class="panel panel-default">
-			<div class="panel-heading">회원가입</div>
-			<div class="panel-body">
-
-				<form action="join.do" method="post">
-
-					<input type="hidden" id="mem_pw" name="mem_pw" value="">
-
-					<table class="table table-bordered"
-						style="border: 1px solid #dddddd; text-align: center;">
-
-						<tr>
-							<td style="vertical-align: middle; width: 110px;">아이디</td>
-							<td><input type="text" name="mem_id" id="mem_id"
-								class="form-control" placeholder="아이디를 입력하세요." maxlength="20"></td>
-							<td style="width: 110px">
-								<button type="button" class="btn btn-sm btn-primary"
-									onclick="idCheck()">중복체크</button>
-							</td>
-						</tr>
-
-						<tr>
-							<td style="vertical-align: middle; width: 110px;">비밀번호</td>
-							<td colspan="2"><input type="password" maxlength="20"
-								onkeyup="passwordCheck()" name="mem_pw1" id="mem_pw1"
-								class="form-control" placeholder="비밀번호를 입력하세요."></td>
-						</tr>
-						<tr>
-							<td style="vertical-align: middle; width: 110px;">비밀번호확인</td>
-							<td colspan="2"><input type="password" maxlength="20"
-								onkeyup="passwordCheck()" name="mem_pw2" id="mem_pw2"
-								class="form-control" placeholder="비밀번호를 입력하세요."></td>
-						</tr>
-						<tr>
-							<td style="vertical-align: middle; width: 110px;">사용자이름</td>
-							<td colspan="2"><input type="text" maxlength="20"
-								name="mem_name" id="mem_name" class="form-control"
-								placeholder="이름을 입력하세요."></td>
-						</tr>
-						<tr>
-							<td style="vertical-align: middle; width: 110px;">전화번호</td>
-							<td colspan="2"><input type="text" maxlength="50"
-								name="mem_phone" id="mem_phone" class="form-control"
-								placeholder="전화번호를 입력하세요."></td>
-						</tr>
-						<tr>
-							<td style="vertical-align: middle; width: 110px;">이메일</td>
-							<td colspan="2"><input type="email" maxlength="50"
-								name="mem_email" id="mem_email" class="form-control"
-								placeholder="이메일을 입력하세요."></td>
-						</tr>
-
-						<tr>
-							<td colspan="3"><span id="passCheck" style="color: red;"></span>
-								<input type="submit" class="btn btn-sm btn-primary" value="회원가입">
-								<input type="reset" class="btn btn-sm btn-warning" value="초기화">
-							</td>
-						</tr>
-
-
-					</table>
-
-				</form>
-
+							<div class="card-body">
+								<form action="join.do" method="post">
+								 <input type="hidden" id="mem_pw" name="mem_pw" value="">
+								
+									<div class="mb-3" style="height: 21px;">
+										<label for="exampleInputtext1" class="form-label">아이디</label>
+									</div>
+									<div class="mb-3 d-flex">
+										<input style="width: 320px;" type="text" class="form-control"
+											id="mem_id" name="mem_id" placeholder="아이디 입력(6자~20자)">
+										<button type="button" class="btn btn-sm btn-primary"
+											style="display: block; margin-left: 43px;"
+											onclick="idCheck()">중복체크</button>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputEmail1" class="form-label">비밀번호</label>
+										<input type="password" class="form-control" id="mem_pw1"
+											name="mem_pw2" placeholder="비밀번호 입력(문자,숫자,특수문자 포함 8자~20자)"
+											onkeyup="passwordCheck()">
+									</div>
+									<div class="mb-4">
+										<label for="exampleInputPassword1" class="form-label">비밀번호
+											확인</label> <input type="password" class="form-control" id="mem_pw2"
+											name="mem_pw2" placeholder="비밀번호 재입력"
+											onkeyup="passwordCheck()"> <span id="passCheck"></span>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label">사용자
+											이름</label> <input type="text" class="form-control" id="mem_name"
+											name="mem_name" placeholder="이름 입력">
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label">전화번호</label>
+										<input type="text" class="form-control" id="mem_phone"
+											name="mem_phone" placeholder="전화번호 입력 ('-'제외 11자리 입력)">
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label">이메일</label>
+										<input type="email" class="form-control" id="mem_email"
+											name="mem_email" placeholder="example@gmail.com">
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label"></label> <input
+											type="submit" class="btn btn-outline-success" value="회원가입">
+									</div>
+									<div class="d-flex align-items-center justify-content-center">
+										<p class="fs-4 mb-0 fw-bold">이미 계정이 있으신가요?</p>
+										<a class="text-primary fw-bold ms-2" href="loginForm.do">로그인</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="panel-footer"></div>
 		</div>
 	</div>
 
@@ -172,6 +173,13 @@
 		</div>
 	</div>
 
-
+	<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+	<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="../assets/js/sidebarmenu.js"></script>
+	<script src="../assets/js/app.min.js"></script>
+	<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+	<!-- solar icons -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 </html>
