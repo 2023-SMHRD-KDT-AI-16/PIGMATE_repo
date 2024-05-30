@@ -14,8 +14,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="./styles.min.css" />
 
 
@@ -137,11 +136,11 @@
 									</div>
 									<div class="mb-3">
 										<label for="exampleInputtext1" class="form-label"></label> <input
-											type="submit" class="btn-outline-success" value="회원가입">
+											type="submit" class="btn btn-outline-success" value="회원가입">
 									</div>
 									<div class="d-flex align-items-center justify-content-center">
 										<p class="fs-4 mb-0 fw-bold">이미 계정이 있으신가요?</p>
-										<a class="text-primary fw-bold ms-2" href="/">로그인</a>
+										<a class="text-primary fw-bold ms-2" href="loginForm.do">로그인</a>
 									</div>
 								</form>
 							</div>
