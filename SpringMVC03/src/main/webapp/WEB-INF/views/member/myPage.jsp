@@ -11,6 +11,22 @@
 	href="../assets/images/logos/favicon.png" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.css" />
+<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/sidebarmenu.js"></script>
+<script src="../assets/js/app.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("#editProfileBtn").click(function() {
+			$("#inputInfo").toggle();
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -88,16 +104,8 @@
 		</aside>
 		<!--  Sidebar End -->
 
-
-
-
-
-
 		<!--  Main wrapper -->
 		<div class="body-wrapper">
-
-
-
 			<!--  Header Start -->
 			<header class="app-header">
 				<nav class="navbar navbar-expand-lg navbar-light">
@@ -116,7 +124,6 @@
 						id="navbarNav">
 						<ul
 							class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-
 							<li class="nav-item dropdown"><a class="nav-link "
 								href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
 								aria-expanded="false"> <img
@@ -149,11 +156,6 @@
 			</header>
 			<!--  Header End -->
 
-
-
-
-
-
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div class="card">
@@ -168,47 +170,55 @@
 											<img src="../assets/images/profile/user-1.jpg"
 												class="rounded-circle" width="100px" height="100px "
 												style="padding: 20px;" alt=""> <span
-												style="color: black;">홍길동</span>
+												style="color: black;">${member.mem_name}</span>
+										</div>
+										<div class="row">
+											<input type="button"
+												class="btn btn-outline-success pull-right" value="수정"
+												id="editProfileBtn">
 										</div>
 									</div>
 								</div>
 							</div>
 
-
-							<h5 class="card-title fw-semibold mb-4"></h5>
-							<div class="card mb-0">
-								<div class="card-body p-4">
-									<form action="update.do" method="post">
-									<input type = "hidden" name = "mem_id" value = "${member.mem_id}">
-										<h5>입력 정보</h5>
-										<hr>
-										<p style="color: black;">이름
-										<p>
-										<div class="form-floating mb-3">
-											<input value="${member.mem_name}" type="text" class="form-control" id="floatingInput" name="mem_name"
-												placeholder="name@example.com"> <label
-												for="floatingInput">이름 입력</label>
-										</div>
-										<p style="color: black;">휴대폰 번호
-										<p>
-										<div class="form-floating mb-3">
-											<input value="${member.mem_phone}" type="text" class="form-control" id="floatingInput" name="mem_phone"
-												placeholder="name@example.com"> <label
-												for="floatingInput">'-'를 포함한 13자리 숫자 입력</label>
-										</div>
-										<p style="color: black;">이메일
-										<p>
-										<div class="form-floating mb-3">
-											<input value="${member.mem_email}" type="text" class="form-control" id="floatingInput" name="mem_email"
-												placeholder="name@example.com"> <label
-												for="floatingInput">이메일 입력</label>
-										</div>
-										<div class="row">
-											<input type="submit"
-												class="btn btn-outline-success pull-right" value="수정">
-											</button>
-										</div>
-									</form>
+							<div id="inputInfo" style="display: none;">
+								<h5 class="card-title fw-semibold mb-4"></h5>
+								<div class="card mb-0">
+									<div class="card-body p-4">
+										<form action="update.do" method="post">
+											<input type="hidden" name="mem_id" value="${member.mem_id}">
+											<h5>입력 정보</h5>
+											<hr>
+											<p style="color: black;">이름
+											<p>
+											<div class="form-floating mb-3">
+												<input value="${member.mem_name}" type="text"
+													class="form-control" id="floatingInput" name="mem_name"
+													placeholder="name@example.com"> <label
+													for="floatingInput">이름 입력</label>
+											</div>
+											<p style="color: black;">휴대폰 번호
+											<p>
+											<div class="form-floating mb-3">
+												<input value="${member.mem_phone}" type="text"
+													class="form-control" id="floatingInput" name="mem_phone"
+													placeholder="name@example.com"> <label
+													for="floatingInput">'-'를 포함한 13자리 숫자 입력</label>
+											</div>
+											<p style="color: black;">이메일
+											<p>
+											<div class="form-floating mb-3">
+												<input value="${member.mem_email}" type="text"
+													class="form-control" id="floatingInput" name="mem_email"
+													placeholder="name@example.com"> <label
+													for="floatingInput">이메일 입력</label>
+											</div>
+											<div class="row">
+												<input type="submit"
+													class="btn btn-outline-success pull-right" value="수정">
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
 
@@ -234,6 +244,60 @@
 										<div>
 											<button class="btn btn-outline-success float-right">+</button>
 										</div>
+										<div class="row">
+											<input type="submit"
+												class="btn btn-outline-success pull-right" value="완료">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<h5 class="card-title fw-semibold mb-4"></h5>
+							<div class="card mb-0">
+								<div class="card-body p-4 ">
+									<h5>농장별 환경 기준</h5>
+									<hr>
+									<div class="d-flex">
+										<p style="color: black;">농장 선택</p>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="floatingInput"
+												placeholder="name@example.com"> <label
+												for="floatingInput">농장 위치</label>
+										</div>
+										<p style="color: black;">온도</p>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="floatingInput"
+												placeholder="name@example.com"> <label
+												for="floatingInput">숫자 입력</label>
+										</div>
+										<p style="color: black;">습도</p>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="floatingInput"
+												placeholder="name@example.com"> <label
+												for="floatingInput">숫자 입력</label>
+										</div>
+										<p style="color: black;">이산화탄소</p>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="floatingInput"
+												placeholder="name@example.com"> <label
+												for="floatingInput">숫자 입력</label>
+										</div>
+										<p style="color: black;">암모니아</p>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="floatingInput"
+												placeholder="name@example.com"> <label
+												for="floatingInput">숫자 입력</label>
+										</div>
+										<p style="color: black;">미세먼지</p>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="floatingInput"
+												placeholder="name@example.com"> <label
+												for="floatingInput">숫자 입력</label>
+										</div>
+										<div class="row">
+											<input type="submit"
+												class="btn btn-outline-success pull-right" value="완료">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -243,14 +307,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-	<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="../assets/js/sidebarmenu.js"></script>
-	<script src="../assets/js/app.min.js"></script>
-	<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-	<!-- solar icons -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
 </body>
 
 </html>

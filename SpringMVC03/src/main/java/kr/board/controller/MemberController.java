@@ -85,10 +85,10 @@ public class MemberController {
 		// m != null -> 사용 불가능한 아이디 -> 0
 
 		if (m == null) {
-			// System.out.println("사용 가능한 아이디 " + mem_id);
+			System.out.println("사용 가능한 아이디 " + mem_id);
 			return 1;
 		} else {
-			// System.out.println("사용 불가능한 아이디 " + m.getMem_id());
+			 System.out.println("사용 불가능한 아이디 " + m.getMem_id());
 			return 0;
 		}
 	}
@@ -103,7 +103,7 @@ public class MemberController {
 
 			// 회원가입 실패 시
 
-			// System.out.println("회원가입 실패");
+			System.out.println("회원가입 실패");
 			rttr.addFlashAttribute("msgType", "실패 메세지");
 			rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
 
@@ -119,8 +119,8 @@ public class MemberController {
 			// 회원가입 성공시 로그인 처리
 			session.setAttribute("m", m);
 			model.addAttribute("mm", m);
-			// System.out.println("로그인 성공 " + m.getMem_id());
-			return "redirect:/";
+			System.out.println("로그인 성공 " + m.getMem_id());
+			return "redirect:/myPage.do";
 		}
 	}
 

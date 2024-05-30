@@ -14,8 +14,9 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./styles.min.css" />
+
 
 <script type="text/javascript">
 
@@ -78,63 +79,77 @@
 </head>
 <body>
 
-	<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-    <div
-      class="position-relative overflow-hidden text-bg-light min-vh-100 d-flex align-items-center justify-content-center">
-      <div class="d-flex align-items-center justify-content-center w-100">
-        <div class="row justify-content-center w-100">
-          <div class="col-md-8 col-lg-6 col-xxl-3">
-            <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-              <img src="../assets/images/logos/pigmate_200x50.png" alt="">
-            </a>
-            <div class="card mb-0">
-              
-              <div class="card-body">
-                <form>
-                  <div class="mb-3" style="height: 21px;">
-                    <label for="exampleInputtext1" class="form-label">아이디</label>
-                  </div>
-                  <div class="mb-3 d-flex">
-                    <input style="width: 320px;"   type="text" class="form-control" id="mem_id" name="mem_id" placeholder="아이디 입력(6자~20자)" >
-                    <button type="button" class="btn btn-sm btn-primary" style="display: block; margin-left: 43px;" onclick="idCheck()">중복체크</button>
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" id="mem_pw1" name="mem_pw2" placeholder="비밀번호 입력(문자,숫자,특수문자 포함 8자~20자)">
-                  </div>
-                  <div class="mb-4">
-                    <label for="exampleInputPassword1" class="form-label">비밀번호 확인</label>
-                    <input type="password" class="form-control" id="mem_pw2" name="mem_pw2" placeholder="비밀번호 재입력">
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputtext1" class="form-label">사용자 이름</label>
-                    <input type="text" class="form-control" id="mem_name" name="mem_name" placeholder="이름 입력" >
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputtext1" class="form-label">전화번호</label>
-                    <input type="text" class="form-control" id="mem_phone" name="mem_phone" placeholder="전화번호 입력 ('-'제외 11자리 입력)">
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputtext1" class="form-label">이메일</label>
-                    <input type="email" class="form-control" id="mem_email" name="mem_email" placeholder="example@gmail.com">
-                  </div>
-                   <div class="mb-3">
-                    <label for="exampleInputtext1" class="form-label"></label>
-                    <input type="submit" class="btn btn-outline-success" id="mem_email" value="회원가입">
-                  </div>
-                  <div class="d-flex align-items-center justify-content-center">
-                    <p class="fs-4 mb-0 fw-bold">이미 계정이 있으신가요?</p>
-                    <a class="text-primary fw-bold ms-2" href="/">로그인</a>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
+		data-navbarbg="skin6" data-sidebartype="full"
+		data-sidebar-position="fixed" data-header-position="fixed">
+		<div
+			class="position-relative overflow-hidden text-bg-light min-vh-100 d-flex align-items-center justify-content-center">
+			<div class="d-flex align-items-center justify-content-center w-100">
+				<div class="row justify-content-center w-100">
+					<div class="col-md-8 col-lg-6 col-xxl-3">
+						<a href="./index.html"
+							class="text-nowrap logo-img text-center d-block py-3 w-100">
+							<img src="../assets/images/logos/pigmate_200x50.png" alt="">
+						</a>
+						<div class="card mb-0">
+
+							<div class="card-body">
+								<form action="join.do" method="post">
+								 <input type="hidden" id="mem_pw" name="mem_pw" value="">
+								
+									<div class="mb-3" style="height: 21px;">
+										<label for="exampleInputtext1" class="form-label">아이디</label>
+									</div>
+									<div class="mb-3 d-flex">
+										<input style="width: 320px;" type="text" class="form-control"
+											id="mem_id" name="mem_id" placeholder="아이디 입력(6자~20자)">
+										<button type="button" class="btn btn-sm btn-primary"
+											style="display: block; margin-left: 43px;"
+											onclick="idCheck()">중복체크</button>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputEmail1" class="form-label">비밀번호</label>
+										<input type="password" class="form-control" id="mem_pw1"
+											name="mem_pw2" placeholder="비밀번호 입력(문자,숫자,특수문자 포함 8자~20자)"
+											onkeyup="passwordCheck()">
+									</div>
+									<div class="mb-4">
+										<label for="exampleInputPassword1" class="form-label">비밀번호
+											확인</label> <input type="password" class="form-control" id="mem_pw2"
+											name="mem_pw2" placeholder="비밀번호 재입력"
+											onkeyup="passwordCheck()"> <span id="passCheck"></span>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label">사용자
+											이름</label> <input type="text" class="form-control" id="mem_name"
+											name="mem_name" placeholder="이름 입력">
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label">전화번호</label>
+										<input type="text" class="form-control" id="mem_phone"
+											name="mem_phone" placeholder="전화번호 입력 ('-'제외 11자리 입력)">
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label">이메일</label>
+										<input type="email" class="form-control" id="mem_email"
+											name="mem_email" placeholder="example@gmail.com">
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputtext1" class="form-label"></label> <input
+											type="submit" class="btn-outline-success" value="회원가입">
+									</div>
+									<div class="d-flex align-items-center justify-content-center">
+										<p class="fs-4 mb-0 fw-bold">이미 계정이 있으신가요?</p>
+										<a class="text-primary fw-bold ms-2" href="/">로그인</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- 아이디 중복체크를 위한 모달창 -->
 	<!-- Modal -->
