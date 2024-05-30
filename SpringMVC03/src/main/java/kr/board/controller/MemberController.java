@@ -37,20 +37,20 @@ public class MemberController {
 		// 성공 시 session에 mvo 이름으로 회원의 정보를 저장 => index.jsp에서 "로그인에 성공했습니다." 모달창
 		// 실패 시 loginForm.jsp로 이동 후 "아이디와 비밀번호를 다시 입력해주세요." 모달창
 
-		System.out.println(m.getMem_id());
+		// System.out.println(m.getMem_id());
 
 		Member mvo = memberMapper.login(m);
 		if (mvo == null) {
 			// 로그인 실패
 			rttr.addFlashAttribute("msgType", "실패 메세지");
 			rttr.addFlashAttribute("msg", "아이디와 비밀번호를 입력해주세요.");
-			System.out.println("로그인 실패");
+			// System.out.println("로그인 실패");
 			return "redirect:/loginForm.do";
 		} else {
 			// 로그인 성공
 			rttr.addFlashAttribute("msgType", "성공 메세지");
 			rttr.addFlashAttribute("msg", "로그인에 성공했습니다.");
-			System.out.println("로그인 성공 " + mvo.getMem_id());
+			// System.out.println("로그인 성공 " + mvo.getMem_id());
 			session.setAttribute("mvo", mvo);
 			return "redirect:/";
 		}
@@ -85,10 +85,10 @@ public class MemberController {
 		// m != null -> 사용 불가능한 아이디 -> 0
 
 		if (m == null) {
-			System.out.println("사용 가능한 아이디 " + mem_id);
+			// System.out.println("사용 가능한 아이디 " + mem_id);
 			return 1;
 		} else {
-			System.out.println("사용 불가능한 아이디 " + m.getMem_id());
+			// System.out.println("사용 불가능한 아이디 " + m.getMem_id());
 			return 0;
 		}
 	}
@@ -103,13 +103,13 @@ public class MemberController {
 
 			// 회원가입 실패 시
 
-			System.out.println("회원가입 실패");
+			// System.out.println("회원가입 실패");
 			rttr.addFlashAttribute("msgType", "실패 메세지");
 			rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
 
 			return "redirect:/joinForm.do";
 		} else {
-			
+
 			// 회원가입 성공
 			memberMapper.join(m);
 			System.out.println("회원가입 성공 " + m.getMem_id());
@@ -119,7 +119,7 @@ public class MemberController {
 			// 회원가입 성공시 로그인 처리
 			session.setAttribute("m", m);
 			model.addAttribute("mm", m);
-			System.out.println("로그인 성공 " + m.getMem_id());
+			// System.out.println("로그인 성공 " + m.getMem_id());
 			return "redirect:/";
 		}
 	}
@@ -127,18 +127,18 @@ public class MemberController {
 	// 마이 페이지 이동 /myPage.do
 	@GetMapping("/myPage.do")
 	public String myPage(HttpSession session, Model model) {
-		
+
 		// 세션에서 로그인 된 사용자 정보 가져오기
 		Member m = (Member) session.getAttribute("mvo");
-		
+
 		if (m == null) {
 			return "redirect:/loginForm.do";
 		}
-		
+
 		// 모델에 회원 정보 추가
 		model.addAttribute("member", m);
-		
-		System.out.println("myPage");
+
+		// System.out.println("myPage");
 		return "member/myPage";
 	}
 
@@ -146,26 +146,11 @@ public class MemberController {
 	@PostMapping("/update.do")
 	public String update(Member m, HttpSession session) {
 
-		System.out.println(m);
+		// System.out.println(m);
 		memberMapper.update(m);
 		session.setAttribute("mvo", m);
-		System.out.println("업데이트 성공 " + m.getMem_name());
+		// System.out.println("업데이트 성공 " + m.getMem_name());
+		
 		return "redirect:/myPage.do";
 	}
-
-//		} else {
-//			// 업데이트 성공
-//
-//			memberMapper.update(m);
-//			System.out.println("업데이트 성공 " + m.getMem_id());
-//			rttr.addFlashAttribute("msgType", "성공 메세지");
-//			rttr.addFlashAttribute("msg", "회원 정보가 업데이트되었습니다.");
-//
-//			// 세션 정보 업데이트
-//			session.setAttribute("m", m);
-//			System.out.println("업데이트 성공 " + m.getMem_id());
-//			return "redirect:/";
-//		}
-//	}
-
 }
