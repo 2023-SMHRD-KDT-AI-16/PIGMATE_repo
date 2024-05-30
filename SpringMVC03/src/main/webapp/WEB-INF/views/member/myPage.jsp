@@ -185,21 +185,21 @@
 										<p style="color: black;">이름
 										<p>
 										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput" name="mem_name"
+											<input value="${member.mem_name}" type="text" class="form-control" id="floatingInput" name="mem_name"
 												placeholder="name@example.com"> <label
 												for="floatingInput">이름 입력</label>
 										</div>
 										<p style="color: black;">휴대폰 번호
 										<p>
 										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput" name="mem_phone"
+											<input value="${member.mem_phone}" type="text" class="form-control" id="floatingInput" name="mem_phone"
 												placeholder="name@example.com"> <label
-												for="floatingInput">'-'를 제외한 11자리 숫자 입력</label>
+												for="floatingInput">'-'를 포함한 13자리 숫자 입력</label>
 										</div>
 										<p style="color: black;">이메일
 										<p>
 										<div class="form-floating mb-3">
-											<input type="text" class="form-control" id="floatingInput" name="mem_email"
+											<input value="${member.mem_email}" type="text" class="form-control" id="floatingInput" name="mem_email"
 												placeholder="name@example.com"> <label
 												for="floatingInput">이메일 입력</label>
 										</div>
