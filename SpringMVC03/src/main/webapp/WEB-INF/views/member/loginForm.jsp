@@ -11,7 +11,7 @@
 <title>PigMate</title>
 <link rel="shortcut icon" type="image/png"
 	href="${pageContext.request.contextPath}/resources/images/person.png" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
@@ -53,7 +53,7 @@
 								<!-- form 태그 시작 -->
 								<form action="${contextPath}/login.do" method="post">
 									<div class="mb-3">
-										<label for="mem_id" class="form-label">아이디</label> <input
+										<label for="mem_id" class="formw-label">아이디</label> <input
 											type="text" class="form-control" id="mem_id" name="mem_id"
 											placeholder="아이디를 입력하세요." maxlength="20">
 									</div>
