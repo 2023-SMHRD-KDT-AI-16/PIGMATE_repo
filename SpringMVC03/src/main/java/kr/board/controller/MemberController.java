@@ -6,8 +6,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,45 +84,88 @@ public class MemberController {
 		// m = null -> 사용 가능한 아이디 -> 1
 		// m != null -> 사용 불가능한 아이디 -> 0
 
-
 		if (m == null) {
 			System.out.println("사용 가능한 아이디 " + mem_id);
 			return 1;
-		}else {
+		} else {
 			System.out.println("사용 불가능한 아이디 " + m.getMem_id());
 			return 0;
 		}
 	}
-	
+
 	// 회원가입 기능 /join.do
 	@PostMapping("/join.do")
-	public String join(Member m, RedirectAttributes rttr, HttpSession session) {
-		
-		if(m.getMem_id() == null || m.getMem_id().equals("") || m.getMem_pw() == null
-				|| m.getMem_pw().equals("") || m.getMem_name() == null || m.getMem_name().equals("")
-				|| m.getMem_phone() == null || m.getMem_phone().equals("")|| m.getMem_email() == null
-				|| m.getMem_email().equals("")) {
-			
+	public String join(Member m, RedirectAttributes rttr, HttpSession session, Model model) {
+
+		if (m.getMem_id() == null || m.getMem_id().equals("") || m.getMem_pw() == null || m.getMem_pw().equals("")
+				|| m.getMem_name() == null || m.getMem_name().equals("") || m.getMem_phone() == null
+				|| m.getMem_phone().equals("") || m.getMem_email() == null || m.getMem_email().equals("")) {
+
 			// 회원가입 실패 시
-			
+
 			System.out.println("회원가입 실패");
 			rttr.addFlashAttribute("msgType", "실패 메세지");
 			rttr.addFlashAttribute("msg", "모든 내용을 입력해주세요.");
-			
+
 			return "redirect:/joinForm.do";
 		} else {
-			// 회원가입 성공
 			
+			// 회원가입 성공
 			memberMapper.join(m);
 			System.out.println("회원가입 성공 " + m.getMem_id());
 			rttr.addFlashAttribute("msgType", "성공 메세지");
 			rttr.addFlashAttribute("msg", "회원가입에 성공했습니다.");
-			
+
 			// 회원가입 성공시 로그인 처리
 			session.setAttribute("m", m);
+			model.addAttribute("mm", m);
 			System.out.println("로그인 성공 " + m.getMem_id());
 			return "redirect:/";
 		}
 	}
+
+	// 마이 페이지 이동 /myPage.do
+	@GetMapping("/myPage.do")
+	public String myPage(HttpSession session, Model model) {
+		
+		// 세션에서 로그인 된 사용자 정보 가져오기
+		Member m = (Member) session.getAttribute("mvo");
+		
+		if (m == null) {
+			return "redirect:/loginForm.do";
+		}
+		
+		// 모델에 회원 정보 추가
+		model.addAttribute("member", m);
+		
+		System.out.println("myPage");
+		return "member/myPage";
+	}
+
+	// 마이 페이지 - 회원정보 수정 기능 /update.do
+	@PostMapping("/update.do")
+	public String update(Member m, HttpSession session) {
+
+		System.out.println(m);
+		memberMapper.update(m);
+		session.setAttribute("mvo", m);
+		System.out.println("업데이트 성공 " + m.getMem_name());
+		return "redirect:/myPage.do";
+	}
+
+//		} else {
+//			// 업데이트 성공
+//
+//			memberMapper.update(m);
+//			System.out.println("업데이트 성공 " + m.getMem_id());
+//			rttr.addFlashAttribute("msgType", "성공 메세지");
+//			rttr.addFlashAttribute("msg", "회원 정보가 업데이트되었습니다.");
+//
+//			// 세션 정보 업데이트
+//			session.setAttribute("m", m);
+//			System.out.println("업데이트 성공 " + m.getMem_id());
+//			return "redirect:/";
+//		}
+//	}
 
 }

@@ -15,5 +15,6 @@ public interface MemberMapper {
 	
 	public int join(Member m);
 
+	public void update(Member m);
 
 }

@@ -11,9 +11,14 @@
 	</select>
 	
 	<insert id="join" parameterType="kr.board.entity.Member">
-		insert into member_info(mem_id, mem_pw, mem_name, mem_phone, joined_at, mem_email)
-		values(#{mem_id}, MD5(#{mem_pw}),#{mem_name}, #{mem_phone}, current_timestamp, #{mem_email})
+		insert into member_info(mem_id, mem_pw, mem_name, mem_phone, mem_email, joined_at)
+		values(#{mem_id}, MD5(#{mem_pw}),#{mem_name}, #{mem_phone}, #{mem_email}, current_timestamp)
 	</insert>
+	
+	<update id="update" parameterType="kr.board.entity.Member">
+		update member_info set mem_name = #{mem_name}, mem_phone = #{mem_phone}, mem_email = #{mem_email}
+		where mem_id = #{mem_id}
+	</update>
 	
 </mapper>
 
