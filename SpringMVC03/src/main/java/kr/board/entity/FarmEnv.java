@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor // form에서 name값으로 요청데이터 넘길 때 알아서 객체로 묶어주는데 기본생성자가 꼭 있어야함
+@NoArgsConstructor 
 @AllArgsConstructor
 @Data
-public class Env {
+public class FarmEnv {
 
 	private int env_idx;
 	private float temperature;
