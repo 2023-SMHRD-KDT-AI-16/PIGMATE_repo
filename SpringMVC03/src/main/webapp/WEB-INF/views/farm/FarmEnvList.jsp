@@ -26,7 +26,7 @@
 			console.log("ready!");
 			
 			$.ajax({
-				url : "farm",
+				url : "farm/env",
 				type : "post",
 				dateType : "json",
 				success : makeData,

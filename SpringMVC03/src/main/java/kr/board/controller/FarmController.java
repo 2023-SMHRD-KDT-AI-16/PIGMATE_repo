@@ -22,6 +22,7 @@ import kr.board.entity.Member;
 import kr.board.mapper.FarmMapper;
 import kr.board.mapper.MemberMapper;
 
+@RequestMapping("/farm")
 @RestController
 public class FarmController {
 
@@ -29,9 +30,9 @@ public class FarmController {
 	private FarmMapper farmMapper;
 
 	// 환경 정보 이동
-	@PostMapping("farm")
-	public List<FarmEnv> FarmEnvList(HttpSession session, Model model) {
-
+	@PostMapping("/env ")
+	public List<FarmEnv> FarmEnvList(HttpSession session) {
+		
 		List<FarmEnv> farm_env = null;
 
 		Member m = (Member) session.getAttribute("mvo");

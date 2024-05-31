@@ -11,11 +11,17 @@
 		resultType="kr.board.entity.Farm">
 		select * from farm_info where mem_id = #{mem_id}
 	</select>
+<<<<<<< HEAD
 
 	<insert id="insertFarm">
 		insert into farm_info (farm_name,
 		farm_loc,farm_livestock_cnt, mem_id) values (#{farm_name},
 		#{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+=======
+	
+	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
+		insert into farm_info (farm_name, farm_loc,farm_livestock_cnt, mem_id) values (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+>>>>>>> branch 'master' of https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo.git
 	</insert>
 
 	<update id="updateFarm" parameterType="kr.board.entity.Farm">
