@@ -30,6 +30,11 @@ public class MainController {
     public String news() {
     	return "board/newsBoardContent";
     }
+	
+	@GetMapping("/reportList.do")
+	public String reportList() {
+		return "board/reportContent";
+	}
 }
 
 

@@ -3,7 +3,7 @@
 <mapper namespace="kr.board.mapper.NewsMapper">
 
     <select id="getNewsList" resultType="kr.board.entity.News">
-        select * from news_info
+        select * from news_info order by pressed_at
     </select>
     
     <select id="getNews" resultType="kr.board.entity.News">
