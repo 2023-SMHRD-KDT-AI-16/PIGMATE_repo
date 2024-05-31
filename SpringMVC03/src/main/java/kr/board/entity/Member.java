@@ -17,6 +17,15 @@ public class Member {
 	private String mem_phone;
 	private String mem_email;
 	private String joined_at;
+	
+
+    public String getMem_id() {
+        return mem_id;
+    }
+
+    public void setMem_id(String mem_id) {
+        this.mem_id = mem_id;
+    }
 
 }
 

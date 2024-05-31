@@ -7,20 +7,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.board.entity.Farm;
+import kr.board.entity.Member;
 import kr.board.mapper.FarmMapper;
 
 @Controller
 public class FarmInfoController {
     
-    @Autowired
+	@Autowired
     private FarmMapper farmMapper;
 
-    // 마이 페이지 - 농장 정보 추가 기능 /updateFarm.do
     @PostMapping("/updateFarm.do")
-    public String addFarm(Farm farm, HttpSession session) {
+    public String updateFarm(Farm farm, HttpSession session) {
     	
-        // 세션에서 로그인한 사용자의 아이디 가져오기 
-        String mem_id = (String) session.getAttribute("mem_id");
+        // 세션에서 로그인한 사용자의 mvo 가져오기
+        Member mvo = (Member) session.getAttribute("mvo");
+
+        if (mvo == null) {
+            System.out.println("mvo 없음");
+            return "redirect:/login.do";
+        }
+
+        // mvo 객체에서 mem_id 가져오기
+        String mem_id = mvo.getMem_id();
         System.out.println("아이디 : " + mem_id);
         
         // farm 객체에 아이디 저장

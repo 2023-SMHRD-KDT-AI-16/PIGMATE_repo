@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.FarmMapper">
-    <update id="updateFarm" parameterType="kr.board.entity.Farm">
+
+	<select id="getEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		select * from farm_env_info where farm_idx = #{farm_idx}
+	</select>
+
+	<select id="getFarm" parameterType="String" resultType="kr.board.entity.Farm">
+		select * from farm_info where mem_id = #{mem_id}
+	</select>
+	
+	 <update id="updateFarm" parameterType="kr.board.entity.Farm">
         update farm_info 
         set farm_loc = #{farm_loc}, farm_livestock_cnt = #{farm_livestock_cnt} 
         where mem_id = #{mem_id}
