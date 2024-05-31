@@ -12,7 +12,7 @@ public interface FarmMapper {
 	
 	public List<FarmEnv> getEnv(int farm_idx);
 	
-	public Farm getFarm(String mem_id);
+	public List<Farm> getFarm(String mem_id);
 	
 	public void insertFarm(Farm farm);
 
