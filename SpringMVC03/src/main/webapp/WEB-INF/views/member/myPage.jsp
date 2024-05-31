@@ -230,20 +230,27 @@
 								<div class="card-body p-4 ">
 									<h5>농장 정보</h5>
 									<hr>
-									<form action="updateFarm.do" method="post">
+									<form action="insertFarm.do" method="post">
 										<div class="d-flex">
+											<p style="color: black;">농장 이름</p>
+											<div class="form-floating mb-3">
+												<input type="text" class="form-control" id="farm_name"
+													name="farm_name" placeholder="name@example.com"> <label
+													for="farm_name">농장 이름</label>
+											</div>
 											<p style="color: black;">농장 위치</p>
 											<div class="form-floating mb-3">
-												<input type="text" class="form-control" id="farmLocation"
-													name="farm_location" placeholder="name@example.com">
-												<label for="farmLocation">농장 위치</label>
+												<input type="text" class="form-control" id="farm_loc"
+													name="farm_loc" placeholder="name@example.com"> <label
+													for="farmLocation">농장 위치</label>
 											</div>
 											<p style="color: black;">사육 두수
 											<p>
 											<div class="form-floating mb-3">
-												<input type="text" class="form-control" id="numberOfPigs"
-													name="number_of_pigs" placeholder="name@example.com">
-												<label for="numberOfPigs">숫자 입력</label>
+												<input type="text" class="form-control"
+													id="farm_livestock_cnt" name="farm_livestock_cnt"
+													placeholder="name@example.com"> <label
+													for="numberOfPigs">숫자 입력</label>
 											</div>
 											<div>
 												<button type="button"

@@ -14,6 +14,6 @@ public interface FarmMapper {
 	
 	public Farm getFarm(String mem_id);
 	
-	public void updateFarm(Farm farm);
+	public void insertFarm(Farm farm);
 
 }

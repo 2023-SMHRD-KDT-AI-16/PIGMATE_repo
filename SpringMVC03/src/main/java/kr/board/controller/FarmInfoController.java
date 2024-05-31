@@ -16,7 +16,7 @@ public class FarmInfoController {
 	@Autowired
     private FarmMapper farmMapper;
 
-    @PostMapping("/updateFarm.do")
+    @PostMapping("/insertFarm.do")
     public String updateFarm(Farm farm, HttpSession session) {
     	
         // 세션에서 로그인한 사용자의 mvo 가져오기
@@ -35,7 +35,8 @@ public class FarmInfoController {
         farm.setMem_id(mem_id);
 
         // farm 정보 업데이트
-        farmMapper.updateFarm(farm);
+        System.out.println(farm.getFarm_livestock_cnt());
+        farmMapper.insertFarm(farm);
         System.out.println("업데이트 성공 " + mem_id);
         
         return "redirect:/myPage.do";

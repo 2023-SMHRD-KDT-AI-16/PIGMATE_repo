@@ -10,6 +10,10 @@
 		select * from farm_info where mem_id = #{mem_id}
 	</select>
 	
+	<insert id="insertFarm" >
+		insert into farm_info (farm_name, farm_loc,farm_livestock_cnt, mem_id) values (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+	</insert>
+	
 	 <update id="updateFarm" parameterType="kr.board.entity.Farm">
         update farm_info 
         set farm_loc = #{farm_loc}, farm_livestock_cnt = #{farm_livestock_cnt} 

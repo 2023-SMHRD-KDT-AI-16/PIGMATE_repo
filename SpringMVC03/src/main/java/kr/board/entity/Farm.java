@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Farm {
 	
 	private int farm_idx;
+	private String farm_name;
 	private String farm_loc;
 	private int farm_livestock_cnt;
 	private String mem_id;
