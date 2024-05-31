@@ -40,8 +40,8 @@
 					<div class="col-md-8 col-lg-6 col-xxl-3">
 						<a href="${contextPath}/index.html"
 							class="text-nowrap logo-img text-center d-block py-3 w-100">
-							<!-- 로고 이미지 --> <img width="100" height = "100"
-							src="/pigmate/src/main/webapp/resources/img/logos/pigmate_small.png"
+							<!-- 로고 이미지 --> <img width="600" height = "150"
+							src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
 							alt="">
 						</a>
 						<div class="card mb-0">
