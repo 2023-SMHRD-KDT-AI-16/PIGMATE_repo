@@ -11,21 +11,98 @@
 	href="../assets/images/logos/favicon.png" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.css" />
-<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
 <script src="../assets/js/sidebarmenu.js"></script>
 <script src="../assets/js/app.min.js"></script>
-<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script>
+<script type="text/javascript">
 	$(document).ready(function() {
 		$("#editProfileBtn").click(function() {
 			$("#inputInfo").toggle();
 		});
+		$("#addFarmBtn").click(function() {
+			$("#addFarmForm").toggle();
+		});
+		$("#addFarmEndBtn").click(function(event) {
+			event.preventDefault();
+			addFarm();
+		});
 	});
+
+	function addFarm() {
+		var farmData = {
+			farm_name : $("#farm_name").val(),
+			farm_loc : $("#farm_loc").val(),
+			farm_livestock_cnt : $("#farm_livestock_cnt").val()
+		};
+
+		$
+				.ajax({
+					url : "insertFarm.do",
+					type : "post",
+					data : farmData,
+					success : function(response) {
+					    // 농장 추가 성공 시 모달창 띄우기
+					    $("#modalMessage").text("농장 추가가 완료되었습니다.");
+					    $("#responseModal").modal("show");
+
+					    // 새로운 농장 목록에 추가
+					    var newFarmHTML = '<div class="farm-item row">';
+					    newFarmHTML += '<div class="col-md-3"><label>농장 이름</label><input type="text" class="form-control farm-name" value="' + farmData.farm_name + '" readonly></div>';
+					    newFarmHTML += '<div class="col-md-3"><label>농장 위치</label><input type="text" class="form-control" value="' + farmData.farm_loc + '" readonly></div>';
+					    newFarmHTML += '<div class="col-md-3"><label>사육 두수</label><input type="text" class="form-control" value="' + farmData.farm_livestock_cnt + '" readonly></div>';
+					    newFarmHTML += '<div class="col-md-3 text-right">';
+					    newFarmHTML += '<button class="btn btn-outline-primary" onclick="editFarm(this)">수정</button>';
+					    newFarmHTML += ' <button class="btn btn-outline-danger" onclick="deleteFarm(this)">삭제</button>';
+					    newFarmHTML += '</div></div>';
+
+					    $("#farmList").append(newFarmHTML);
+
+					    // 폼 초기화
+					    $("#addFarmForm")[0].reset();
+					    $("#addFarmForm").hide();
+					},
+
+					error : function() {
+						alert("농장 추가 중 오류가 발생했습니다.");
+					}
+				});
+	}
+
+	function editFarm(button) {
+		// 수정 기능 구현
+		alert('아직');
+	}
+
+	function deleteFarm(button) {
+		var farmName = $(button).closest('.farm-item').find('.farm-name').val(); // 농장 이름을 가져옴
+
+		$.ajax({
+			url : 'deleteFarm.do',
+			type : 'post',
+			data : {
+				farm_name : farmName
+			},
+			success : function(response) {
+				// 농장 삭제 성공 시 화면에서도 제거
+				$(button).closest('.farm-item').remove();
+
+				// 성공 메시지 모달창 띄우기
+				$("#modalMessage").text(response);
+				$("#responseModal").modal("show");
+			},
+			error : function() {
+				alert('농장 삭제 중 오류가 발생했습니다.');
+			}
+		});
+	}
 </script>
 </head>
 
@@ -225,43 +302,45 @@
 								</div>
 							</div>
 
-							<h5 class="card-title fw-semibold mb-4"></h5>
 							<div class="card mb-0">
-								<div class="card-body p-4 ">
+								<div class="card-body p-4">
 									<h5>농장 정보</h5>
 									<hr>
-									<form action="insertFarm.do" method="post">
-										<div class="d-flex">
-											<p style="color: black;">농장 이름</p>
+									<div id="farmList">
+										<!-- 여기에 농장 목록 추가 -->
+									</div>
+									<div class="row">
+										<input type="button"
+											class="btn btn-outline-success pull-right" value="추가"
+											id="addFarmBtn">
+									</div>
+
+									<div id="addFarmForm" style="display: none;">
+										<h5 class="card-title fw-semibold mb-4"></h5>
+										<form id="addFarmFormAjax">
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="farm_name"
-													name="farm_name" placeholder="name@example.com"> <label
+													name="farm_name" placeholder="농장 이름"> <label
 													for="farm_name">농장 이름</label>
 											</div>
-											<p style="color: black;">농장 위치</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="farm_loc"
-													name="farm_loc" placeholder="name@example.com"> <label
-													for="farmLocation">농장 위치</label>
+													name="farm_loc" placeholder="농장 위치"> <label
+													for="farm_loc">농장 위치</label>
 											</div>
-											<p style="color: black;">사육 두수
-											<p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control"
 													id="farm_livestock_cnt" name="farm_livestock_cnt"
-													placeholder="name@example.com"> <label
-													for="numberOfPigs">숫자 입력</label>
-											</div>
-											<div>
-												<button type="button"
-													class="btn btn-outline-success float-right">+</button>
+													placeholder="사육 두수"> <label
+													for="farm_livestock_cnt">사육 두수</label>
 											</div>
 											<div class="row">
 												<input type="submit"
-													class="btn btn-outline-success pull-right" value="완료">
+													class="btn btn-outline-success pull-right" value="추가 완료"
+													id="addFarmEndBtn">
 											</div>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
 							</div>
 
@@ -272,40 +351,34 @@
 									<hr>
 									<form action="updateFarmEnvironment.do" method="post">
 										<div class="d-flex">
-											<p style="color: black;">농장 선택</p>
-											<div class="form-floating mb-3">
-												<input type="text" class="form-control" id="farmSelect"
-													name="farm_select" placeholder="name@example.com">
-												<label for="farmSelect">농장 위치</label>
-											</div>
 											<p style="color: black;">온도</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="temperature"
-													name="temperature" placeholder="name@example.com">
+													name="temperature">
 												<label for="temperature">숫자 입력</label>
 											</div>
 											<p style="color: black;">습도</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="humidity"
-													name="humidity" placeholder="name@example.com"> <label
+													name="humidity" > <label
 													for="humidity">숫자 입력</label>
 											</div>
 											<p style="color: black;">이산화탄소</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="co2" name="co2"
-													placeholder="name@example.com"> <label for="co2">숫자
+													> <label for="co2">숫자
 													입력</label>
 											</div>
 											<p style="color: black;">암모니아</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="ammonia"
-													name="ammonia" placeholder="name@example.com"> <label
+													name="ammonia" > <label
 													for="ammonia">숫자 입력</label>
 											</div>
 											<p style="color: black;">미세먼지</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="pm" name="pm"
-													placeholder="name@example.com"> <label for="pm">숫자
+													> <label for="pm">숫자
 													입력</label>
 											</div>
 											<div class="row">
@@ -324,6 +397,28 @@
 		</div>
 	</div>
 
-</body>
+	<!-- 완료 메세지를 위한 모달 -->
+	<div class="modal fade" id="responseModal" tabindex="-1" role="dialog"
+		aria-labelledby="responseModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="responseModalLabel">알림</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p id="modalMessage"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
+</body>
 </html>
