@@ -16,6 +16,31 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	
+	function loadNews(news_idx){
+		console.log("ready");
+		$.ajax({
+			url : "board/newsContent",
+			type : "get",
+			data : {news_idx : news_idx},
+			dataType : json,
+			success : function(){
+				console.log(data)
+			},
+			error : function(){
+				alert("error");
+			} // error
+		}); // ajax
+	} // 함수
+	
+	$(document).ready(function(){
+		console.log("ddddd")
+		loadNews(news_idx);
+	})
+
+</script>
+
 </head>
 
 <body>

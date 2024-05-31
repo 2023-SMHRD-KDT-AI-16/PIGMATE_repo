@@ -5,4 +5,8 @@
     <select id="getNewsList" resultType="kr.board.entity.News">
         select * from news_info
     </select>
+    
+    <select id="getNews" resultType="kr.board.entity.News">
+    	select * from news_info where news_idx = #{news_idx}
+    </select>
 </mapper>

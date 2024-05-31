@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.board.mapper.Env_criteria_info">
-	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
+<mapper namespace="kr.board.mapper.Env_criteria_infoMapper">
+
+	<insert id="insertEnvCri" parameterType="kr.board.entity.EnvCri">
     insert into environment_data (farm_idx, temperature, humidity, co2, ammonia, pm)
     values (#{farm_idx}, #{temperature}, #{humidity}, #{co2}, #{ammonia}, #{pm})
 	</insert>

@@ -38,6 +38,7 @@ public class FarmController {
 	public List<FarmEnv> FarmEnvList(HttpSession session) {
 		
 		List<FarmEnv> farm_env = null;
+		int farm_idx = 0; 
 
 		Member m = (Member) session.getAttribute("mvo");
 
@@ -47,11 +48,19 @@ public class FarmController {
 
 			List<Farm> farm= farmMapper.getFarm(mem_id);
 			
-			if(farm.size() < 2) {
+			if(farm.size() == 1) {
 			
-				int farm_idx = farm.get(0).getFarm_idx();
+				farm_idx = farm.get(0).getFarm_idx();
+				
+				farm_env = farmMapper.getEnv(farm_idx);
+				
 			}else {
+				
 				for(int i = 0; i < farm.size(); i++) {
+					
+					farm_idx = farm.get(i).getFarm_idx();
+					farm_env = farmMapper.getEnv(farm_idx);
+					
 					
 				}
 			}
@@ -126,7 +135,7 @@ public class FarmController {
 		System.out.println("아이디 : " + farm_idx);
 		
 		// envCri 객체에 아이디 저장
-		envCri.setFarm_idx(farm_idx);
+		//envCri.setFarm_idx(farm_idx);
 		
 		// envCri 정보 업데이트
 		System.out.println(envCri.getPm());

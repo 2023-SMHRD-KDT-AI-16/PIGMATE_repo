@@ -26,6 +26,10 @@ public class MainController {
 		return "board/newsBoardList";
 	}
 	
+	@GetMapping("/news")
+    public String news() {
+    	return "board/newsBoardContent";
+    }
 }
 
 

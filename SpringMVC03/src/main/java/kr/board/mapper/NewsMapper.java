@@ -9,4 +9,6 @@ import java.util.List;
 public interface NewsMapper {
     
     public List<News> getNewsList();
+
+	public News getNews(int news_idx);
 }

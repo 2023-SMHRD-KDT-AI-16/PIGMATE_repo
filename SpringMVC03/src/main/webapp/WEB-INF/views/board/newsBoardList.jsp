@@ -52,7 +52,7 @@
 		$.each(data, function(index, obj){
 			listHtml += "<tr>";
 			listHtml += "<th scope='row'>" + (index + 1) + "</th>";
-			listHtml += "<td id='t"+obj.news_idx+"'><a href='newsBoardContent?news_idx=("+obj.news_idx+")'>" + obj.news_title + "</a></td>";
+			listHtml += "<td id='t"+obj.news_idx+"'><a href='news?news_idx="+obj.news_idx+"'>" + obj.news_title + "</a></td>";
 			listHtml += "<td>" +obj.pressed_at.split(' ')[0] + "</td>";
 			listHtml += "</tr>";
 
