@@ -10,12 +10,12 @@ import kr.board.entity.FarmEnv;
 @Mapper
 public interface FarmMapper {
 	
-	public List<FarmEnv> getEnv(int farm_idx);
-	
-	public List<Farm> getFarm(String mem_id);
-	
-	public void insertFarm(Farm farm);
-
-	public void deleteFarmByName(String farmName);
-
+    List<FarmEnv> getEnv(int farm_idx);
+    
+    List<Farm> getFarm(String mem_id);
+    
+    void insertFarm(Farm farm);
+    
+    void deleteFarmByName(String farmName);
+    
 }

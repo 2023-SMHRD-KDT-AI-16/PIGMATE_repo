@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import kr.board.entity.EnvCri;
 import kr.board.entity.Farm;
 import kr.board.entity.FarmEnv;
@@ -77,6 +78,18 @@ public class FarmController {
 		return farm_env;
 	}
 
+	// 농장 전체보기
+	@GetMapping("/all") 
+	public List<Farm> getFarm(HttpSession session){
+		
+		Member m = (Member) session.getAttribute("mvo");
+		String mem_id = m.getMem_id();
+		System.out.println("[농장 전체보기]");
+		List<Farm> list = farmMapper.getFarm(mem_id);
+		System.out.println("반환된 농장 목록 : " + list);
+		return list;
+	}
+	
 	// 농장정보 추가하기
 	@PostMapping("/insertFarm.do")
 	public String updateFarm(Farm farm, HttpSession session) {
@@ -115,7 +128,7 @@ public class FarmController {
 			return new ResponseEntity<>("농장 삭제 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
 	// 환경 기준 정보 추가하기
 	@PostMapping("/insertEnvCri.do")
 	public String insertEnvCri(EnvCri envCri, HttpSession session) {
@@ -144,5 +157,4 @@ public class FarmController {
 		
 		return "redirect:/myPage.do";
 	}
-
 }

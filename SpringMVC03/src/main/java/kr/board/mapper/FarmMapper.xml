@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.FarmMapper">
+    <select id="getEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+        SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
+    </select>
 
-	<select id="getEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		select * from farm_env_info where farm_idx = #{farm_idx}
-	</select>
+    <select id="getFarm" parameterType="String" resultType="kr.board.entity.Farm">
+        SELECT * FROM farm_info WHERE mem_id = #{mem_id}
+    </select>
+    
+    <insert id="insertFarm" parameterType="kr.board.entity.Farm">
+        INSERT INTO farm_info (farm_name, farm_loc, farm_livestock_cnt, mem_id) 
+        VALUES (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+    </insert>
 
-	<select id="getFarm" parameterType="String"
-		resultType="kr.board.entity.Farm">
-		select * from farm_info where mem_id = #{mem_id}
-	</select>
-	
-	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
-		insert into farm_info (farm_name, farm_loc,farm_livestock_cnt, mem_id) values (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
-	</insert>
-
-	<update id="updateFarm" parameterType="kr.board.entity.Farm">
-		update farm_info
-		set farm_loc = #{farm_loc}, farm_livestock_cnt = #{farm_livestock_cnt}
-		where mem_id = #{mem_id}
-	</update>
-
-	<delete id="deleteFarmByName" parameterType="String">
-		delete from farm_info where farm_name = #{farm_name}
-	</delete>
+    <delete id="deleteFarmByName" parameterType="String">
+        DELETE FROM farm_info WHERE farm_name = #{farm_name}
+    </delete>
+    
+    <select id="farmList" parameterType="String" resultType="kr.board.entity.Farm">
+        SELECT * FROM farm_info WHERE mem_id = #{mem_id}
+    </select>
+    
 </mapper>
