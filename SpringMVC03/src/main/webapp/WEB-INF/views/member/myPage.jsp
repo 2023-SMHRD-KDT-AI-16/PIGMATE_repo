@@ -351,40 +351,34 @@
 									<hr>
 									<form action="updateFarmEnvironment.do" method="post">
 										<div class="d-flex">
-											<p style="color: black;">농장 선택</p>
-											<div class="form-floating mb-3">
-												<input type="text" class="form-control" id="farmSelect"
-													name="farm_select" placeholder="name@example.com">
-												<label for="farmSelect">농장 위치</label>
-											</div>
 											<p style="color: black;">온도</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="temperature"
-													name="temperature" placeholder="name@example.com">
+													name="temperature">
 												<label for="temperature">숫자 입력</label>
 											</div>
 											<p style="color: black;">습도</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="humidity"
-													name="humidity" placeholder="name@example.com"> <label
+													name="humidity" > <label
 													for="humidity">숫자 입력</label>
 											</div>
 											<p style="color: black;">이산화탄소</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="co2" name="co2"
-													placeholder="name@example.com"> <label for="co2">숫자
+													> <label for="co2">숫자
 													입력</label>
 											</div>
 											<p style="color: black;">암모니아</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="ammonia"
-													name="ammonia" placeholder="name@example.com"> <label
+													name="ammonia" > <label
 													for="ammonia">숫자 입력</label>
 											</div>
 											<p style="color: black;">미세먼지</p>
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" id="pm" name="pm"
-													placeholder="name@example.com"> <label for="pm">숫자
+													> <label for="pm">숫자
 													입력</label>
 											</div>
 											<div class="row">
