@@ -32,9 +32,12 @@ public class BoardController {
 	    	
 	    	News news = newsMapper.getNews(news_idx);
 	    	
+	    	System.out.println(news);
+	    	
 	    	return news;
 	    	
 	    }
+	    
 	    
 	    
 
