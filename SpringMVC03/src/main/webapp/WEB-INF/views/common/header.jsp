@@ -5,43 +5,45 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="${contextPath}/">home</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="${contextPath}/">Home</a></li>
-        <li class="active"><a href="${contextPath}/farmEnv.do">환경</a></li>
-        <li class="active"><a href="${contextPath}/myPage.do">마이 페이지</a></li>
-        <li class="active"><a href="${contextPath}/newsList.do">뉴스 게시판</a></li>
-        <li class="active"><a href="${contextPath}/reportList.do">리포트</a></li>
-        
-      </ul>
-      
-      <c:if test="${empty mvo}">
-     <ul class="nav navbar-nav navbar-right">
-             <li><a href="${contextPath}/joinForm.do"><span class="glyphicon glyphicon-user">회원가입</span></a></li>
-        	 <li><a href="${contextPath}/loginForm.do"><span class="glyphicon glyphicon-log-in">로그인</span></a></li>
-      </ul>
-      </c:if>
-      
-      <c:if test="${not empty mvo}">
-      <ul class="nav navbar-nav navbar-right">
-        	 <li><a href="${contextPath}/logout.do"><span class="glyphicon glyphicon-log-out">로그아웃</a></span> </li>
-          	
-      </ul>
-      </c:if>
-      
-    </div>
-  </div>
-</nav>
+<header class="app-header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+                <a class="nav-link sidebartoggler" id="headerCollapse" href="javascript:void(0)">
+                    <i class="ti ti-menu-2"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                    <iconify-icon icon="solar:bell-linear" class="fs-6"></iconify-icon>
+                    <div class="notification bg-success rounded-circle"></div>
+                </a>
+            </li>
+        </ul>
+        <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="${pageContext.request.contextPath}/resources/img/profile/user-2.jpg" alt="" width="35" height="35"
+                            class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                        <div class="message-body">
+                            <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                <i class="ti ti-user fs-6"></i>
+                                <p class="mb-0 fs-3">내 프로필</p>
+                            </a>
+                            <a href="${pageContext.request.contextPath }/loginForm.do"
+                                class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
 
 
 

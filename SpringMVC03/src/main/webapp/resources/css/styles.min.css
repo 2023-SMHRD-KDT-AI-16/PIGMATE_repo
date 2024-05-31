@@ -8,6 +8,12 @@
 @import "../libs/simplebar/dist/simplebar.css";
 @import "../css/icons/tabler-icons/tabler-icons.css";
 
+
+
+body {
+    font-family:  sans-serif;
+}
+
 :root,
 [data-bs-theme=light] {
     --bs-blue: #5d87ff;
@@ -100,7 +106,7 @@
     --bs-font-sans-serif: "Manrope", sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-    --bs-body-font-family: var(--bs-font-sans-serif);
+    --bs-body-font-family: 'MaruBuri',var(--bs-font-sans-serif);
     --bs-body-font-size: 0.875rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
@@ -204,6 +210,7 @@
     --bs-form-invalid-border-color: #ffa3be
 }
 
+
 *,
 :after,
 :before {
@@ -219,7 +226,7 @@
 
 body {
     margin: 0;
-    font-family: var(--bs-body-font-family);
+    font-family: 'MaruBuri',var(--bs-font-sans-serif);
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
     line-height: var(--bs-body-line-height);
@@ -421,7 +428,7 @@ code,
 kbd,
 pre,
 samp {
-    font-family: var(--bs-font-monospace);
+    font-family: 'MaruBuri',var(--bs-font-sans-serif);
     font-size: 1em
 }
 
