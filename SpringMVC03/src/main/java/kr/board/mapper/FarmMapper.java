@@ -16,4 +16,6 @@ public interface FarmMapper {
 	
 	public void insertFarm(Farm farm);
 
+	public void deleteFarmByName(String farmName);
+
 }
