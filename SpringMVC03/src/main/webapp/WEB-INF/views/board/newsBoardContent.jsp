@@ -24,18 +24,30 @@
 			url : "board/newsContent",
 			type : "get",
 			data : {news_idx : news_idx},
-			dataType : json,
-			success : function(){
-				console.log(data)
-			},
+			// dataType : "json",
+			success : makeView,
 			error : function(){
 				alert("error");
 			} // error
 		}); // ajax
 	} // 함수
 	
+	function makeView(data){
+		
+		var newsHtml = "<table class='table table-hover' border='1'>";
+		newsHtml += "<h1>"+data.news_title+"</h1>";
+		newsHtml += "<h3>"+data.news_subtitle+"</h3>";
+		newsHtml += "<span>"+data.pressed_at+"</span>";
+		newsHtml += data.news_content;
+		newsHtml += "<p>"+data.news_url+"</p>";
+		newsHtml += "</table>";
+			 
+		$('#newsContent').html(newsHtml);
+	}
+	
 	$(document).ready(function(){
-		console.log("ddddd")
+		var urlParams = new URLSearchParams(window.location.search);
+		var news_idx = urlParams.get('news_idx');
 		loadNews(news_idx);
 	})
 
@@ -185,33 +197,8 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title fw-semibold mb-4">뉴스</h5>
-              <div class="table-responsive">
-                <table class="table table-hover" border="1">
-                  <thead class="table-success" style="font-size: smaller;">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">제목</th>
-                      <th scope="col">등록일자</th>
-                    </tr>
-                  </thead>
-                  <tbody style="font-size: smaller;">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td> <a href="#">Bootstrap은 모바일 우선으로 개발되기 때문에 모바일 기기에 먼저 코드를 최적화한 다음 CSS 미디어 쿼리를 사용해서 필요에 따라 구성 요소를 확장하고 있습니다. 모든 장치에서 올바를 렌</a></td>
-                      <td>2015-03-01</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Jacob</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="table-responsive" id="newsContent">
+               
               </div>
             </div>
           </div>

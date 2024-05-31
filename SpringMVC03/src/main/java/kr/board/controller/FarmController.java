@@ -135,7 +135,7 @@ public class FarmController {
 		System.out.println("아이디 : " + farm_idx);
 		
 		// envCri 객체에 아이디 저장
-		//envCri.setFarm_idx(farm_idx);
+		// envCri.setFarm_idx(farm_idx);
 		
 		// envCri 정보 업데이트
 		System.out.println(envCri.getPm());
