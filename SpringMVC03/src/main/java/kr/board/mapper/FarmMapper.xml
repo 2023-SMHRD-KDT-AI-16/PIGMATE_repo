@@ -10,7 +10,7 @@
 		select * from farm_info where mem_id = #{mem_id}
 	</select>
 	
-	<insert id="insertFarm" >
+	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
 		insert into farm_info (farm_name, farm_loc,farm_livestock_cnt, mem_id) values (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
 	</insert>
 	

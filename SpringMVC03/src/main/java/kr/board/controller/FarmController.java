@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.board.entity.Farm;
@@ -17,6 +18,7 @@ import kr.board.entity.Member;
 import kr.board.mapper.FarmMapper;
 import kr.board.mapper.MemberMapper;
 
+@RequestMapping("/farm")
 @RestController
 public class FarmController {
 	
@@ -24,8 +26,8 @@ public class FarmController {
 	private FarmMapper farmMapper;
 	
 	// 환경 정보 이동
-	@PostMapping("farm")
-	public List<FarmEnv> FarmEnvList(HttpSession session, Model model) {
+	@PostMapping("/env ")
+	public List<FarmEnv> FarmEnvList(HttpSession session) {
 		
 		List<FarmEnv> farm_env = null;
 		

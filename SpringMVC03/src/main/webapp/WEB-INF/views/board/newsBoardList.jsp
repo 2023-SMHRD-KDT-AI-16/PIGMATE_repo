@@ -16,6 +16,60 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		newsList();
+	});
+	
+	function newsList(){
+		
+		$.ajax({
+			url : "board/newsList",
+			type : "get",
+			dataType : "json",
+			success : makeView,
+			error : function(){
+				alert("error");
+			} // 에러
+			
+		}); // ajax
+	}
+	
+	function makeView(data){
+		console.log(data);
+		var listHtml = "<table class='table  table-hover' border='1' >";
+		listHtml += "<thead class='table-info' style='font-size: smaller;'>";
+		listHtml += "<tr>";
+		listHtml += "<th scope='col'>#</th>";
+		listHtml += "<th scope='col'>제목</th>";
+		listHtml += "<th scope='col'>등록일자</th>";
+		listHtml += "</tr>";
+		listHtml += "</thead>";
+		listHtml += "<tbody style='font-size: smaller;'>";
+
+		// jQuery 반복문
+		$.each(data, function(index, obj){
+			listHtml += "<tr>";
+			listHtml += "<th scope='row'>" + (index + 1) + "</th>";
+			listHtml += "<td id='t"+obj.news_idx+"'><a href='newsBoardContent?news_idx=("+obj.news_idx+")'>" + obj.news_title + "</a></td>";
+			listHtml += "<td>" +obj.pressed_at.split(' ')[0] + "</td>";
+			listHtml += "</tr>";
+
+		}) // 반복문
+		
+		listHtml += "</tbody>";
+		listHtml += "</table>";
+		
+		$('#newsListView').html(listHtml);
+			
+        
+                    
+
+	}
+
+
+</script>
 </head>
 
 <body>
@@ -158,33 +212,8 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title fw-semibold mb-4">뉴스 목록</h5>
-              <div class="table-responsive">
-                <table class="table  table-hover" border="1" >
-                  <thead class="table-info" style="font-size: smaller;">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">제목</th>
-                      <th scope="col">등록일자</th>
-                    </tr>
-                  </thead>
-                  <tbody style="font-size: smaller;">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td> <a href="./newsBoardContent.html">[기획] 늙어가는 사회, 소비침체에 맞설 한돈의 전략은?</a></td>
-                      <td>2015-03-01</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Jacob</td>
-                      <td>스마트 양돈장 최근 유행...가 유행가 신나는노래 나도 한 번 불러본다</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="table-responsive" id="newsListView">
+
               </div>
             </div>
           </div>
