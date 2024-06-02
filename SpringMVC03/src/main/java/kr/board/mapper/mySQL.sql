@@ -8,3 +8,5 @@ mem_email = 'test2@naver.com' where mem_id = 'test2'
 
 
 select * from farm_info where mem_id = 'admin';
+
+select * from news_info order by pressed_at limit #{pageStart}, #{perPageNum};

@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="./farmEnv.do" aria-expanded="false">
                         <iconify-icon icon="solar:danger-circle-line-duotone"></iconify-icon>
                         <span class="hide-menu">환경정보</span>
                     </a>
@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="reportList.do" aria-expanded="false">
                         <iconify-icon icon="solar:file-text-line-duotone"></iconify-icon>
                         <span class="hide-menu">리포트</span>
                     </a>
