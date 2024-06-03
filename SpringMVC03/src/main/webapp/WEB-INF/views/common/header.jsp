@@ -34,8 +34,12 @@
                                 <i class="ti ti-user fs-6"></i>
                                 <p class="mb-0 fs-3">내 프로필</p>
                             </a>
-                            <a href="${pageContext.request.contextPath }/loginForm.do"
-                                class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                            <c:if test="${empty sessionScope.mvo}">
+                                <a href="${contextPath}/loginForm.do" class="btn btn-outline-primary mx-3 mt-2 d-block">Login</a>
+                            </c:if>
+                            <c:if test="${not empty sessionScope.mvo}">
+                                <a href="${contextPath}/logout.do" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                            </c:if>
                         </div>
                     </div>
                 </li>
@@ -43,15 +47,3 @@
         </div>
     </nav>
 </header>
-
-
-
-
-
-
-
-
-
-
-
-
