@@ -20,16 +20,21 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		newsList();
+		newsList(1);
 	});
 
-	function newsList() {
+	// 뉴스 데이터 가져오는 함수
+	function newsList(page) {
 
 		$.ajax({
 			url : "board/newsList",
 			type : "get",
+			data: { page: page },
 			dataType : "json",
-			success : makeView,
+			success : function(data){
+				makeView(data.newsList);
+				makePagination(data.pageMaker);
+			},
 			error : function() {
 				alert("error");
 			} // 에러
@@ -37,12 +42,13 @@
 		}); // ajax
 	}
 
-	function makeView(data) {
-		console.log(data);
-		var listHtml = "<table class='table  table-hover' border='1' >";
+	// 뉴스 불러와서 목록으로 띄워주는 함수
+	function makeView(newsList) {
+		console.log(newsList);
+		var listHtml = "<table class='table  table-hover' border='1'>";
 		listHtml += "<thead class='table-info' style='font-size: smaller;'>";
 		listHtml += "<tr>";
-		listHtml += "<th scope='col'>#</th>";
+		listHtml += "<th scope='col'></th>";
 		listHtml += "<th scope='col'>제목</th>";
 		listHtml += "<th scope='col'>등록일자</th>";
 		listHtml += "</tr>";
@@ -50,7 +56,7 @@
 		listHtml += "<tbody style='font-size: smaller;'>";
 
 		// jQuery 반복문
-		$.each(data, function(index, obj) {
+		$.each(newsList, function(index, obj) {
 			listHtml += "<tr>";
 			listHtml += "<th scope='row'>" + (index + 1) + "</th>";
 			listHtml += "<td id='t"+obj.news_idx+"'><a href='news?news_idx="
@@ -65,7 +71,29 @@
 
 		$('#newsListView').html(listHtml);
 
+	} // 함수
+	
+	function makePagination(pageMaker){
+		
+		var paginationHtml = "";
+		
+		if(pageMaker.prev){
+			paginationHtml += "<a href='#' onclick='newsList("+ (pageMaker.startPage - 1) +")'>previous</a>";
+		}
+		for (var i = pageMaker.startPage; i <= pageMaker.endPage; i++){
+			if(i === pageMaker.cri.page){
+				paginationHtml += "<strong>" + i +"</strong>";
+			}else {
+				paginationHtml += "<a href='javascript:void(0);' onclick='newsList(" + i + ")'>" + i + "</a>";
+			}
+		}
+		if (pageMaker.next){
+			paginationHtml += "<a href='javascript:void(0);' onclick='newsList(" + (pageMaker.endPage + 1) + ")'>Next</a>";
+		}
+		
+		$('#pagination').html(paginationHtml);
 	}
+	
 </script>
 </head>
 
@@ -93,6 +121,8 @@
 					</div>
 				</div>
 			</div>
+			
+			<div id="pagination"></div>
 		</div>
 	</div>
 		<script
