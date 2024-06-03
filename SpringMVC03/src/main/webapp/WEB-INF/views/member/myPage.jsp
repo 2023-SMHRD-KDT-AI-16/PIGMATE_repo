@@ -203,26 +203,34 @@
 		$("#farm_idx").val(farmId);
 		console.log("Farm ID:", farmId);
 
-		$.ajax({
-			url : 'getEnvCriteria.do',
-			type : 'get',
-			data : {
-				farm_idx : farmId
-			},
-			success : function(response) {
-				console.log("환경 기준 데이터:", response); // 응답 데이터 출력
-				$("#temperature").val(response.temperature);
-				$("#humidity").val(response.humidity);
-				$("#co2").val(response.co2);
-				$("#ammonia").val(response.ammonia);
-				$("#pm").val(response.pm);
-				$("#addEnvForm").show();
-			},
-			error : function(xhr, status, error) {
-				console.error('환경 기준 데이터를 불러오는 중 오류가 발생했습니다:', status, error);
-				alert('환경 기준 데이터를 불러오는 중 오류가 발생했습니다.');
-			}
-		});
+		// 폼 요소 선택
+		var $addEnvForm = $("#addEnvForm");
+
+		// 폼이 현재 보이는지 확인
+		if ($addEnvForm.is(":visible")) {
+			// 폼이 보이는 경우 숨기기
+			$addEnvForm.hide();
+		} else {
+			// 폼이 숨겨진 경우 데이터 로드 후 보이기
+			$.ajax({
+				url : 'getEnvCriteria.do',
+				type : 'get',
+				data : {
+					farm_idx : farmId
+				},
+				success : function(response) {
+					$("#temperature").val(response.temperature);
+					$("#humidity").val(response.humidity);
+					$("#co2").val(response.co2);
+					$("#ammonia").val(response.ammonia);
+					$("#pm").val(response.pm);
+					$addEnvForm.show();
+				},
+				error : function() {
+					alert('환경 기준 데이터를 불러오는 중 오류가 발생했습니다.');
+				}
+			});
+		}
 	}
 
 	function saveEnvCriteria() {
