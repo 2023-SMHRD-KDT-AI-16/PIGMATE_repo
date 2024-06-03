@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.FarmMapper">
 
-	<select id="getEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
-	</select>
-
 	<select id="getFarm" parameterType="String"
 		resultType="kr.board.entity.Farm">
 		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
+	</select>
+
+	<select id="getEnv" parameterType="int"
+		resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
 	</select>
 
 	<insert id="insertFarm" parameterType="kr.board.entity.Farm">

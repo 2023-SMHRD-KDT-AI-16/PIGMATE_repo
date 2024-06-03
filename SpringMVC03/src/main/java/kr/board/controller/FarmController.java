@@ -1,5 +1,6 @@
 package kr.board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,12 +35,11 @@ public class FarmController {
 	@Autowired
 	private Env_criteria_infoMapper env_criteria_infoMapper;
 
-	// 환경 정보 이동
-	@PostMapping("/farm/env ")
+	// 환경 정보 페이지로 환경 정보 가져오기
+	@PostMapping("/farm/env")
 	public List<FarmEnv> FarmEnvList(HttpSession session) {
 
-		List<FarmEnv> farm_env = null;
-		int farm_idx = 0;
+		List<FarmEnv> farm_env = new ArrayList<>();
 
 		Member m = (Member) session.getAttribute("mvo");
 
@@ -47,32 +47,18 @@ public class FarmController {
 			// 환경 정보 누르면 session에서 mem_id 가져와서 회원이 가지고 있는 농장 인덱스만 가져오기
 			String mem_id = m.getMem_id();
 
+			System.out.println("환경 정보 조회할 회원 :" + m.getMem_id());
+
 			List<Farm> farm = farmMapper.getFarm(mem_id);
 
-			if (farm.size() == 1) {
+			for (int i = 0; i < farm.size(); i++) {
 
-				farm_idx = farm.get(0).getFarm_idx();
+				int idx = farm.get(i).getFarm_idx();
 
-				farm_env = farmMapper.getEnv(farm_idx);
-
-			} else {
-
-				for (int i = 0; i < farm.size(); i++) {
-
-					farm_idx = farm.get(i).getFarm_idx();
-					farm_env = farmMapper.getEnv(farm_idx);
-
-				}
+				farm_env.addAll(farmMapper.getEnv(idx));
+				
 			}
-
-			// System.out.println(farm_idx);
-
-			farm_env = farmMapper.getEnv(farm_idx);
-
-			// model.addAttribute("farm_env", farm_env);
-
 		}
-
 		return farm_env;
 	}
 
