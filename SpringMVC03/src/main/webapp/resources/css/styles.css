@@ -122,7 +122,7 @@
     --bs-body-bg: #fff;
     --bs-body-bg-rgb: 255, 255, 255;
     --bs-heading-color: #2A3547;
-    --bs-link-color: #5D87FF;
+    --bs-link-color: #677B69;
     --bs-link-color-rgb: 93, 135, 255;
     --bs-link-decoration: underline;
     --bs-link-hover-color: #4a6ccc;
@@ -6567,10 +6567,10 @@ fieldset:disabled .btn {
     --bs-pagination-padding-x: 0.75rem;
     --bs-pagination-padding-y: 0.375rem;
     --bs-pagination-font-size: 0.875rem;
-    --bs-pagination-color: var(--bs-link-color);
-    --bs-pagination-bg: var(--bs-body-bg);
+    --bs-pagination-color: #677B69;
+    --bs-pagination-bg: 677B69;
     --bs-pagination-border-width: var(--bs-border-width);
-    --bs-pagination-border-color: var(--bs-border-color);
+    --bs-pagination-border-color: #677B69;
     --bs-pagination-border-radius: var(--bs-border-radius);
     --bs-pagination-hover-color: var(--bs-link-hover-color);
     --bs-pagination-hover-bg: var(--bs-tertiary-bg);
@@ -6578,11 +6578,11 @@ fieldset:disabled .btn {
     --bs-pagination-focus-color: var(--bs-link-hover-color);
     --bs-pagination-focus-bg: var(--bs-secondary-bg);
     --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(93, 135, 255, 0.25);
-    --bs-pagination-active-color: #fff;
-    --bs-pagination-active-bg: #5D87FF;
-    --bs-pagination-active-border-color: #5D87FF;
-    --bs-pagination-disabled-color: var(--bs-secondary-color);
-    --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+    --bs-pagination-active-color: #677B69;
+    --bs-pagination-active-bg: #677B69;
+    --bs-pagination-active-border-color: #677B69;
+    --bs-pagination-disabled-color: #677B69;
+    --bs-pagination-disabled-bg: #677B69;
     --bs-pagination-disabled-border-color: var(--bs-border-color);
     display: -webkit-box;
     display: -ms-flexbox;
@@ -6596,7 +6596,7 @@ fieldset:disabled .btn {
     display: block;
     padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
     font-size: var(--bs-pagination-font-size);
-    color: var(--bs-pagination-color);
+    color: #677B69;
     text-decoration: none;
     background-color: var(--bs-pagination-bg);
     border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
@@ -6632,7 +6632,7 @@ fieldset:disabled .btn {
 .active>.page-link,
 .page-link.active {
     z-index: 3;
-    color: var(--bs-pagination-active-color);
+    color: #677B69;
     background-color: var(--bs-pagination-active-bg);
     border-color: var(--bs-pagination-active-border-color)
 }

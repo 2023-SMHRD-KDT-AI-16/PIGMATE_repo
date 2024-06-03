@@ -73,25 +73,28 @@
 
 	} // 함수
 	
-	function makePagination(pageMaker){
-		
-		var paginationHtml = "";
-		
-		if(pageMaker.prev){
-			paginationHtml += "<a href='#' onclick='newsList("+ (pageMaker.startPage - 1) +")'>previous</a>";
-		}
-		for (var i = pageMaker.startPage; i <= pageMaker.endPage; i++){
-			if(i === pageMaker.cri.page){
-				paginationHtml += "<strong>" + i +"</strong>";
-			}else {
-				paginationHtml += "<a href='javascript:void(0);' onclick='newsList(" + i + ")'>" + i + "</a>";
-			}
-		}
-		if (pageMaker.next){
-			paginationHtml += "<a href='javascript:void(0);' onclick='newsList(" + (pageMaker.endPage + 1) + ")'>Next</a>";
-		}
-		
-		$('#pagination').html(paginationHtml);
+	function makePagination(pageMaker) {
+	    var paginationHtml = "<ul class='pagination justify-content-center'>"; // 부트스트랩 클래스를 사용하여 페이지 버튼을 가운데 정렬
+	    
+	    if (pageMaker.prev) {
+	        paginationHtml += "<li class='page-item'><a class='page-link' href='#' onclick='newsList(" + (pageMaker.startPage - 1) + ")'>Previous</a></li>";
+	    }
+	    
+	    for (var i = pageMaker.startPage; i <= pageMaker.endPage; i++) {
+	        if (i === pageMaker.cri.page) {
+	            paginationHtml += "<li class='page-item active'><a class='page-link' href='javascript:void(0);'>" + i + "</a></li>";
+	        } else {
+	            paginationHtml += "<li class='page-item'><a class='page-link' href='javascript:void(0);' onclick='newsList(" + i + ")'>" + i + "</a></li>";
+	        }
+	    }
+	    
+	    if (pageMaker.next) {
+	        paginationHtml += "<li class='page-item'><a class='page-link' href='javascript:void(0);' onclick='newsList(" + (pageMaker.endPage + 1) + ")'>Next</a></li>";
+	    }
+	    
+	    paginationHtml += "</ul>";
+	    
+	    $('#pagination').html(paginationHtml);
 	}
 	
 </script>
@@ -117,12 +120,13 @@
 						<div class="card-body">
 							<h5 class="card-title fw-semibold mb-4">뉴스 목록</h5>
 							<div class="table-responsive" id="newsListView"></div>
+								<div id="pagination"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 			
-			<div id="pagination"></div>
+		
 		</div>
 	</div>
 		<script
