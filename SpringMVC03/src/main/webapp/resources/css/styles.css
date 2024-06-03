@@ -2746,7 +2746,7 @@ progress {
 
 .table-primary {
     --bs-table-color: #000;
-    --bs-table-bg: #dfe7ff;
+    --bs-table-bg: #677B69;
     --bs-table-border-color: #c9d0e6;
     --bs-table-striped-bg: #d4dbf2;
     --bs-table-striped-color: #000;
@@ -2754,7 +2754,7 @@ progress {
     --bs-table-active-color: #000;
     --bs-table-hover-bg: #ced6ec;
     --bs-table-hover-color: #000;
-    color: var(--bs-table-color);
+    color: #677B69;
     border-color: var(--bs-table-border-color)
 }
 

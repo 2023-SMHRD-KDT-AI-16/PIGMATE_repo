@@ -46,7 +46,7 @@
 	function makeView(newsList) {
 		console.log(newsList);
 		var listHtml = "<table class='table  table-hover' border='1'>";
-		listHtml += "<thead class='table-info' style='font-size: smaller;'>";
+		listHtml += "<thead class='table-success' style='font-size: smaller;'>";
 		listHtml += "<tr>";
 		listHtml += "<th scope='col'></th>";
 		listHtml += "<th scope='col'>제목</th>";
