@@ -1,6 +1,8 @@
 package kr.board.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -22,18 +24,24 @@ public class BoardController {
 	    private NewsMapper newsMapper;
 
 	    @GetMapping("/newsList")
-	    public Model getNewsList(Model model, Criteria cri) {
+	    public Map<String, Object> getNewsList(@RequestParam(defaultValue = "1")int page) {
+	   
+	    	Criteria cri = new Criteria();
+	    	cri.setPage(page);
+	    	cri.setPageNum(10); // 한 페이지에 10개의 뉴스 표시
 	    	
-	        List<News> newsList = newsMapper.getNewsList();
+	        List<News> newsList = newsMapper.getNewsList(cri);
+	        int totalNewsCount = newsMapper.countAllNews();
 	        
 	        PageMaker pgm = new PageMaker();
 	        pgm.setCri(cri);
-	        pgm.setTotalCount(17);
+	        pgm.setTotalCount(totalNewsCount);
 	        
-	        model.addAttribute("newsList", newsList);
-	        model.addAttribute("pageMake", pgm);
+	        Map<String, Object> result = new HashMap<>();
+	        result.put("newsList", newsList);
+	        result.put("pageMaker", pgm);
 	        
-	        return model;
+	        return result;
 	    }
 	    
 	    

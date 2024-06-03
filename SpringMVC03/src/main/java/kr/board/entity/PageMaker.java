@@ -48,7 +48,7 @@ public class PageMaker {
 		return startPage;
 	}
 	
-	public void setStartpage (int startPage) {
+	public void setStartPage (int startPage) {
 		this.startPage = startPage;
 	}
 	
@@ -56,7 +56,7 @@ public class PageMaker {
 		return endPage;
 	}
 	
-	public void setEnding(int endPage) {
+	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
 	
