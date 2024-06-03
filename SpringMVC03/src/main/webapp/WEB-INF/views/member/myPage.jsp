@@ -16,6 +16,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -78,7 +80,9 @@
 						function(index, obj) {
 							listHtml += "<tr>";
 							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_name + "' data-old-value='" + obj.farm_name + "' readonly></td>";
-							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_loc + "' readonly></td>";
+							listHtml += "<td><input type='text' class='form-control farm-address' value='"
+									+ obj.farm_loc
+									+ "' readonly onclick='sample6_execDaumPostcode(this)'></td>";
 							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_livestock_cnt + "' readonly></td>";
 							listHtml += "<td>";
 							listHtml += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
@@ -94,6 +98,46 @@
 
 		listHtml += "</table>";
 		$("#farmList").html(listHtml);
+	}
+
+	function sample6_execDaumPostcode(element) {
+		new daum.Postcode(
+				{
+					oncomplete : function(data) {
+						var addr = ''; // 주소 변수
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						$(element).val(addr);
+						$(element).data('zonecode', data.zonecode); // 우편번호 저장
+						// 상세주소 입력을 위한 커서 이동 및 버튼 추가
+						$(element)
+								.closest('td')
+								.append(
+										'<input type="text" class="form-control" placeholder="상세주소" id="sample6_detailAddress">');
+						$(element)
+								.closest('td')
+								.append(
+										'<button class="btn btn-outline-primary" onclick="saveAddress(this)">저장</button>');
+					}
+				}).open();
+	}
+
+	function saveAddress(button) {
+		var row = $(button).closest('tr');
+		var addressField = row.find('.farm-address');
+		var detailAddress = row.find('#sample6_detailAddress').val();
+		var fullAddress = addressField.val() + ' ' + detailAddress;
+
+		// 주소 필드에 전체 주소 저장
+		addressField.val(fullAddress);
+		// 저장 버튼과 상세 주소 입력 필드 숨기기
+		row.find('#sample6_detailAddress').remove();
+		$(button).remove();
 	}
 
 	function addFarm() {
@@ -123,7 +167,9 @@
 	function appendFarmToList(farmData) {
 		var newRow = "<tr>";
 		newRow += "<td><input type='text' class='form-control' value='" + farmData.farm_name + "' data-old-value='" + farmData.farm_name + "' readonly></td>";
-		newRow += "<td><input type='text' class='form-control' value='" + farmData.farm_loc + "' readonly></td>";
+		newRow += "<td><input type='text' class='form-control farm-address' value='"
+				+ farmData.farm_loc
+				+ "' readonly onclick='sample6_execDaumPostcode(this)'></td>";
 		newRow += "<td><input type='text' class='form-control' value='" + farmData.farm_livestock_cnt + "' readonly></td>";
 		newRow += "<td>";
 		newRow += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
