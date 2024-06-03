@@ -8,13 +8,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +22,6 @@ import kr.board.entity.FarmEnv;
 import kr.board.entity.Member;
 import kr.board.mapper.Env_criteria_infoMapper;
 import kr.board.mapper.FarmMapper;
-import kr.board.mapper.MemberMapper;
 
 @RestController
 public class FarmController {
@@ -65,7 +62,6 @@ public class FarmController {
 	// 농장 전체보기
 	@GetMapping("/all")
 	public List<Farm> getFarm(HttpSession session) {
-
 		Member m = (Member) session.getAttribute("mvo");
 		String mem_id = m.getMem_id();
 		System.out.println("[농장 전체보기]");
@@ -77,8 +73,6 @@ public class FarmController {
 	// 농장정보 추가하기
 	@PostMapping("/insertFarm.do")
 	public String updateFarm(Farm farm, HttpSession session) {
-
-		// 세션에서 로그인한 사용자의 mvo 가져오기
 		Member mvo = (Member) session.getAttribute("mvo");
 
 		if (mvo == null) {
@@ -86,18 +80,9 @@ public class FarmController {
 			return "redirect:/login.do";
 		}
 
-		// mvo 객체에서 mem_id 가져오기
 		String mem_id = mvo.getMem_id();
-		// System.out.println("아이디 : " + mem_id);
-
-		// farm 객체에 아이디 저장
 		farm.setMem_id(mem_id);
-
-		// farm 정보 업데이트
-		// System.out.println(farm.getFarm_livestock_cnt());
 		farmMapper.insertFarm(farm);
-		// System.out.println("업데이트 성공 " + mem_id);
-
 		return "redirect:/myPage.do";
 	}
 
@@ -120,10 +105,7 @@ public class FarmController {
 	@ResponseBody
 	public ResponseEntity<String> deleteFarm(@RequestParam("farm_name") String farmName) {
 		try {
-			// 먼저 연관된 레코드를 삭제합니다.
 			farmMapper.deletePenInfoByFarmName(farmName);
-
-			// 그 다음에 농장 정보를 삭제합니다.
 			farmMapper.deleteFarmByName(farmName);
 			return new ResponseEntity<>("농장 삭제가 완료되었습니다.", HttpStatus.OK);
 		} catch (Exception e) {
@@ -131,32 +113,45 @@ public class FarmController {
 		}
 	}
 
-	// 환경 기준 정보 추가하기
-	@PostMapping("/insertEnvCri.do")
-	public String insertEnvCri(EnvCri envCri, HttpSession session) {
-
-		// 세션에서 로그인한 사용자 mvo 가져오기
-		Member mvo = (Member) session.getAttribute("mvo");
-
-		if (mvo == null) {
-			System.out.println("mvo 없음");
-			return "redirect:/login.do";
+	// 환경 기준 정보 가져오기
+	@GetMapping("/getEnvCriteria.do")
+	public ResponseEntity<EnvCri> getEnvCriteria(@RequestParam("farm_idx") int farmIdx) {
+		try {
+			EnvCri envCri = env_criteria_infoMapper.getEnvCriByFarmIdx(farmIdx);
+			if (envCri != null) {
+				System.out.println("환경 기준 데이터: " + envCri); // 서버 콘솔에 출력
+				return new ResponseEntity<>(envCri, HttpStatus.OK);
+			} else {
+				System.out.println("환경 기준 데이터 없음: 빈 객체 반환"); // 서버 콘솔에 출력
+				return new ResponseEntity<>(new EnvCri(), HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		String mem_id = mvo.getMem_id();
-
-		// mvo 객체에서 farm_idx 가져오기
-		List<Farm> farm_idx = farmMapper.getFarm(mem_id);
-		System.out.println("아이디 : " + farm_idx);
-
-		// envCri 객체에 아이디 저장
-		// envCri.setFarm_idx(farm_idx);
-
-		// envCri 정보 업데이트
-		System.out.println(envCri.getPm());
-		env_criteria_infoMapper.insertEnvCri(envCri);
-		System.out.println("업데이트 성공 " + farm_idx);
-
-		return "redirect:/myPage.do";
 	}
+
+	// 농장별 환경 기준 추가/수정하기
+	@PostMapping("/insertEnvCri.do")
+	public ResponseEntity<String> insertEnvCri(EnvCri envCri, HttpSession session) {
+	    try {
+	        // 환경 기준 데이터가 이미 존재하는지 확인
+	        EnvCri existingEnvCri = env_criteria_infoMapper.getEnvCriByFarmIdx(envCri.getFarm_idx());
+	        if (existingEnvCri != null) {
+	            // 존재하면 업데이트
+	            env_criteria_infoMapper.updateEnvCri(envCri);
+	            return new ResponseEntity<>("환경 기준이 수정되었습니다.", HttpStatus.OK);
+	        } else {
+	            // 존재하지 않으면 추가
+	            env_criteria_infoMapper.insertEnvCri(envCri);
+	            return new ResponseEntity<>("환경 기준이 저장되었습니다.", HttpStatus.OK);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>("환경 기준 저장 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
+	
+	
 }
