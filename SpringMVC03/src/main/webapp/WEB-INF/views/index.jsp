@@ -24,6 +24,47 @@
 	
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log("aaaaa")
+		newsList();
+	});
+
+	function newsList() {
+
+		$.ajax({
+			url : "board/newsList",
+			type : "get",
+			dataType : "json",
+			success : makeView,
+			error : function() {
+				alert("news error");
+			} // 에러
+
+		}); // ajax
+	}
+	
+	function makeView(data){
+		$.each(data, function(index, obj){
+			console.log("뉴스 데이터 이동 성공")
+			var listHtml = "<tr>";
+			listHtml += "<td class='ps-0'>";
+			listHtml += "<div class='d-flex align-items-center gap-6'>";
+			listHtml += "<div><h6 class='mb-0'>" + (index + 1) +"</h6></div>";
+			listHtml += "</div>";
+			listHtml += "</td>";
+			listHtml += "<td colspan='2'><span>
+			listHtml += "<a href = news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "></a>";
+			listHtml += "</span></td>";
+			// listHtml += "<td></td>";
+			listHtml += "</tr>";
+		}) // 반복문
+		
+		$.("#index_newsList").html(listHtml);
+		} // 함수
+
+</script>
 </head>
 
 <body>
@@ -221,44 +262,8 @@
 													<th scope="col" class="text-dark fw-normal">제목</th>
 												</tr>
 											</thead>
-											<tbody>
-												<tr>
-													<td class="ps-0">
-														<div class="d-flex align-items-center gap-6">
-
-															<div>
-																<h6 class="mb-0">1</h6>
-															</div>
-														</div>
-													</td>
-													<td colspan="2"><span><a
-															href="https://suika-game.app/ko">여기에 뉴스 링크가 들어갑니다.</a></span></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td class="ps-0">
-														<div class="d-flex align-items-center gap-6">
-															<div>
-																<h6 class="mb-0">2</h6>
-															</div>
-														</div>
-													</td>
-													<td colspan="2"><span><a href="#">여기에 뉴스
-																링크가 들어갑니다.</a></span></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td class="ps-0">
-														<div class="d-flex align-items-center gap-6">
-															<div>
-																<h6 class="mb-0">3</h6>
-															</div>
-														</div>
-													</td>
-													<td colspan="2"><span><a href="#">여기에 뉴스
-																링크가 들어갑니다.</a></span></td>
-													<td></td>
-												</tr>
+											<tbody id="index_newsList">
+											<!-- 뉴스 들어감 -->
 											</tbody>
 										</table>
 									</div>
