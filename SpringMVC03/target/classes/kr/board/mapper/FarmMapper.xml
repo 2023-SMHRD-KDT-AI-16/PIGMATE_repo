@@ -20,10 +20,8 @@
 	</insert>
 
 	<delete id="deletePenInfoByFarmName">
-		DELETE FROM pen_info
-		WHERE farm_idx IN (
-		SELECT
-		farm_idx FROM farm_info WHERE farm_name = #{farm_name}
+		DELETE FROM pen_info WHERE farm_idx IN (
+		SELECT farm_idx FROM farm_info WHERE farm_name = #{farm_name}
 		)
 	</delete>
 
@@ -32,18 +30,13 @@
 		farm_info WHERE farm_name = #{farm_name}
 	</delete>
 
-	<select id="farmList" parameterType="String"
-		resultType="kr.board.entity.Farm">
-		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
-	</select>
-
-	<!-- 농장 정보 업데이트 -->
 	<update id="updateFarmByOldName"
 		parameterType="kr.board.entity.Farm">
 		UPDATE farm_info
-		SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt
-		= #{farmLivestockCnt}
-		WHERE farm_name = #{oldFarmName}
+		SET farm_name = #{newFarmName}, farm_loc
+		= #{farmLoc}, farm_livestock_cnt = #{farmLivestockCnt}
+		WHERE farm_name
+		= #{oldFarmName}
 	</update>
 
 </mapper>
