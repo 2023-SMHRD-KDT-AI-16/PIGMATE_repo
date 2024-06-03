@@ -24,7 +24,10 @@
     data-sidebar-position="fixed" data-header-position="fixed">
 
     <!--  Main wrapper -->
-    <div class="body-wrapper">
+   <%@ include file="../common/sidebar.jsp"%>
+		<div class="body-wrapper">
+			<%@ include file="../common/header.jsp"%>
+
      
       <div class="body-wrapper-inner">
         <div class="container-fluid">

@@ -2764,7 +2764,7 @@ progress {
 
 .table-primary {
     --bs-table-color: #000;
-    --bs-table-bg: #e0deff;
+    --bs-table-bg: #677B69;
     --bs-table-border-color: #cac8e6;
     --bs-table-striped-bg: #d5d3f2;
     --bs-table-striped-color: #000;
@@ -2772,7 +2772,7 @@ progress {
     --bs-table-active-color: #000;
     --bs-table-hover-bg: #cfcdec;
     --bs-table-hover-color: #000;
-    color: var(--bs-table-color);
+    color: #677B69;
     border-color: var(--bs-table-border-color)
 }
 
@@ -2806,16 +2806,16 @@ progress {
 
 .table-info {
     --bs-table-color: #000;
-    --bs-table-bg: #daf4fb;
-    --bs-table-border-color: #c4dce2;
-    --bs-table-striped-bg: #cfe8ee;
+    --bs-table-bg: #677B69;
+    --bs-table-border-color: #677B69;
+    --bs-table-striped-bg: #677B69;
     --bs-table-striped-color: #000;
-    --bs-table-active-bg: #c4dce2;
+    --bs-table-active-bg: #677B69;
     --bs-table-active-color: #000;
-    --bs-table-hover-bg: #cae2e8;
+    --bs-table-hover-bg: #677B69;
     --bs-table-hover-color: #000;
     color: var(--bs-table-color);
-    border-color: var(--bs-table-border-color)
+    border-color: #677B69;
 }
 
 .table-warning {
@@ -6644,7 +6644,7 @@ fieldset:disabled .btn {
     --bs-pagination-padding-x: 0.75rem;
     --bs-pagination-padding-y: 0.375rem;
     --bs-pagination-font-size: 0.875rem;
-    --bs-pagination-color: var(--bs-link-color);
+    --bs-pagination-color: 677B69;
     --bs-pagination-bg: var(--bs-body-bg);
     --bs-pagination-border-width: var(--bs-border-width);
     --bs-pagination-border-color: var(--bs-border-color);
@@ -6656,8 +6656,8 @@ fieldset:disabled .btn {
     --bs-pagination-focus-bg: var(--bs-secondary-bg);
     --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(99, 91, 255, 0.25);
     --bs-pagination-active-color: #fff;
-    --bs-pagination-active-bg: #635bff;
-    --bs-pagination-active-border-color: #635bff;
+    --bs-pagination-active-bg: #677B69;
+    --bs-pagination-active-border-color: #677B69;
     --bs-pagination-disabled-color: var(--bs-secondary-color);
     --bs-pagination-disabled-bg: var(--bs-secondary-bg);
     --bs-pagination-disabled-border-color: var(--bs-border-color);
@@ -6673,9 +6673,9 @@ fieldset:disabled .btn {
     display: block;
     padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
     font-size: var(--bs-pagination-font-size);
-    color: var(--bs-pagination-color);
+    color: #677B69;
     text-decoration: none;
-    background-color: var(--bs-pagination-bg);
+    background-color: #677B69;
     border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
     -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
@@ -6709,7 +6709,7 @@ fieldset:disabled .btn {
 .active>.page-link,
 .page-link.active {
     z-index: 3;
-    color: var(--bs-pagination-active-color);
+    color: #677B69;
     background-color: var(--bs-pagination-active-bg);
     border-color: var(--bs-pagination-active-border-color)
 }
