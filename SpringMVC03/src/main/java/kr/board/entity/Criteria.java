@@ -8,13 +8,13 @@ public class Criteria {
 	
 	// 특정 페이지의 게시글 시작번호
 	public int getPageStart() {
-		return (this.page -1)*perPageNum;
+		return (this.page - 1)*perPageNum;
 	}
 	
 	// 기본 생성자 (처음 게시판 목록 들어 왔을 때)
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 10;
+		this.perPageNum = 10; // 한 페이지당 10개의 게시글 표시
 	}
 
 	public int getPage(){

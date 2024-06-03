@@ -1,5 +1,6 @@
 package kr.board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -30,6 +31,33 @@ public class FarmController {
 
 	@Autowired
 	private Env_criteria_infoMapper env_criteria_infoMapper;
+
+	// 환경 정보 페이지로 환경 정보 가져오기
+	@PostMapping("/farm/env")
+	public List<FarmEnv> FarmEnvList(HttpSession session) {
+
+		List<FarmEnv> farm_env = new ArrayList<>();
+
+		Member m = (Member) session.getAttribute("mvo");
+
+		if (m != null) {
+			// 환경 정보 누르면 session에서 mem_id 가져와서 회원이 가지고 있는 농장 인덱스만 가져오기
+			String mem_id = m.getMem_id();
+
+			System.out.println("환경 정보 조회할 회원 :" + m.getMem_id());
+
+			List<Farm> farm = farmMapper.getFarm(mem_id);
+
+			for (int i = 0; i < farm.size(); i++) {
+
+				int idx = farm.get(i).getFarm_idx();
+
+				farm_env.addAll(farmMapper.getEnv(idx));
+				
+			}
+		}
+		return farm_env;
+	}
 
 	// 농장 전체보기
 	@GetMapping("/all")

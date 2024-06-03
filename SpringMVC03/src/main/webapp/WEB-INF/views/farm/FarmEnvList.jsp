@@ -28,10 +28,13 @@
 			$.ajax({
 				url : "farm/env",
 				type : "post",
-				dateType : "json",
-				success : makeData,
-				error : function(){
-					alert("error")
+				dataType : "json",
+				success : function(data){
+					console.log(data);
+					makeData(data);
+					},
+				error : function(request,status,error){
+					 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 					}
 			}) // ajax
 		}); // 함수
