@@ -104,13 +104,28 @@ public class FarmController {
 	@RequestMapping("/deleteFarm.do")
 	@ResponseBody
 	public ResponseEntity<String> deleteFarm(@RequestParam("farm_name") String farmName) {
-		try {
-			farmMapper.deletePenInfoByFarmName(farmName);
-			farmMapper.deleteFarmByName(farmName);
-			return new ResponseEntity<>("농장 삭제가 완료되었습니다.", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("농장 삭제 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	    try {
+	        System.out.println("삭제할 농장 이름: " + farmName);
+	        // 자식 레코드 먼저 삭제
+	        System.out.println("Pen info 삭제 시작");
+	        farmMapper.deletePenInfoByFarmName(farmName);
+	        System.out.println("Pen info 삭제 완료");
+
+	        System.out.println("Env criteria info 삭제 시작");
+	        farmMapper.deleteEnvCriteriaByFarmName(farmName);
+	        System.out.println("Env criteria info 삭제 완료");
+
+	        // 부모 레코드 삭제
+	        System.out.println("Farm info 삭제 시작");
+	        farmMapper.deleteFarmByName(farmName);
+	        System.out.println("Farm info 삭제 완료");
+
+	        return new ResponseEntity<>("농장 삭제가 완료되었습니다.", HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("에러 발생: " + e.getMessage());
+	        return new ResponseEntity<>("농장 삭제 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 
 	// 환경 기준 정보 가져오기
