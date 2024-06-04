@@ -18,7 +18,6 @@
    src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script
    src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -40,6 +39,11 @@
 		$("#saveEnvBtn").click(function(event) {
 			event.preventDefault();
 			saveEnvCriteria();
+		});
+
+		// 농장 위치 필드에 클릭 이벤트 추가
+		$("#farm_loc").click(function() {
+			sample6_execDaumPostcode(this);
 		});
 	});
 
