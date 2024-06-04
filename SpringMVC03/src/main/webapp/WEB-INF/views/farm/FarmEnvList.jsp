@@ -335,101 +335,166 @@ function createChartTemp(dateList, tempList) {
 
 
 		// 이산화 탄소 그래프3
-		function createChartCo2(dateList, co2List) {
-			const ctx = document.getElementById('myChart3').getContext('2d');
+function createChartCo2(dateList, co2List) {
+    const ctx = document.getElementById('myChart3').getContext('2d');
 
-			const myChart = new Chart(ctx, {
-				type : 'line',
-				data : {
-					labels : dateList,
-					datasets : [ {
-						label : '이산화탄소',
-						data : co2List,
-						backgroundColor : [ '#f94144' ],
-						borderColor : [ '#f94144' ],
-						borderWidth : 1,
-						pointRadius: 0, // 점 크기 설정
-		                pointHoverRadius: 6,
-		                fill:false
-					} ]
-				},
-				options : {
-					scales : {
-						y : {
-							beginAtZero : true
-						}
-					}
-				//scales
-				}
-			// options
-			}); //chart
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dateList,
+            datasets: [{
+                label: '이산화탄소',
+                data: co2List,
+                backgroundColor: '#f94144',
+                borderColor: '#f94144',
+                borderWidth: 1,
+                pointRadius: 1, // 점 크기 설정
+                pointHoverRadius: 6,
+                fill: false // 영역을 채우지 않음
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: '시간별 이산화탄소 농도',
+                    align: 'start', // 제목을 왼쪽으로 정렬
+                    font: {
+                        size: 18 // 글자 크기를 크게 설정
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 45, // 레이블 각도 조정
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'CO2 농도 (ppm)' // y축 레이블에 단위 추가
+                    }
+                }
+            }
+        }
+    });
+}
 
-		}
 
 		// 그래프4
+function createChartAmm(dateList, ammList) {
+    const ctx = document.getElementById('myChart4').getContext('2d');
 
-		function createChartAmm(dateList, ammList) {
-			const ctx = document.getElementById('myChart4').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dateList,
+            datasets: [{
+                label: '시간별 암모니아',
+                data: ammList,
+                backgroundColor: '#f3722c',
+                borderColor: '#f3722c',
+                borderWidth: 1,
+                pointRadius: 1, // 점 크기 설정
+                pointHoverRadius: 6,
+                fill: false // 영역을 채우지 않음
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: '시간별 암모니아 수치',
+                    align: 'start', // 제목을 왼쪽으로 정렬
+                    font: {
+                        size: 18 // 글자 크기를 크게 설정
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 45, // 레이블 각도 조정
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '암모니아 수치 (ppm)' // y축 레이블에 단위 추가
+                    }
+                }
+            }
+        }
+    });
+}
 
-			const myChart = new Chart(ctx, {
-				type : 'line',
-				data : {
-					labels : dateList,
-					datasets : [ {
-						label : '시간별 암모니아',
-						data : ammList,
-						backgroundColor : [ '#f3722c' ],
-						borderColor : [ '#f3722c' ],
-						borderWidth : 1,
-						pointRadius: 0, // 점 크기 설정
-		                pointHoverRadius: 6,
-		                fill:false
-					} ]
-				},
-				options : {
-					scales : {
-						y : {
-							beginAtZero : true
-						}
-					}
-				//scales
-				}
-			// options
-			}); //chart
-
-		}
 
 		// 그래프 5
-		function createChartPm(dateList, pmList) {
-			const ctx = document.getElementById('myChart5').getContext('2d');
+function createChartPm(dateList, pmList) {
+    const ctx = document.getElementById('myChart5').getContext('2d');
 
-			const myChart = new Chart(ctx, {
-				type : 'line',
-				data : {
-					labels : dateList,
-					datasets : [ {
-						label : '미세먼지',
-						data : pmList,
-						backgroundColor : [ '#f9c74f' ],
-						borderColor : [ '#f9c74f' ],
-						borderWidth : 1,
-						pointRadius: 0, // 점 크기 설정
-		                pointHoverRadius: 6,
-		                fill:false
-					} ]
-				},
-				options : {
-					scales : {
-						y : {
-							beginAtZero : true
-						}
-					}
-				//scales
-				}
-			// options
-			}); //chart
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dateList,
+            datasets: [{
+                label: '미세먼지',
+                data: pmList,
+                backgroundColor: '#f9c74f',
+                borderColor: '#f9c74f',
+                borderWidth: 1,
+                pointRadius: 1, // 점 크기 설정
+                pointHoverRadius: 6,
+                fill: false // 영역을 채우지 않음
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: '시간별 미세먼지 수치',
+                    align: 'start', // 제목을 왼쪽으로 정렬
+                    font: {
+                        size: 18 // 글자 크기를 크게 설정
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 45, // 레이블 각도 조정
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '미세먼지 수치 (µg/m³)' // y축 레이블에 단위 추가
+                    }
+                }
+            }
+        }
+    });
+}
 
-		}
 	</script>
 
 
