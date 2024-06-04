@@ -13,31 +13,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Matdash Free</title>
 <link rel="shortcut icon" type="image/png"
-	href="${pageContext.request.contextPath}/resources/img/logos/favicon.png" />
+	href="${contextPath}/resources/img/logos/favicon.png" />
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+	href="${contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-
+<script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+	src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${contextPath}/resources/js/sidebarmenu.js"></script>
+<script src="${contextPath}/resources/js/app.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+	src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="${contextPath}/resources/js/dashboard.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		console.log("aaaaa");
+		console.log("Document is ready");
 		newsList();
 	});
 
@@ -46,34 +42,38 @@
 			url : "board/newsList",
 			type : "get",
 			dataType : "json",
-			success : makeView,
+			success : function(data) {
+				console.log("받은 데이터 구조:", data); // 데이터 구조 확인
+				makeView(data);
+			},
 			error : function() {
 				alert("news error");
-			} // 에러
-		}); // ajax
+			}
+		});
 	}
 
 	function makeView(data) {
-	    console.log("받은 데이터:", data); // 데이터 구조 확인
-	    var listHtml = "";
-	    $.each(data.newsList1, function(index, obj) {
-	        console.log("뉴스 데이터 이동 성공");
-	        console.log("뉴스 객체:", obj); // 각 뉴스 객체 확인
-	        listHtml += "<tr>";
-	        listHtml += "<td class='ps-0'>";
-	        listHtml += "<div class='d-flex align-items-center gap-6'>";
-	        listHtml += "<div><h6 class='mb-0'>" + (index + 1) + "</h6></div>";
-	        listHtml += "</div>";
-	        listHtml += "</td>";
-	        listHtml += "<td colspan='2'>";
-	        listHtml += "<a href='news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "</a>";
-	        listHtml += "</td>";
-	        listHtml += "</tr>";
-	    }); // 반복문
-	    $("#index_newsList").html(listHtml);
-	} // 함수
+		console.log("받은 데이터:", data); // 데이터 구조 확인
+		var listHtml = "";
 
-	
+		// 서버에서 반환된 데이터 구조에 맞게 경로 수정
+		if (data.newsList) {
+			$.each(data.newsList, function(index, obj) {
+				console.log("뉴스 데이터 이동 성공");
+				console.log("뉴스 객체:", obj); // 각 뉴스 객체 확인
+				listHtml += "<tr>";
+				listHtml += "<td colspan='2'>";
+				listHtml += "<a href='news?news_idx=" + obj.news_idx + "'>"
+						+ obj.news_title + "</a>";
+				listHtml += "</td>";
+				listHtml += "</tr>";
+			});
+		} else {
+			console.error("뉴스 데이터를 찾을 수 없습니다.");
+		}
+
+		$("#index_newsList").html(listHtml);
+	}
 </script>
 </head>
 
@@ -183,7 +183,7 @@
 													<td class="ps-0">
 														<div class="d-flex align-items-center gap-6">
 															<img
-																src="${pageContext.request.contextPath}/resources/img/products/dash-prd-1.jpg"
+																src="${contextPath}/resources/img/products/dash-prd-1.jpg"
 																alt="prd1" width="48" class="rounded" />
 															<div>
 																<h6 class="mb-0">온도</h6>
@@ -197,7 +197,7 @@
 													<td class="ps-0">
 														<div class="d-flex align-items-center gap-6">
 															<img
-																src="${pageContext.request.contextPath}/resources/img/products/dash-prd-2.jpg"
+																src="${contextPath}/resources/img/products/dash-prd-2.jpg"
 																alt="prd1" width="48" class="rounded" />
 															<div>
 																<h6 class="mb-0">습도</h6>
@@ -211,7 +211,7 @@
 													<td class="ps-0">
 														<div class="d-flex align-items-center gap-6">
 															<img
-																src="${pageContext.request.contextPath}/resources/img/products/dash-prd-3.jpg"
+																src="${contextPath}/resources/img/products/dash-prd-3.jpg"
 																alt="prd1" width="48" class="rounded" />
 															<div>
 																<h6 class="mb-0">암모니아</h6>
@@ -226,7 +226,7 @@
 													<td class="ps-0">
 														<div class="d-flex align-items-center gap-6">
 															<img
-																src="${pageContext.request.contextPath}/resources/img/products/dash-prd-4.jpg"
+																src="${contextPath}/resources/img/products/dash-prd-4.jpg"
 																alt="prd1" width="48" class="rounded" />
 															<div>
 																<h6 class="mb-0">이산화탄소</h6>
@@ -239,8 +239,7 @@
 												<tr>
 													<td class="ps-0">
 														<div class="d-flex align-items-center gap-6">
-															<img
-																src="${pageContext.request.contextPath}/resources/img/products/s4.jpg"
+															<img src="${contextPath}/resources/img/products/s4.jpg"
 																alt="prd1" width="48" class="rounded" />
 															<div>
 																<h6 class="mb-0">미세먼지</h6>
@@ -267,8 +266,7 @@
 											class="table text-nowrap align-middle table-custom mb-0">
 											<thead>
 												<tr>
-													<th scope="col" class="text-dark fw-normal ps-0">#</th>
-													<th scope="col" class="text-dark fw-normal">제목</th>
+													<th scope="col" class="text-dark fw-normal ps-0">제목</th>
 												</tr>
 											</thead>
 											<tbody id="index_newsList">
