@@ -141,14 +141,14 @@
 	}
 
 	function displayEnvInfo(data) {
-		// 환경 정보를 데이터에 따라 매핑
+
 		var temperature = "N/A";
 		var humidity = "N/A";
 		var co2 = "N/A";
 		var ammonia = "N/A";
 
 		if (data.length > 0) {
-			var latestEnv = data[data.length - 1]; // 최신 데이터를 사용
+			var latestEnv = data[data.length - 1]; // 최신 데이터 사용
 			temperature = latestEnv.temperature + "°C";
 			humidity = latestEnv.humidity + "%";
 			co2 = latestEnv.co2 + "ppm";
