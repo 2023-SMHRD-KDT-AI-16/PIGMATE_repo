@@ -59,14 +59,16 @@
 
 .env-info-box span {
 	display: block;
-	font-size: 24px;
+	font-size: 50px;
 	margin-bottom: 5px;
+	color : green;
 }
 
 .env-info-box .status {
 	font-size: 18px;
 	color: green;
 }
+
 </style>
 
 <script
