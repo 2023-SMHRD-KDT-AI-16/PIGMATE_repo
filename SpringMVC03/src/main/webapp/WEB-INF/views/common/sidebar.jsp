@@ -8,7 +8,7 @@
 <aside class="left-sidebar">
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index.html" class="text-nowrap logo-img">
+            <a href=""${contextPath}/index.jsp"" class="text-nowrap logo-img">
                 <img src="${pageContext.request.contextPath}/resources/img/logos/pigmate_200x50.png" alt="" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
