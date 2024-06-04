@@ -17,4 +17,5 @@ public class FarmEnv {
 	private float pm;
 	private String created_at;
 	private int farm_idx;
+	
 }
