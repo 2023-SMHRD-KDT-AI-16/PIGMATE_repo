@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,18 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>피그메이트</title>
 <link rel="shortcut icon" type="image/png"
-   href="../assets/images/logos/favicon.png" />
+	href="../assets/images/logos/favicon.png" />
 <link rel="stylesheet"
-   href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
-   src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
-   src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script
-   src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -40,6 +39,11 @@
 		$("#saveEnvBtn").click(function(event) {
 			event.preventDefault();
 			saveEnvCriteria();
+		});
+
+		// 농장 위치 필드에 클릭 이벤트 추가
+		$("#farm_loc").click(function() {
+			sample6_execDaumPostcode(this);
 		});
 	});
 
@@ -82,8 +86,8 @@
 							listHtml += "<tr>";
 							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_name + "' data-old-value='" + obj.farm_name + "' readonly></td>";
 							listHtml += "<td><input type='text' class='form-control farm-address' value='"
-									+ obj.farm_loc
-									+ "' readonly onclick='sample6_execDaumPostcode(this)'></td>";
+                                    + obj.farm_loc
+                                    + "' readonly></td>";
 							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_livestock_cnt + "' readonly></td>";
 							listHtml += "<td>";
 							listHtml += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
@@ -164,8 +168,8 @@
 		var newRow = "<tr>";
 		newRow += "<td><input type='text' class='form-control' value='" + farmData.farm_name + "' data-old-value='" + farmData.farm_name + "' readonly></td>";
 		newRow += "<td><input type='text' class='form-control farm-address' value='"
-				+ farmData.farm_loc
-				+ "' readonly onclick='sample6_execDaumPostcode(this)'></td>";
+                + farmData.farm_loc
+                + "' readonly></td>";
 		newRow += "<td><input type='text' class='form-control' value='" + farmData.farm_livestock_cnt + "' readonly></td>";
 		newRow += "<td>";
 		newRow += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
@@ -185,6 +189,8 @@
 	function editFarm(button) {
 		var row = $(button).closest('tr');
 		row.find('input').removeAttr('readonly');
+		row.find('.farm-address').attr('onclick',
+				'sample6_execDaumPostcode(this)');
 		$(button).hide();
 		row.find('.btn-outline-success').show();
 	}
@@ -207,6 +213,7 @@
 			},
 			success : function(response) {
 				row.find('input').attr('readonly', 'readonly');
+				row.find('.farm-address').removeAttr('onclick');
 				row.find('.btn-outline-success').hide();
 				row.find('.btn-outline-primary').show();
 				$("#modalMessage").text(response);
@@ -303,16 +310,16 @@
 </style>
 </head>
 <body>
-	
+
 
 	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
 		data-navbarbg="skin6" data-sidebartype="full"
 		data-sidebar-position="fixed" data-header-position="fixed">
-		
+
 		<%@ include file="../common/sidebar.jsp"%>
 		<div class="body-wrapper">
-	<%@ include file="../common/header.jsp"%>
-	
+			<%@ include file="../common/header.jsp"%>
+
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div class="card">
@@ -324,15 +331,15 @@
 									<hr>
 									<div class="row">
 										<div class="col-lg-4">
-											<img src="${pageContext.request.contextPath}/resources/img/profile/user-1.jpg"
+											<img
+												src="${pageContext.request.contextPath}/resources/img/profile/user-1.jpg"
 												class="rounded-circle" width="100px" height="100px"
 												style="padding: 20px;" alt=""> <span
 												style="color: black;">${member.mem_name}</span>
 										</div>
 										<div class="row">
-											<input type="button"
-												class="btn btn-outline-success" value="수정"
-												id="editProfileBtn">
+											<input type="button" class="btn btn-outline-success"
+												value="수정" id="editProfileBtn">
 										</div>
 									</div>
 								</div>
