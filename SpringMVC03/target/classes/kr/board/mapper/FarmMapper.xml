@@ -2,49 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.FarmMapper">
 
-    <select id="getEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
-        SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx} ORDER BY created_at DESC
-    </select>
+	<select id="getEnv" parameterType="int"
+		resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
+	</select>
 
-    <select id="getFarm" parameterType="String" resultType="kr.board.entity.Farm">
-        SELECT * FROM farm_info WHERE mem_id = #{mem_id}
-    </select>
+	<select id="getFarm" parameterType="String"
+		resultType="kr.board.entity.Farm">
+		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
+	</select>
 
-    <insert id="insertFarm" parameterType="kr.board.entity.Farm">
-        INSERT INTO farm_info (farm_name, farm_loc, farm_livestock_cnt, mem_id)
-        VALUES (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
-    </insert>
+	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
+		INSERT INTO farm_info
+		(farm_name, farm_loc, farm_livestock_cnt, mem_id)
+		VALUES (#{farm_name},
+		#{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+	</insert>
 
-    <delete id="deletePenInfoByFarmName">
-        DELETE FROM pen_info WHERE farm_idx IN (
-            SELECT farm_idx FROM farm_info WHERE farm_name = #{farm_name}
-        )
-    </delete>
+	<delete id="deletePenInfoByFarmName">
+		DELETE FROM pen_info
+		WHERE farm_idx IN (
+		SELECT
+		farm_idx FROM farm_info WHERE farm_name = #{farm_name}
+		)
+	</delete>
 
-    <!-- 환경 기준 정보 삭제 -->
-    <delete id="deleteEnvCriteriaByFarmName">
-        DELETE FROM env_criteria_info WHERE farm_idx IN (
-            SELECT farm_idx FROM farm_info WHERE farm_name = #{farm_name}
-        )
-    </delete>
+	<delete id="deleteFarmByName" parameterType="String">
+		DELETE FROM
+		farm_info WHERE farm_name = #{farm_name}
+	</delete>
 
-    <delete id="deleteFarmByName" parameterType="String">
-        <!-- 자식 레코드 먼저 삭제 -->
-        <include refid="deletePenInfoByFarmName"/>
-        <include refid="deleteEnvCriteriaByFarmName"/>
-        <!-- 부모 레코드 삭제 -->
-        DELETE FROM farm_info WHERE farm_name = #{farm_name}
-    </delete>
+	<select id="farmList" parameterType="String"
+		resultType="kr.board.entity.Farm">
+		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
+	</select>
 
-    <select id="farmList" parameterType="String" resultType="kr.board.entity.Farm">
-        SELECT * FROM farm_info WHERE mem_id = #{mem_id}
-    </select>
-
-    <!-- 농장 정보 업데이트 -->
-    <update id="updateFarmByOldName" parameterType="kr.board.entity.Farm">
-        UPDATE farm_info
-        SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt = #{farmLivestockCnt}
-        WHERE farm_name = #{oldFarmName}
-    </update>
+	<!-- 농장 정보 업데이트 -->
+	<update id="updateFarmByOldName"
+		parameterType="kr.board.entity.Farm">
+		UPDATE farm_info
+		SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt
+		= #{farmLivestockCnt}
+		WHERE farm_name = #{oldFarmName}
+	</update>
 
 </mapper>
