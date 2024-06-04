@@ -65,12 +65,12 @@ public class MemberController {
 	// 로그아웃 기능 /logout.do
 	@GetMapping("/logout.do")
 	public String logout(HttpSession session, RedirectAttributes rttr) {
-		session.invalidate();
-		rttr.addFlashAttribute("msgType", "로그아웃 메세지");
-		rttr.addFlashAttribute("msg", "정상적으로 로그아웃 되었습니다.");
-		return "redirect:/";
+	    session.invalidate();
+	    rttr.addFlashAttribute("msgType", "로그아웃 메세지");
+	    rttr.addFlashAttribute("msg", "정상적으로 로그아웃 되었습니다.");
+	    return "redirect:/loginForm.do"; // 로그인 페이지로 리디렉션
 	}
-
+	
 	// 회원가입 페이지로 이동 /joinForm.do
 	@GetMapping("/joinForm.do")
 	public String joinForm() {

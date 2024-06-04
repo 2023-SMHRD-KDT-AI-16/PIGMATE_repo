@@ -13,12 +13,6 @@
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
-                    <iconify-icon icon="solar:bell-linear" class="fs-6"></iconify-icon>
-                    <div class="notification bg-success rounded-circle"></div>
-                </a>
-            </li>
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">

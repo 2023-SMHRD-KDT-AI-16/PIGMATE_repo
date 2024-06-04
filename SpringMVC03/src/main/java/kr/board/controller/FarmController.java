@@ -64,9 +64,9 @@ public class FarmController {
 	public List<Farm> getFarm(HttpSession session) {
 		Member m = (Member) session.getAttribute("mvo");
 		String mem_id = m.getMem_id();
-		System.out.println("[농장 전체보기]");
+		// System.out.println("[농장 전체보기]");
 		List<Farm> list = farmMapper.getFarm(mem_id);
-		System.out.println("반환된 농장 목록 : " + list);
+		// System.out.println("반환된 농장 목록 : " + list);
 		return list;
 	}
 
