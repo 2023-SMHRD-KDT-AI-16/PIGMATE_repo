@@ -128,7 +128,7 @@ public class FarmController {
 		}
 	}
 
-	// 환경 기준 정보 가져오기
+	// 마이 페이지로 환경 기준 정보 가져오기
 	@GetMapping("/getEnvCriteria.do")
 	public ResponseEntity<EnvCri> getEnvCriteria(@RequestParam("farm_idx") int farmIdx) {
 		try {
@@ -146,7 +146,7 @@ public class FarmController {
 		}
 	}
 
-	// 마이 페이지로 환경 기준 정보 가져오기
+	// 메인 페이지로 환경 기준 정보 가져오기
 	@GetMapping("/env/criteria")
 	public ResponseEntity<EnvCri> getEnvCriteria(HttpSession session) {
 		Member m = (Member) session.getAttribute("mvo");
