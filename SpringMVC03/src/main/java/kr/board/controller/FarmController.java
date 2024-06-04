@@ -104,28 +104,28 @@ public class FarmController {
 	@RequestMapping("/deleteFarm.do")
 	@ResponseBody
 	public ResponseEntity<String> deleteFarm(@RequestParam("farm_name") String farmName) {
-	    try {
-	        System.out.println("삭제할 농장 이름: " + farmName);
-	        // 자식 레코드 먼저 삭제
-	        System.out.println("Pen info 삭제 시작");
-	        farmMapper.deletePenInfoByFarmName(farmName);
-	        System.out.println("Pen info 삭제 완료");
+		try {
+			System.out.println("삭제할 농장 이름: " + farmName);
+			// 자식 레코드 먼저 삭제
+			System.out.println("Pen info 삭제 시작");
+			farmMapper.deletePenInfoByFarmName(farmName);
+			System.out.println("Pen info 삭제 완료");
 
-	        System.out.println("Env criteria info 삭제 시작");
-	        farmMapper.deleteEnvCriteriaByFarmName(farmName);
-	        System.out.println("Env criteria info 삭제 완료");
+			System.out.println("Env criteria info 삭제 시작");
+			farmMapper.deleteEnvCriteriaByFarmName(farmName);
+			System.out.println("Env criteria info 삭제 완료");
 
-	        // 부모 레코드 삭제
-	        System.out.println("Farm info 삭제 시작");
-	        farmMapper.deleteFarmByName(farmName);
-	        System.out.println("Farm info 삭제 완료");
+			// 부모 레코드 삭제
+			System.out.println("Farm info 삭제 시작");
+			farmMapper.deleteFarmByName(farmName);
+			System.out.println("Farm info 삭제 완료");
 
-	        return new ResponseEntity<>("농장 삭제가 완료되었습니다.", HttpStatus.OK);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        System.out.println("에러 발생: " + e.getMessage());
-	        return new ResponseEntity<>("농장 삭제 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+			return new ResponseEntity<>("농장 삭제가 완료되었습니다.", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("에러 발생: " + e.getMessage());
+			return new ResponseEntity<>("농장 삭제 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// 환경 기준 정보 가져오기
@@ -144,6 +144,23 @@ public class FarmController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	// 마이 페이지로 환경 기준 정보 가져오기
+	@GetMapping("/env/criteria")
+	public ResponseEntity<EnvCri> getEnvCriteria(HttpSession session) {
+		Member m = (Member) session.getAttribute("mvo");
+
+		if (m != null) {
+			String mem_id = m.getMem_id();
+			List<Farm> farmList = farmMapper.getFarm(mem_id);
+			if (!farmList.isEmpty()) {
+				int farmIdx = farmList.get(0).getFarm_idx(); // 첫 번째 농장의 기준만 사용
+				EnvCri envCri = env_criteria_infoMapper.getEnvCriByFarmIdx(farmIdx);
+				return new ResponseEntity<>(envCri, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	// 농장별 환경 기준 추가/수정하기
