@@ -3,7 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 
 <!doctype html>
@@ -17,22 +16,32 @@
 	href="${pageContext.request.contextPath}/resources/img/logos/favicon.png" />
 
 <link rel="stylesheet"
-<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
-
+<link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-	
+
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-	
+
+<script
+	src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		console.log("aaaaa")
+		console.log("aaaaa");
 		newsList();
 	});
 
 	function newsList() {
-
 		$.ajax({
 			url : "board/newsList",
 			type : "get",
@@ -41,29 +50,30 @@
 			error : function() {
 				alert("news error");
 			} // 에러
-
 		}); // ajax
 	}
-	
-	function makeView(data){
-		$.each(data, function(index, obj){
-			console.log("뉴스 데이터 이동 성공")
-			var listHtml = "<tr>";
-			listHtml += "<td class='ps-0'>";
-			listHtml += "<div class='d-flex align-items-center gap-6'>";
-			listHtml += "<div><h6 class='mb-0'>" + (index + 1) +"</h6></div>";
-			listHtml += "</div>";
-			listHtml += "</td>";
-			listHtml += "<td colspan='2'><span>
-			listHtml += "<a href = news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "></a>";
-			listHtml += "</span></td>";
-			// listHtml += "<td></td>";
-			listHtml += "</tr>";
-		}) // 반복문
-		
-		$.("#index_newsList").html(listHtml);
-		} // 함수
 
+	function makeView(data) {
+	    console.log("받은 데이터:", data); // 데이터 구조 확인
+	    var listHtml = "";
+	    $.each(data.newsList1, function(index, obj) {
+	        console.log("뉴스 데이터 이동 성공");
+	        console.log("뉴스 객체:", obj); // 각 뉴스 객체 확인
+	        listHtml += "<tr>";
+	        listHtml += "<td class='ps-0'>";
+	        listHtml += "<div class='d-flex align-items-center gap-6'>";
+	        listHtml += "<div><h6 class='mb-0'>" + (index + 1) + "</h6></div>";
+	        listHtml += "</div>";
+	        listHtml += "</td>";
+	        listHtml += "<td colspan='2'>";
+	        listHtml += "<a href='news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "</a>";
+	        listHtml += "</td>";
+	        listHtml += "</tr>";
+	    }); // 반복문
+	    $("#index_newsList").html(listHtml);
+	} // 함수
+
+	
 </script>
 </head>
 
@@ -247,7 +257,6 @@
 							</div>
 						</div>
 
-
 						<!-- 여기에 한돈 뉴스가 들어갑니다.-->
 						<div class="col-lg-4 d-flex align-items-stretch">
 							<div class="card w-100">
@@ -263,7 +272,7 @@
 												</tr>
 											</thead>
 											<tbody id="index_newsList">
-											<!-- 뉴스 들어감 -->
+												<!-- 뉴스 들어감 -->
 											</tbody>
 										</table>
 									</div>
@@ -274,25 +283,7 @@
 				</div>
 			</div>
 		</div>
-		<script
-			src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
+	</div>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
