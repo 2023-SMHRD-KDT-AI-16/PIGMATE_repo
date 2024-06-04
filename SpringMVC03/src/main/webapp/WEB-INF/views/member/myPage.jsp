@@ -106,16 +106,13 @@
 				{
 					oncomplete : function(data) {
 						var addr = ''; // 주소 변수
-						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
 						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
 							addr = data.roadAddress;
 						} else { // 사용자가 지번 주소를 선택했을 경우(J)
 							addr = data.jibunAddress;
 						}
-						// 우편번호와 주소 정보를 해당 필드에 넣는다.
 						$(element).val(addr);
 						$(element).data('zonecode', data.zonecode); // 우편번호 저장
-						// 상세주소 입력을 위한 커서 이동 및 버튼 추가
 						$(element)
 								.closest('td')
 								.append(
@@ -134,9 +131,7 @@
 		var detailAddress = row.find('#sample6_detailAddress').val();
 		var fullAddress = addressField.val() + ' ' + detailAddress;
 
-		// 주소 필드에 전체 주소 저장
 		addressField.val(fullAddress);
-		// 저장 버튼과 상세 주소 입력 필드 숨기기
 		row.find('#sample6_detailAddress').remove();
 		$(button).remove();
 	}
@@ -176,7 +171,7 @@
 		newRow += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
 		newRow += "<button class='btn btn-outline-success' onclick='saveFarm(this)' style='display:none'>저장</button> ";
 		newRow += "<button class='btn btn-outline-danger' onclick='deleteFarm(this)'>삭제</button> ";
-		newRow += "<button class='btn btn-outline-dark' id='addEnvBtn' onclick='editEnv(this)' data-farm-id='"
+		newRow += "<button class='btn btn-outline-dark' onclick='editEnv(this)' data-farm-id='"
 				+ farmData.farm_idx
 				+ "' data-farm-name='"
 				+ farmData.farm_name
@@ -250,15 +245,11 @@
 		$("#farm_idx").val(farmId);
 		console.log("Farm ID:", farmId);
 
-		// 폼 요소 선택
 		var $addEnvForm = $("#addEnvForm");
 
-		// 폼이 현재 보이는지 확인
 		if ($addEnvForm.is(":visible")) {
-			// 폼이 보이는 경우 숨기기
 			$addEnvForm.hide();
 		} else {
-			// 폼이 숨겨진 경우 데이터 로드 후 보이기
 			$.ajax({
 				url : 'getEnvCriteria.do',
 				type : 'get',

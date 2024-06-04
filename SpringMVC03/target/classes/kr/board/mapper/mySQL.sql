@@ -16,7 +16,8 @@ select * from farm_info where mem_id = 'admin';
 
 select * from news_info order by pressed_at limit #{pageStart}, #{perPageNum};
 
-DELETE FROM farm_info WHERE farm_livestock_cnt = 50;
+DELETE FROM farm_info WHERE farm_livestock_cnt = 303;
+
 
 update farm_info set farm_name = 'admin' where farm_livestock_cnt = 50;
 
