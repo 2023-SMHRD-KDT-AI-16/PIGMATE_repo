@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>피그메이트</title>
-<link rel="shortcut icon" type="image/png"
-	href="../assets/images/logos/favicon.png" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
@@ -96,7 +96,7 @@
 							listHtml += "<button class='btn btn-outline-dark' onclick='editEnv(this)' data-farm-id='"
 									+ obj.farm_idx
 									+ "' data-farm-name='"
-									+ obj.farm_name + "'>환경 기준</button>";
+									+ obj.farm_name + "'>환경기준</button>";
 							listHtml += "</td>";
 							listHtml += "</tr>";
 						});
@@ -387,7 +387,7 @@
 									<div id="farmList"></div>
 									<div class="row">
 										<input type="button"
-											class="btn btn-outline-success pull-right" value="추가"
+											class="btn btn-outline-primary" value="추가"
 											id="addFarmBtn">
 									</div>
 
@@ -467,7 +467,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="responseModalLabel">알림</h5>
-					<button type="button" class="close" data-dismiss="modal"
+					<button type="button" class="close" data-bs-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -477,7 +477,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">닫기</button>
+						data-bs-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
