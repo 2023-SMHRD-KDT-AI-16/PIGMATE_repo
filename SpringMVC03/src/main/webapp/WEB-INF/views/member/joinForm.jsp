@@ -5,22 +5,14 @@
 <head>
 <title>Bootstrap Example</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" type="image/png"
-	href="../assets/images/logos/favicon.png" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.css" />
-	
-	<link rel="shortcut icon" type="image/png"
-	href="../assets/images/logos/favicon.png" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/person.png" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="./styles.min.css" />
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
 
 
 <script type="text/javascript">
@@ -92,9 +84,9 @@
 			<div class="d-flex align-items-center justify-content-center w-100">
 				<div class="row justify-content-center w-100">
 					<div class="col-md-8 col-lg-6 col-xxl-3">
-						<a href="./index.html"
+						<a href="#"
 							class="text-nowrap logo-img text-center d-block py-3 w-100">
-							<img src="../assets/images/logos/pigmate_200x50.png" alt="">
+							<img src="${pageContext.request.contextPath}resources/img/logos/pigmate_small" alt="">
 						</a>
 						<div class="card mb-0">
 
@@ -178,13 +170,15 @@
 		</div>
 	</div>
 
-	<script src="../libs/jquery/dist/jquery.min.js"></script>
-	<script src="../libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="../js/sidebarmenu.js"></script>
-	<script src="../js/app.min.js"></script>
-	<script src="../libs/simplebar/dist/simplebar.js"></script>
-	<!-- solar icons -->
 	<script
-		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 </body>
 </html>

@@ -38,10 +38,8 @@
 			<div class="d-flex align-items-center justify-content-center w-100">
 				<div class="row justify-content-center w-100">
 					<div class="col-md-8 col-lg-6 col-xxl-3">
-						<a href="${contextPath}/index.html"
-							class="text-nowrap logo-img text-center d-block py-3 w-100">
-							<!-- 로고 이미지 --> <img width="600" height = "150"
-							src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
+						<a href="${contextPath}/index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+							<img width="600" height = "150" src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
 							alt="">
 						</a>
 						<div class="card mb-0">
