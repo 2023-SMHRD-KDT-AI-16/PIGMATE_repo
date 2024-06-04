@@ -9,15 +9,16 @@
 <link rel="shortcut icon" type="image/png"
 	href="../assets/images/logos/favicon.png" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.css" />
-<link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -308,15 +309,19 @@
 		});
 	}
 </script>
+</style>
 </head>
 <body>
-	<%@ include file="../common/sidebar.jsp"%>
-	<%@ include file="../common/header.jsp"%>
+	
 
 	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
 		data-navbarbg="skin6" data-sidebartype="full"
 		data-sidebar-position="fixed" data-header-position="fixed">
+		
+		<%@ include file="../common/sidebar.jsp"%>
 		<div class="body-wrapper">
+	<%@ include file="../common/header.jsp"%>
+	
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div class="card">
@@ -328,14 +333,14 @@
 									<hr>
 									<div class="row">
 										<div class="col-lg-4">
-											<img src="../assets/images/profile/user-1.jpg"
+											<img src="${pageContext.request.contextPath}/resources/img/profile/user-1.jpg"
 												class="rounded-circle" width="100px" height="100px"
 												style="padding: 20px;" alt=""> <span
 												style="color: black;">${member.mem_name}</span>
 										</div>
 										<div class="row">
 											<input type="button"
-												class="btn btn-outline-success pull-right" value="수정"
+												class="btn btn-outline-success" value="수정"
 												id="editProfileBtn">
 										</div>
 									</div>
