@@ -61,14 +61,11 @@
 	display: block;
 	font-size: 50px;
 	margin-bottom: 5px;
-	color : green;
 }
 
 .env-info-box .status {
 	font-size: 18px;
-	color: green;
 }
-
 </style>
 
 <script
@@ -83,85 +80,130 @@
 <script src="${contextPath}/resources/js/dashboard.js"></script>
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		console.log("Document is ready");
-		newsList();
-		loadEnvInfo();
-	});
+   $(document).ready(function() {
+      console.log("Document is ready");
+      newsList();
+      loadEnvInfo();
+      loadEnvCriteria(); // 환경 기준 데이터를 로드합니다.
+   });
 
-	function newsList() {
-		$.ajax({
-			url : "board/newsList",
-			type : "get",
-			dataType : "json",
-			success : function(data) {
-				console.log("받은 데이터 구조:", data); // 데이터 구조 확인
-				makeView(data);
-			},
-			error : function() {
-				alert("news error");
-			}
-		});
-	}
+   function newsList() {
+      $.ajax({
+         url : "board/newsList",
+         type : "get",
+         dataType : "json",
+         success : function(data) {
+            console.log("받은 데이터 구조:", data); // 데이터 구조 확인
+            makeView(data);
+         },
+         error : function() {
+            alert("news error");
+         }
+      });
+   }
 
-	function makeView(data) {
-		console.log("받은 데이터:", data); // 데이터 구조 확인
-		var listHtml = "";
+   function makeView(data) {
+      console.log("받은 데이터:", data); // 데이터 구조 확인
+      var listHtml = "";
 
-		// 서버에서 반환된 데이터 구조에 맞게 경로 수정
-		if (data.newsList) {
-			$.each(data.newsList.slice(0, 8), function(index, obj) { // 첫 7개 항목만 처리
-				console.log("뉴스 데이터 이동 성공");
-				console.log("뉴스 객체:", obj); // 각 뉴스 객체 확인
-				listHtml += "<tr>";
-				listHtml += "<td colspan='2'>";
-				listHtml += "<a href='news?news_idx=" + obj.news_idx
-						+ "' class='news-title'>" + obj.news_title + "</a>";
-				listHtml += "</td>";
-				listHtml += "</tr>";
-			});
-		} else {
-			console.error("뉴스 데이터를 찾을 수 없습니다.");
-		}
+      // 서버에서 반환된 데이터 구조에 맞게 경로 수정
+      if (data.newsList) {
+         $.each(data.newsList.slice(0, 8), function(index, obj) { // 첫 8개 항목만 처리
+            console.log("뉴스 데이터 이동 성공");
+            console.log("뉴스 객체:", obj); // 각 뉴스 객체 확인
+            listHtml += "<tr>";
+            listHtml += "<td colspan='2'>";
+            listHtml += "<a href='news?news_idx=" + obj.news_idx
+                  + "' class='news-title'>" + obj.news_title + "</a>";
+            listHtml += "</td>";
+            listHtml += "</tr>";
+         });
+      } else {
+         console.error("뉴스 데이터를 찾을 수 없습니다.");
+      }
 
-		$("#index_newsList").html(listHtml);
-	}
+      $("#index_newsList").html(listHtml);
+   }
 
-	function loadEnvInfo() {
-		$.ajax({
-			url : "index/env",
-			type : "post",
-			dataType : "json",
-			success : function(data) {
-				console.log("환경 정보:", data);
-				displayEnvInfo(data);
-			},
-			error : function() {
-				alert("환경 정보 로드 오류");
-			}
-		});
-	}
+   function loadEnvInfo() {
+      $.ajax({
+         url : "index/env",
+         type : "post",
+         dataType : "json",
+         success : function(data) {
+            console.log("환경 정보:", data);
+            displayEnvInfo(data);
+            loadEnvCriteria(data); // 환경 정보를 로드한 후 환경 기준 데이터를 로드합니다.
+         },
+         error : function() {
+            alert("환경 정보 로드 오류");
+         }
+      });
+   }
 
-	function displayEnvInfo(data) {
+   function loadEnvCriteria(envData) {
+      $.ajax({
+         url: "env/criteria",
+         type: "get",
+         dataType: "json",
+         success: function(criteria) {
+            console.log("환경 기준:", criteria);
+            updateEnvStatus(envData, criteria); // 환경 기준 데이터를 사용하여 상태 업데이트
+         },
+         error: function() {
+            alert("환경 기준 정보 로드 오류");
+         }
+      });
+   }
 
-		var temperature = "N/A";
-		var humidity = "N/A";
-		var co2 = "N/A";
-		var ammonia = "N/A";
+   function displayEnvInfo(data) {
+      var temperature = "N/A";
+      var humidity = "N/A";
+      var co2 = "N/A";
+      var ammonia = "N/A";
 
-		if (data.length > 0) {
-			var latestEnv = data[data.length - 1]; // 최신 데이터 사용
-			temperature = latestEnv.temperature + "°C";
-			humidity = latestEnv.humidity + "%";
-			co2 = latestEnv.co2 + "ppm";
-			ammonia = latestEnv.ammonia + "mg/m³";
-		}
+      if (data.length > 0) {
+         var latestEnv = data[data.length - 1]; // 최신 데이터 사용
+         temperature = latestEnv.temperature + "°C";
+         humidity = latestEnv.humidity + "%";
+         co2 = latestEnv.co2 + "ppm";
+         ammonia = latestEnv.ammonia + "mg/m³";
+      }
 
-		$("#temperature").text(temperature);
-		$("#humidity").text(humidity);
-		$("#co2").text(co2);
-		$("#ammonia").text(ammonia);
-	}
+      $("#temperature").text(temperature);
+      $("#humidity").text(humidity);
+      $("#co2").text(co2);
+      $("#ammonia").text(ammonia);
+   }
+
+   function updateEnvStatus(envData, criteria) {
+      var latestEnv = envData[envData.length - 1];
+
+      // 오차 범위 10% 계산
+      var tempRange = { min: criteria.temperature * 0.9, max: criteria.temperature * 1.1 };
+      var humidityRange = { min: criteria.humidity * 0.9, max: criteria.humidity * 1.1 };
+      var co2Range = { min: criteria.co2 * 0.9, max: criteria.co2 * 1.1 };
+      var ammoniaRange = { min: criteria.ammonia * 0.9, max: criteria.ammonia * 1.1 };
+
+      // 환경 정보 상태 업데이트
+      updateStatus("#temperature", latestEnv.temperature, tempRange);
+      updateStatus("#humidity", latestEnv.humidity, humidityRange);
+      updateStatus("#co2", latestEnv.co2, co2Range);
+      updateStatus("#ammonia", latestEnv.ammonia, ammoniaRange);
+   }
+
+   function updateStatus(elementId, value, range) {
+      var element = $(elementId);
+      var statusElement = element.siblings(".status");
+
+      if (value < range.min || value > range.max) {
+         element.css("color", "red");
+         statusElement.text("위험해요").css("color", "red");
+      } else {
+         element.css("color", "green");
+         statusElement.text("쾌적해요").css("color", "green");
+      }
+   }
 </script>
 
 </head>
@@ -194,7 +236,7 @@
 											</select>
 										</div>
 									</div>
-									<!-- 여기에 축사환경 영상이 들어갑니다.-->
+									<!-- 축사환경 영상 -->
 								</div>
 							</div>
 						</div>
@@ -252,7 +294,9 @@
 							</div>
 						</div>
 					</div>
-					<!--여기에 환경 정보 요약이 들어갑니다.-->
+
+					<!-- 환경 정보 요약 -->
+
 					<div class="row">
 						<div class="col-lg-8 d-flex align-items-stretch">
 							<div class="card w-100">
@@ -262,28 +306,30 @@
 										<div class="env-info-box">
 											<h6>온도</h6>
 											<span id="temperature">N/A</span>
-											<div class="status">쾌적해요</div>
+											<div class="status"></div>
 										</div>
 										<div class="env-info-box">
 											<h6>습도</h6>
 											<span id="humidity">N/A</span>
-											<div class="status">쾌적해요</div>
+											<div class="status"></div>
 										</div>
 										<div class="env-info-box">
 											<h6>이산화탄소</h6>
 											<span id="co2">N/A</span>
-											<div class="status">쾌적해요</div>
+											<div class="status"></div>
 										</div>
 										<div class="env-info-box">
 											<h6>암모니아</h6>
 											<span id="ammonia">N/A</span>
-											<div class="status">쾌적해요</div>
+											<div class="status"></div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- 여기에 한돈 뉴스가 들어갑니다.-->
+
+						<!-- 한돈 뉴스-->
+
 						<div class="col-lg-4 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body p-4">
@@ -297,7 +343,7 @@
 												</tr>
 											</thead>
 											<tbody id="index_newsList">
-												<!-- 뉴스 들어감 -->
+												<!-- 뉴스 -->
 											</tbody>
 										</table>
 									</div>
