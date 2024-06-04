@@ -48,9 +48,9 @@
 	text-align: center;
 	padding: 20px;
 	margin: 10px 0;
-	border: 1px solid #ddd;
+	border: 1px solid #fff;
 	border-radius: 10px;
-	background-color: #f9f9f9;
+	background-color: #fff;
 }
 
 .env-info-box h6 {
@@ -59,13 +59,19 @@
 
 .env-info-box span {
 	display: block;
-	font-size: 50px;
+	font-size: 30px;
 	margin-bottom: 5px;
 }
 
 .env-info-box .status {
 	font-size: 18px;
 }
+
+.unitss{
+	font-size:15px;
+	color: black;
+}
+
 </style>
 
 <script
@@ -164,12 +170,12 @@
 
       if (data.length > 0) {
          var latestEnv = data[data.length - 1]; // 최신 데이터 사용
-         temperature = latestEnv.temperature + "°C";
-         humidity = latestEnv.humidity + "%";
-         co2 = latestEnv.co2 + "ppm";
-         ammonia = latestEnv.ammonia + "mg/m³";
+         temperature = latestEnv.temperature;
+         humidity = latestEnv.humidity;
+         co2 = latestEnv.co2;
+         ammonia = latestEnv.ammonia;
       }
-
+      
       $("#temperature").text(temperature);
       $("#humidity").text(humidity);
       $("#co2").text(co2);
@@ -219,6 +225,55 @@
 				<div class="container-fluid">
 					<!--  Row 1 -->
 					<div class="row">
+						<div class="col-lg-3 d-flex align-items-stretch">
+							<div class="card w-100">
+								<div class="card-body">
+
+									<div class="env-info-box">
+										<h6>온도</h6>
+										<span id="temperature">N/A</span><span id="tem-text" class="unitss">°C</span>
+										<div class="status">쾌적해요</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-lg-3 d-flex align-items-stretch">
+							<div class="card w-100">
+								<div class="card-body">
+									<div class="env-info-box">
+										<h6>습도</h6>
+										<span id="humidity">N/A</span>
+										<span id="hum-text" class="unitss">%</span>
+										<div class="status">쾌적해요</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 d-flex align-items-stretch">
+							<div class="card w-100">
+								<div class="card-body">
+									<div class="env-info-box">
+										<h6>이산화탄소</h6>
+										<span id="co2">N/A</span>
+										<span id="co2-text" class="unitss">ppm</span>
+										<div class="status">쾌적해요</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 d-flex align-items-stretch">
+							<div class="card w-100">
+								<div class="card-body">
+									<div class="env-info-box">
+										<h6>암모니아</h6>
+										<span id="ammonia">N/A</span>
+										<span id="amm-text" class="unitss">mg/m³</span>
+										<div class="status">쾌적해요</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="col-lg-8 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body">
@@ -294,43 +349,9 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- 환경 정보 요약 -->
-
 					<div class="row">
-						<div class="col-lg-8 d-flex align-items-stretch">
-							<div class="card w-100">
-								<div class="card-body">
-									<h5 class="card-title fw-semibold mb-4">환경 정보 요약</h5>
-									<div class="env-info-container">
-										<div class="env-info-box">
-											<h6>온도</h6>
-											<span id="temperature">N/A</span>
-											<div class="status"></div>
-										</div>
-										<div class="env-info-box">
-											<h6>습도</h6>
-											<span id="humidity">N/A</span>
-											<div class="status"></div>
-										</div>
-										<div class="env-info-box">
-											<h6>이산화탄소</h6>
-											<span id="co2">N/A</span>
-											<div class="status"></div>
-										</div>
-										<div class="env-info-box">
-											<h6>암모니아</h6>
-											<span id="ammonia">N/A</span>
-											<div class="status"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
 						<!-- 한돈 뉴스-->
-
-						<div class="col-lg-4 d-flex align-items-stretch">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body p-4">
 									<h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
