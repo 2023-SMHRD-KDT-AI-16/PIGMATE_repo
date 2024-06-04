@@ -53,7 +53,7 @@ public class FarmController {
 				int idx = farm.get(i).getFarm_idx();
 
 				farm_env.addAll(farmMapper.getEnv(idx));
-				
+
 			}
 		}
 		return farm_env;
@@ -134,24 +134,49 @@ public class FarmController {
 	// 농장별 환경 기준 추가/수정하기
 	@PostMapping("/insertEnvCri.do")
 	public ResponseEntity<String> insertEnvCri(EnvCri envCri, HttpSession session) {
-	    try {
-	        // 환경 기준 데이터가 이미 존재하는지 확인
-	        EnvCri existingEnvCri = env_criteria_infoMapper.getEnvCriByFarmIdx(envCri.getFarm_idx());
-	        if (existingEnvCri != null) {
-	            // 존재하면 업데이트
-	            env_criteria_infoMapper.updateEnvCri(envCri);
-	            return new ResponseEntity<>("환경 기준이 수정되었습니다.", HttpStatus.OK);
-	        } else {
-	            // 존재하지 않으면 추가
-	            env_criteria_infoMapper.insertEnvCri(envCri);
-	            return new ResponseEntity<>("환경 기준이 저장되었습니다.", HttpStatus.OK);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return new ResponseEntity<>("환경 기준 저장 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+		try {
+			// 환경 기준 데이터가 이미 존재하는지 확인
+			EnvCri existingEnvCri = env_criteria_infoMapper.getEnvCriByFarmIdx(envCri.getFarm_idx());
+			if (existingEnvCri != null) {
+				// 존재하면 업데이트
+				env_criteria_infoMapper.updateEnvCri(envCri);
+				return new ResponseEntity<>("환경 기준이 수정되었습니다.", HttpStatus.OK);
+			} else {
+				// 존재하지 않으면 추가
+				env_criteria_infoMapper.insertEnvCri(envCri);
+				return new ResponseEntity<>("환경 기준이 저장되었습니다.", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("환경 기준 저장 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
-	
-	
+	// 메인 페이지로 환경 정보 가져오기
+	@PostMapping("/index/env")
+	public List<FarmEnv> IndexEnvList(HttpSession session) {
+
+		List<FarmEnv> farm_env = new ArrayList<>();
+
+		Member m = (Member) session.getAttribute("mvo");
+
+		if (m != null) {
+			// 로그인했을 때 session에서 mem_id 가져와서 회원이 가지고 있는 농장 인덱스만 가져오기
+			String mem_id = m.getMem_id();
+
+			System.out.println("환경 정보 조회할 회원 :" + m.getMem_id());
+
+			List<Farm> farm = farmMapper.getFarm(mem_id);
+
+			for (int i = 0; i < farm.size(); i++) {
+
+				int idx = farm.get(i).getFarm_idx();
+
+				farm_env.addAll(farmMapper.getEnv(idx));
+
+			}
+		}
+		return farm_env;
+	}
+
 }

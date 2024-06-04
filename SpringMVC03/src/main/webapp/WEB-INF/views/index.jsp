@@ -38,16 +38,16 @@
 
 .env-info-container {
 	display: flex;
-	justify-content: space-around;
-	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	margin: 20px 0;
 }
 
 .env-info-box {
-	flex: 1;
+	flex: 0 0 48%; /* 크기를 2열로 맞추기 위해 설정 */
 	text-align: center;
-	padding: 10px;
-	margin: 0 10px;
+	padding: 20px;
+	margin: 10px 0;
 	border: 1px solid #ddd;
 	border-radius: 10px;
 	background-color: #f9f9f9;
@@ -69,7 +69,6 @@
 }
 </style>
 
-
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
@@ -85,6 +84,7 @@
 	$(document).ready(function() {
 		console.log("Document is ready");
 		newsList();
+		loadEnvInfo();
 	});
 
 	function newsList() {
@@ -124,8 +124,43 @@
 
 		$("#index_newsList").html(listHtml);
 	}
-</script>
 
+	function loadEnvInfo() {
+		$.ajax({
+			url : "index/env",
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				console.log("환경 정보:", data);
+				displayEnvInfo(data);
+			},
+			error : function() {
+				alert("환경 정보 로드 오류");
+			}
+		});
+	}
+
+	function displayEnvInfo(data) {
+		// 환경 정보를 데이터에 따라 매핑
+		var temperature = "N/A";
+		var humidity = "N/A";
+		var co2 = "N/A";
+		var ammonia = "N/A";
+
+		if (data.length > 0) {
+			var latestEnv = data[data.length - 1]; // 최신 데이터를 사용
+			temperature = latestEnv.temperature + "°C";
+			humidity = latestEnv.humidity + "%";
+			co2 = latestEnv.co2 + "ppm";
+			ammonia = latestEnv.ammonia + "mg/m³";
+		}
+
+		$("#temperature").text(temperature);
+		$("#humidity").text(humidity);
+		$("#co2").text(co2);
+		$("#ammonia").text(ammonia);
+	}
+</script>
 
 </head>
 
@@ -224,28 +259,29 @@
 									<div class="env-info-container">
 										<div class="env-info-box">
 											<h6>온도</h6>
-											<span>22°C</span>
+											<span id="temperature">N/A</span>
 											<div class="status">쾌적해요</div>
 										</div>
 										<div class="env-info-box">
 											<h6>습도</h6>
-											<span>53%</span>
+											<span id="humidity">N/A</span>
 											<div class="status">쾌적해요</div>
 										</div>
-											<div class="env-info-box">
-												<h6>이산화탄소</h6>
-												<span>400ppm</span>
-												<div class="status">쾌적해요</div>
-											</div>
-											<div class="env-info-box">
-												<h6>암모니아</h6>
-												<span>0.023mg</span>
-												<div class="status">쾌적해요</div>
+										<div class="env-info-box">
+											<h6>이산화탄소</h6>
+											<span id="co2">N/A</span>
+											<div class="status">쾌적해요</div>
+										</div>
+										<div class="env-info-box">
+											<h6>암모니아</h6>
+											<span id="ammonia">N/A</span>
+											<div class="status">쾌적해요</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!-- 여기에 한돈 뉴스가 들어갑니다.-->
 						<div class="col-lg-4 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body p-4">
@@ -268,13 +304,9 @@
 						</div>
 					</div>
 
-
-					<!-- 여기에 한돈 뉴스가 들어갑니다.-->
-
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </body>
 

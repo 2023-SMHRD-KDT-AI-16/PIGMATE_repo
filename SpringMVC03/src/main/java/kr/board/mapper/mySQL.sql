@@ -32,3 +32,7 @@ WHERE farm_idx = 19;
 select * from env_criteria_info where farm_idx = 19;
 
 delete from env_criteria_info where criteria_idx = 2;
+
+select * from farm_env_info where farm_idx=19 desc;
+
+SELECT * FROM farm_env_info WHERE farm_idx = 19 ORDER BY created_at DESC;
