@@ -11,9 +11,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Matdash Free</title>
+<title>피그메이트</title>
 <link rel="shortcut icon" type="image/png"
-	href="${contextPath}/resources/img/logos/favicon.png" />
+	href="${contextPath}/resources/img/logos/piglogos.png" />
 
 <link rel="stylesheet"
 	href="${contextPath}/resources/css/styles.min.css" />
@@ -308,8 +308,7 @@
 											<div class="d-flex align-items-center gap-6 mb-4 pb-3">
 												<span
 													class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
-													<iconify-icon icon="solar:football-outline"
-														class="fs-6 text-secondary"></iconify-icon>
+													<iconify-icon icon="healthicons:animal-pig" class="fs-6 text-secondary"></iconify-icon>
 												</span>
 												<h6 class="mb-0 fs-4">앉아있는 돼지 수</h6>
 											</div>
@@ -332,8 +331,7 @@
 											<div class="d-flex align-items-center gap-6 mb-4 pb-3">
 												<span
 													class="round-48 d-flex align-items-center justify-content-center rounded bg-warning-subtle">
-													<iconify-icon icon="solar:football-outline"
-														class="fs-6 text-warning"></iconify-icon>
+													<iconify-icon icon="healthicons:animal-pig" class="fs-6 text-warning"></iconify-icon>
 												</span>
 												<h6 class="mb-0 fs-4">서 있는 돼지 수</h6>
 											</div>
