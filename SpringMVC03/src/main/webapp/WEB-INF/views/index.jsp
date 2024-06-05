@@ -68,14 +68,14 @@
 	font-size: 18px;
 }
 
-.unitss{
-	font-size:20px;
+.unitss {
+	font-size: 20px;
 	color: black;
 }
-.env-info-text{
+
+.env-info-text {
 	font-size: 30px;
 }
-
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script
@@ -235,7 +235,8 @@
 
 									<div class="env-info-box">
 										<h6>온도</h6>
-										<span id="temperature" class="envContent">N/A</span><span id="tem-text" class="unitss">°C</span>
+										<span id="temperature" class="envContent">N/A</span><span
+											id="tem-text" class="unitss">°C</span>
 										<div class="status">쾌적해요</div>
 									</div>
 								</div>
@@ -247,8 +248,8 @@
 								<div class="card-body">
 									<div class="env-info-box">
 										<h6>습도</h6>
-										<span id="humidity" class="envContent">N/A</span>
-										<span id="hum-text" class="unitss">%</span>
+										<span id="humidity" class="envContent">N/A</span> <span
+											id="hum-text" class="unitss">%</span>
 										<div class="status">쾌적해요</div>
 									</div>
 								</div>
@@ -259,8 +260,8 @@
 								<div class="card-body">
 									<div class="env-info-box">
 										<h6>이산화탄소</h6>
-										<span id="co2" class="envContent">N/A</span>
-										<span id="co2-text" class="unitss">ppm</span>
+										<span id="co2" class="envContent">N/A</span> <span
+											id="co2-text" class="unitss">ppm</span>
 										<div class="status">쾌적해요</div>
 									</div>
 								</div>
@@ -271,12 +272,12 @@
 								<div class="card-body">
 									<div class="env-info-box">
 										<h6>암모니아</h6>
-										<span id="ammonia" class="envContent">N/A</span>
-										<span id="amm-text" class="unitss">mg/m³</span>
+										<span id="ammonia" class="envContent">N/A</span> <span
+											id="amm-text" class="unitss">mg/m³</span>
 										<div class="status">쾌적해요</div>
 									</div>
 								</div>
-						</div>
+							</div>
 						</div>
 						<div class="col-lg-8 d-flex align-items-stretch">
 							<div class="card w-100">
@@ -308,7 +309,8 @@
 											<div class="d-flex align-items-center gap-6 mb-4 pb-3">
 												<span
 													class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
-													<iconify-icon icon="healthicons:animal-pig" class="fs-6 text-secondary"></iconify-icon>
+													<iconify-icon icon="healthicons:animal-pig"
+														class="fs-6 text-secondary"></iconify-icon>
 												</span>
 												<h6 class="mb-0 fs-4">앉아있는 돼지 수</h6>
 											</div>
@@ -331,7 +333,8 @@
 											<div class="d-flex align-items-center gap-6 mb-4 pb-3">
 												<span
 													class="round-48 d-flex align-items-center justify-content-center rounded bg-warning-subtle">
-													<iconify-icon icon="healthicons:animal-pig" class="fs-6 text-warning"></iconify-icon>
+													<iconify-icon icon="healthicons:animal-pig"
+														class="fs-6 text-warning"></iconify-icon>
 												</span>
 												<h6 class="mb-0 fs-4">서 있는 돼지 수</h6>
 											</div>
@@ -353,7 +356,15 @@
 					</div>
 					<div class="row">
 						<!-- 한돈 뉴스-->
-						<div class="col-lg-12 d-flex align-items-stretch">
+						<div class="col-lg-8 d-flex align-items-stretch">
+							<div class="card w-100">
+								<div class="card-body p-4">
+									<h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
+									
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body p-4">
 									<h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
@@ -370,61 +381,64 @@
 											</tbody>
 										</table>
 									</div>
+									
+								<!-- 여기에 내용이 들어갑니다. -->
+								
+								
 								</div>
 							</div>
 						</div>
 					</div>
-						<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
-							<div class="card w-100">
-								<div class="card-body">
-									<div>
-										<canvas id="myChart1" width="4000" height="2000"></canvas>
-									</div>
+				<div class="row">
+					<div class="col-lg-12 d-flex align-items-strech">
+						<div class="card w-100">
+							<div class="card-body">
+								<div>
+									<canvas id="myChart1" width="4000" height="2000"></canvas>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
-							<div class="card w-100">
-								<div class="card-body">
-									<div>
-										<canvas id="myChart2" width="4000" height="2000"></canvas>
-									</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 d-flex align-items-strech">
+						<div class="card w-100">
+							<div class="card-body">
+								<div>
+									<canvas id="myChart2" width="4000" height="2000"></canvas>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
-							<div class="card w-100">
-								<div class="card-body">
-									<div>
-										<canvas id="myChart3" width="4000" height="2000"></canvas>
-									</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 d-flex align-items-strech">
+						<div class="card w-100">
+							<div class="card-body">
+								<div>
+									<canvas id="myChart3" width="4000" height="2000"></canvas>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
-							<div class="card w-100">
-								<div class="card-body">
-									<div>
-										<canvas id="myChart4" width="4000" height="2000"></canvas>
-									</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 d-flex align-items-strech">
+						<div class="card w-100">
+							<div class="card-body">
+								<div>
+									<canvas id="myChart4" width="4000" height="2000"></canvas>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
-							<div class="card w-100">
-								<div class="card-body">
-									<div>
-										<canvas id="myChart5" width="4000" height="2000"></canvas>
-									</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 d-flex align-items-strech">
+						<div class="card w-100">
+							<div class="card-body">
+								<div>
+									<canvas id="myChart5" width="4000" height="2000"></canvas>
 								</div>
 							</div>
 						</div>
@@ -432,6 +446,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<script>
 		$(function() {
