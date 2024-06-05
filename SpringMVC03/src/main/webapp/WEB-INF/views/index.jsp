@@ -19,6 +19,11 @@
 	href="${contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Iconify for icons -->
+<script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
 <style>
 .news-title {
@@ -76,6 +81,21 @@
 .env-info-text {
 	font-size: 30px;
 }
+
+
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+	padding-left: 20px;
+}
+
+.hide-menu1 {
+	font-size: 1rem;
+}
+
+.hide-menu2 {
+	font-size: 0.755rem;
+}
+
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script
@@ -88,6 +108,26 @@
 <script
 	src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="${contextPath}/resources/js/dashboard.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+ 
+ 
+  <script>
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', function () {
+        const target = this.getAttribute('href');
+        const icon = this.querySelector('.iconify');
+
+        if (target && icon) {
+          const collapse = document.querySelector(target);
+          if (collapse && collapse.classList.contains('show')) {
+            icon.setAttribute('data-icon', 'mdi:chevron-down');
+          } else {
+            icon.setAttribute('data-icon', 'mdi:chevron-up');
+          }
+        }
+      });
+    });
+  </script>
 
 <script type="text/javascript">
    $(document).ready(function() {
@@ -360,7 +400,7 @@
 							<div class="card w-100">
 								<div class="card-body p-4">
 									<h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
-									
+
 								</div>
 							</div>
 						</div>
@@ -381,64 +421,65 @@
 											</tbody>
 										</table>
 									</div>
-									
-								<!-- 여기에 내용이 들어갑니다. -->
-								
-								
+
+									<!-- 여기에 내용이 들어갑니다. -->
+
+
 								</div>
 							</div>
 						</div>
 					</div>
-				<div class="row">
-					<div class="col-lg-12 d-flex align-items-strech">
-						<div class="card w-100">
-							<div class="card-body">
-								<div>
-									<canvas id="myChart1" width="4000" height="2000"></canvas>
+					<div class="row">
+						<div class="col-lg-12 d-flex align-items-strech">
+							<div class="card w-100">
+								<div class="card-body">
+									<div>
+										<canvas id="myChart1" width="4000" height="2000"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12 d-flex align-items-strech">
-						<div class="card w-100">
-							<div class="card-body">
-								<div>
-									<canvas id="myChart2" width="4000" height="2000"></canvas>
+					<div class="row">
+						<div class="col-lg-12 d-flex align-items-strech">
+							<div class="card w-100">
+								<div class="card-body">
+									<div>
+										<canvas id="myChart2" width="4000" height="2000"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12 d-flex align-items-strech">
-						<div class="card w-100">
-							<div class="card-body">
-								<div>
-									<canvas id="myChart3" width="4000" height="2000"></canvas>
+					<div class="row">
+						<div class="col-lg-12 d-flex align-items-strech">
+							<div class="card w-100">
+								<div class="card-body">
+									<div>
+										<canvas id="myChart3" width="4000" height="2000"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12 d-flex align-items-strech">
-						<div class="card w-100">
-							<div class="card-body">
-								<div>
-									<canvas id="myChart4" width="4000" height="2000"></canvas>
+					<div class="row">
+						<div class="col-lg-12 d-flex align-items-strech">
+							<div class="card w-100">
+								<div class="card-body">
+									<div>
+										<canvas id="myChart4" width="4000" height="2000"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12 d-flex align-items-strech">
-						<div class="card w-100">
-							<div class="card-body">
-								<div>
-									<canvas id="myChart5" width="4000" height="2000"></canvas>
+					<div class="row">
+						<div class="col-lg-12 d-flex align-items-strech">
+							<div class="card w-100">
+								<div class="card-body">
+									<div>
+										<canvas id="myChart5" width="4000" height="2000"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -446,7 +487,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<script>
 		$(function() {
