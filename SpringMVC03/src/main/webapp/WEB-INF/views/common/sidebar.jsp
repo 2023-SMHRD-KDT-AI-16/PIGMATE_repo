@@ -3,7 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<style>
+.hide-menu1 {
+	font-size: 1rem;
+}
 
+.hide-menu2 {
+	font-size: 0.755rem;
+}
+
+</style>
 <aside class="left-sidebar">
   <div>
     <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -53,7 +62,7 @@
                   </a>
                 </c:when>
                 <c:otherwise>
-                  <a class="sidebar-link active" href="${contextPath}/">
+                  <a class="sidebar-link " href="${contextPath}/">
                     <iconify-icon icon="mdi:file-document-outline"></iconify-icon>
                     <span class="hide-menu2">대시보드</span>
                   </a>
@@ -69,7 +78,7 @@
                   </a>
                 </c:when>
                 <c:otherwise>
-                  <a class="sidebar-link active" href="#">
+                  <a class="sidebar-link " href="#">
                     <iconify-icon icon="mdi:pig"></iconify-icon>
                     <span class="hide-menu2">돼지정보</span>
                   </a>
@@ -85,7 +94,7 @@
                   </a>
                 </c:when>
                 <c:otherwise>
-                  <a class="sidebar-link active" href="./farmEnv.do">
+                  <a class="sidebar-link " href="./farmEnv.do">
                     <iconify-icon icon="mdi:leaf"></iconify-icon>
                     <span class="hide-menu2">환경정보</span>
                   </a>

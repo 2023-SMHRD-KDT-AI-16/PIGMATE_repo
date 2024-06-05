@@ -15,7 +15,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
+
 <script type="text/javascript">
     $(document).ready(function(){
       if(${not empty msgType}){
@@ -38,8 +38,10 @@
 			<div class="d-flex align-items-center justify-content-center w-100">
 				<div class="row justify-content-center w-100">
 					<div class="col-md-8 col-lg-6 col-xxl-3">
-						<a href="${contextPath}/index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-							<img width="600" height = "150" src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
+						<a href="${contextPath}/index.html"
+							class="text-nowrap logo-img text-center d-block py-3 w-100">
+							<img width="600" height="150"
+							src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
 							alt="">
 						</a>
 						<div class="card mb-0">
@@ -69,7 +71,7 @@
 									</div>
 								</form>
 								<!-- form태그 끝-->
-								
+
 
 
 							</div>
@@ -101,7 +103,7 @@
 		</div>
 	</div>
 
-		<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+	<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
 	<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="../assets/js/sidebarmenu.js"></script>
 	<script src="../assets/js/app.min.js"></script>

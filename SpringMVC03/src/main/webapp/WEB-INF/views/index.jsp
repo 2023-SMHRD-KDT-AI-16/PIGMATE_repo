@@ -86,13 +86,6 @@
 	padding-left: 20px;
 }
 
-.hide-menu1 {
-	font-size: 1rem;
-}
-
-.hide-menu2 {
-	font-size: 0.755rem;
-}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script
