@@ -537,6 +537,7 @@
 
 
 	<script>
+	
 		// 그래프 1
 function createChartTemp(dateList, tempList) {
     const ctx = document.getElementById('myChart1').getContext('2d');
