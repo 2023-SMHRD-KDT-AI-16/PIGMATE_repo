@@ -6654,7 +6654,7 @@ fieldset:disabled .btn {
     --bs-pagination-padding-x: 0.75rem;
     --bs-pagination-padding-y: 0.375rem;
     --bs-pagination-font-size: 0.875rem;
-    --bs-pagination-color: 6EB876;
+    --bs-pagination-color: var(--bs-link-color);
     --bs-pagination-bg: var(--bs-body-bg);
     --bs-pagination-border-width: var(--bs-border-width);
     --bs-pagination-border-color: var(--bs-border-color);
@@ -6664,10 +6664,10 @@ fieldset:disabled .btn {
     --bs-pagination-hover-border-color: var(--bs-border-color);
     --bs-pagination-focus-color: var(--bs-link-hover-color);
     --bs-pagination-focus-bg: var(--bs-secondary-bg);
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(99, 91, 255, 0.25);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(93, 135, 255, 0.25);
     --bs-pagination-active-color: #fff;
-    --bs-pagination-active-bg: #6EB876;
-    --bs-pagination-active-border-color: #6EB876;
+    --bs-pagination-active-bg: #5D87FF;
+    --bs-pagination-active-border-color: #5D87FF;
     --bs-pagination-disabled-color: var(--bs-secondary-color);
     --bs-pagination-disabled-bg: var(--bs-secondary-bg);
     --bs-pagination-disabled-border-color: var(--bs-border-color);
@@ -6683,9 +6683,9 @@ fieldset:disabled .btn {
     display: block;
     padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
     font-size: var(--bs-pagination-font-size);
-    color: #6EB876;
+    color: var(--bs-pagination-color);
     text-decoration: none;
-    background-color: #6EB876;
+    background-color: var(--bs-pagination-bg);
     border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
     -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
@@ -6719,7 +6719,7 @@ fieldset:disabled .btn {
 .active>.page-link,
 .page-link.active {
     z-index: 3;
-    color: #6EB876;
+    color: #fff;
     background-color: var(--bs-pagination-active-bg);
     border-color: var(--bs-pagination-active-border-color)
 }
