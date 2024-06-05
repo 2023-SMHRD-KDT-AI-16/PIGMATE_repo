@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>리포트 목록</title>
 <link rel="shortcut icon" type="image/png"
-	href="${pageContext.request.contextPath}/resources/images/person.png" />
+	href="${pageContext.request.contextPath}/resources/img/logos/piglogo.png" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"

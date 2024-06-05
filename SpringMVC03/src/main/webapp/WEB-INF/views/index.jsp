@@ -13,7 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>피그메이트</title>
 <link rel="shortcut icon" type="image/png"
-	href="${contextPath}/resources/img/logos/piglogos.png" />
+	href="${contextPath}/resources/img/logos/piglogo.png" />
 
 <link rel="stylesheet"
 	href="${contextPath}/resources/css/styles.min.css" />
