@@ -15,6 +15,9 @@ public interface FarmMapper {
 
     // 최신 4주 데이터 가져오기
     List<FarmEnv> getLatestWeeklyEnv(@Param("farm_idx") int farm_idx);
+    
+    // 최신 1년 월별 데이터 가져오기
+    List<FarmEnv> getLatestMonthlyEnv(@Param("farm_idx") int farm_idx);
 
     void insertFarm(Farm farm);
 

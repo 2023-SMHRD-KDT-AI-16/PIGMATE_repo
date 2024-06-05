@@ -2,33 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.FarmMapper">
 
-	<select id="getEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+	<select id="getEnv" parameterType="int"
+		resultType="kr.board.entity.FarmEnv">
 		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
 	</select>
 
 	<!-- 최신 4주 데이터 가져오기 -->
-	<select id="getLatestWeeklyEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
-		SELECT created_at, temperature, humidity, co2, ammonia, pm, #{farm_idx} as farm_idx 
+	<select id="getLatestWeeklyEnv" parameterType="int"
+		resultType="kr.board.entity.FarmEnv">
+		SELECT created_at, temperature, humidity, co2, ammonia, pm,
+		#{farm_idx} as farm_idx
 		FROM farm_env_info
 		WHERE farm_idx = #{farm_idx}
-		AND created_at >= (SELECT DATE_SUB(MAX(created_at), INTERVAL 28 DAY) 
+		AND created_at >= (SELECT
+		DATE_SUB(MAX(created_at), INTERVAL 28 DAY)
 		FROM farm_env_info WHERE farm_idx = #{farm_idx})
 		ORDER BY created_at
-		LIMIT 28;
+		LIMIT
+		28;
 	</select>
 
-	<select id="getFarm" parameterType="String" resultType="kr.board.entity.Farm">
+    <!-- 월별 데이터 가져오기 -->
+	<select id="getLatestMonthlyEnv" parameterType="int"
+		resultType="kr.board.entity.FarmEnv">
+		SELECT DATE_FORMAT(created_at, '%Y-%m') AS month,
+		AVG(temperature) AS temperature,
+		AVG(humidity) AS humidity,
+		AVG(co2) AS co2,
+		AVG(ammonia) AS ammonia,
+		AVG(pm) AS pm
+		FROM farm_env
+		WHERE farm_idx = #{farm_idx}
+		AND created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+		GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+	</select>
+
+	<select id="getFarm" parameterType="String"
+		resultType="kr.board.entity.Farm">
 		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
 	</select>
 
 	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
-		INSERT INTO farm_info (farm_name, farm_loc, farm_livestock_cnt, mem_id)
-		VALUES (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+		INSERT INTO farm_info
+		(farm_name, farm_loc, farm_livestock_cnt, mem_id)
+		VALUES (#{farm_name},
+		#{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
 	</insert>
 
 	<delete id="deletePenInfoByFarmName">
 		DELETE FROM pen_info WHERE farm_idx IN (
-		SELECT farm_idx FROM farm_info WHERE farm_name = #{farm_name})
+		SELECT
+		farm_idx FROM farm_info WHERE farm_name = #{farm_name})
 	</delete>
 
 	<delete id="deleteEnvCriteriaByFarmName">
@@ -37,16 +61,21 @@
 	</delete>
 
 	<delete id="deleteFarmByName" parameterType="String">
-		DELETE FROM farm_info WHERE farm_name = #{farm_name}
+		DELETE FROM
+		farm_info WHERE farm_name = #{farm_name}
 	</delete>
 
-	<select id="farmList" parameterType="String" resultType="kr.board.entity.Farm">
+	<select id="farmList" parameterType="String"
+		resultType="kr.board.entity.Farm">
 		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
 	</select>
 
-	<update id="updateFarmByOldName" parameterType="kr.board.entity.Farm">
+	<update id="updateFarmByOldName"
+		parameterType="kr.board.entity.Farm">
 		UPDATE farm_info
-		SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt = #{farmLivestockCnt}
-		WHERE farm_name = #{oldFarmName}
+		SET farm_name = #{newFarmName}, farm_loc
+		= #{farmLoc}, farm_livestock_cnt = #{farmLivestockCnt}
+		WHERE farm_name
+		= #{oldFarmName}
 	</update>
 </mapper>
