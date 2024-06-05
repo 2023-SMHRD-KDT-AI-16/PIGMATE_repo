@@ -26,7 +26,7 @@
                         <div class="message-body">
                             <a href="${contextPath}/myPage.do" class="d-flex align-items-center gap-2 dropdown-item">
                                 <i class="ti ti-user fs-6"></i>
-                                <p class="mb-0 fs-3">내 프로필</p>
+                                <p class="mb-0 fs-3">마이페이지</p>
                             </a>
                             <c:if test="${empty sessionScope.mvo}">
                                 <a href="${contextPath}/loginForm.do" class="btn btn-outline-primary mx-3 mt-2 d-block">Login</a>

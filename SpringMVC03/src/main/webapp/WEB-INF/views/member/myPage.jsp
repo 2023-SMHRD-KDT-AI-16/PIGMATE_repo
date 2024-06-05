@@ -7,7 +7,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>피그메이트</title>
+<title>마이페이지</title>
+<link rel="shortcut icon" type="image/png"
+	href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
@@ -72,7 +74,7 @@
 	function makeView(data) {
 		console.log("makeView 함수 실행:", data);
 		var listHtml = "<table class='table table-bordered'>";
-		listHtml += "<tr>";
+		listHtml += "<tr align='center'>";
 		listHtml += "<td>농장 이름</td>";
 		listHtml += "<td>농장 주소</td>";
 		listHtml += "<td>사육 두수</td>";
@@ -90,10 +92,10 @@
                                     + "' readonly></td>";
 							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_livestock_cnt + "' readonly></td>";
 							listHtml += "<td>";
-							listHtml += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
-							listHtml += "<button class='btn btn-outline-success' onclick='saveFarm(this)' style='display:none'>저장</button> ";
-							listHtml += "<button class='btn btn-outline-danger' onclick='deleteFarm(this)'>삭제</button> ";
-							listHtml += "<button class='btn btn-outline-dark' onclick='editEnv(this)' data-farm-id='"
+							listHtml += "<button class='btn btn-outline-primary btn-sm' onclick='editFarm(this)'>수정</button> ";
+							listHtml += "<button class='btn btn-outline-success btn-sm' onclick='saveFarm(this)' style='display:none'>저장</button> ";
+							listHtml += "<button class='btn btn-outline-danger btn-sm' onclick='deleteFarm(this)'>삭제</button> ";
+							listHtml += "<button class='btn btn-outline-dark btn-sm' onclick='editEnv(this)' data-farm-id='"
 									+ obj.farm_idx
 									+ "' data-farm-name='"
 									+ obj.farm_name + "'>환경기준</button>";
@@ -338,7 +340,7 @@
 												style="color: black;">${member.mem_name}</span>
 										</div>
 										<div class="row">
-											<input type="button" class="btn btn-outline-success"
+											<input type="button" class="btn btn-outline-primary"
 												value="수정" id="editProfileBtn">
 										</div>
 									</div>
@@ -387,7 +389,7 @@
 									<div id="farmList"></div>
 									<div class="row">
 										<input type="button"
-											class="btn btn-outline-primary" value="추가"
+											class="btn btn-outline-success" value="추가"
 											id="addFarmBtn">
 									</div>
 
@@ -396,18 +398,16 @@
 										<form id="addFarmFormAjax">
 											<div class="form-group mb-3">
 												<label for="farm_name">농장 이름</label> <input type="text"
-													class="form-control" id="farm_name" name="farm_name"
-													placeholder="농장 이름">
+													class="form-control" id="farm_name" name="farm_name">
 											</div>
 											<div class="form-group mb-3">
 												<label for="farm_loc">농장 위치</label> <input type="text"
-													class="form-control" id="farm_loc" name="farm_loc"
-													placeholder="농장 위치">
+													class="form-control" id="farm_loc" name="farm_loc">
 											</div>
 											<div class="form-group mb-3">
 												<label for="farm_livestock_cnt">사육 두수</label> <input
 													type="text" class="form-control" id="farm_livestock_cnt"
-													name="farm_livestock_cnt" placeholder="사육 두수">
+													name="farm_livestock_cnt">
 											</div>
 											<div class="row">
 												<input type="submit"
