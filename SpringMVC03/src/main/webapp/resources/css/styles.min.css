@@ -6214,8 +6214,10 @@ fieldset:disabled .btn {
 }
 
 .card {
-    --bs-card-spacer-y: 90px;
+    --bs-card-spacer-y: 60px;
     --bs-card-spacer-x: 60px;
+    --bs-card-spacer-y1: 0px;
+    --bs-card-spacer-x1: 60px;
     --bs-card-title-spacer-y: 0.5rem;
     --bs-card-title-color: #0a2540;
     --bs-card-subtitle-color: rgba(10, 37, 64, 0.6);
@@ -6285,6 +6287,14 @@ fieldset:disabled .btn {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+    color: var(--bs-card-color)
+}
+
+.card-body1 {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: var(--bs-card-spacer-y1) var(--bs-card-spacer-x1);
     color: var(--bs-card-color)
 }
 

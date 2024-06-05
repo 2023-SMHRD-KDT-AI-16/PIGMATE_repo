@@ -133,7 +133,7 @@
 									</div>
 									<div class="mb-3">
 										<label for="exampleInputtext1" class="form-label"></label> <input
-											type="submit" class="btn btn-outline-success" value="회원가입">
+											type="submit" class="btn btn-outline-primary" value="회원가입">
 									</div>
 									<div class="d-flex align-items-center justify-content-center">
 										<p class="fs-4 mb-0 fw-bold">이미 계정이 있으신가요?</p>

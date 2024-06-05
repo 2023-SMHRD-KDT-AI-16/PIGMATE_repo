@@ -231,7 +231,7 @@
 					<div class="row">
 						<div class="col-lg-3 d-flex align-items-stretch">
 							<div class="card w-100">
-								<div class="card-body">
+								<div class="card-body1">
 
 									<div class="env-info-box">
 										<h6>온도</h6>
@@ -245,7 +245,7 @@
 						</div>
 						<div class="col-lg-3 d-flex align-items-stretch">
 							<div class="card w-100">
-								<div class="card-body">
+								<div class="card-body1">
 									<div class="env-info-box">
 										<h6>습도</h6>
 										<span id="humidity" class="envContent">N/A</span> <span
@@ -257,7 +257,7 @@
 						</div>
 						<div class="col-lg-3 d-flex align-items-stretch">
 							<div class="card w-100">
-								<div class="card-body">
+								<div class="card-body1">
 									<div class="env-info-box">
 										<h6>이산화탄소</h6>
 										<span id="co2" class="envContent">N/A</span> <span
@@ -269,7 +269,7 @@
 						</div>
 						<div class="col-lg-3 d-flex align-items-stretch">
 							<div class="card w-100">
-								<div class="card-body">
+								<div class="card-body1">
 									<div class="env-info-box">
 										<h6>암모니아</h6>
 										<span id="ammonia" class="envContent">N/A</span> <span

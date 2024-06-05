@@ -60,7 +60,7 @@
 											name="mem_pw" placeholder="비밀번호를 입력하세요." maxlength="20">
 									</div>
 									<input type="submit"
-										class="btn btn-outline-success w-100 py-8 fs-4 mb-4 rounded-2"
+										class="btn btn-outline-primary w-100 py-8 fs-4 mb-4 rounded-2"
 										value="로그인">
 									<div class="d-flex align-items-center justify-content-center">
 										<p class="fs-4 mb-0 fw-bold">피그메이트가 처음이신가요?</p>
