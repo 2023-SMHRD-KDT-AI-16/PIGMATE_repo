@@ -7,7 +7,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>피그메이트</title>
+<title>마이페이지</title>
+<link rel="shortcut icon" type="image/png"
+	href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"

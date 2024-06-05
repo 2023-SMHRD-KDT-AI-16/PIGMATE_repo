@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>환경정보</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <link rel="shortcut icon" type="image/png"
-    href="${pageContext.request.contextPath}/resources/images/person.png" />
+    href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
 <link rel="stylesheet"
     href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <script
