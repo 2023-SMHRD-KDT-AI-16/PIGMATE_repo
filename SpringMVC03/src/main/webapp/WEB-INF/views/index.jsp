@@ -82,7 +82,6 @@
 	font-size: 30px;
 }
 
-
 .sidebar-nav .sidebar-item .collapse .sidebar-item {
 	padding-left: 20px;
 }
@@ -94,8 +93,6 @@
 .hide-menu2 {
 	font-size: 0.755rem;
 }
-
-
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script
@@ -108,33 +105,40 @@
 <script
 	src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="${contextPath}/resources/js/dashboard.js"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
- 
- 
-  <script>
-    document.querySelectorAll('.sidebar-link').forEach(link => {
-      link.addEventListener('click', function () {
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', function () {
         const target = this.getAttribute('href');
         const icon = this.querySelector('.iconify');
 
         if (target && icon) {
-          const collapse = document.querySelector(target);
-          if (collapse && collapse.classList.contains('show')) {
-            icon.setAttribute('data-icon', 'mdi:chevron-down');
-          } else {
-            icon.setAttribute('data-icon', 'mdi:chevron-up');
-          }
+            const collapse = document.querySelector(target);
+            if (collapse && collapse.classList.contains('show')) {
+                icon.setAttribute('data-icon', 'mdi:chevron-down');
+            } else {
+                icon.setAttribute('data-icon', 'mdi:chevron-up');
+            }
         }
-      });
     });
-  </script>
+});
+</script>
 
 <script type="text/javascript">
+var charts = {}; 
+
    $(document).ready(function() {
       console.log("Document is ready");
       newsList();
       loadEnvInfo();
       loadEnvCriteria(); // 환경 기준 데이터를 로드합니다.
+      loadGraphData('daily', 'temperature', 'myChart1'); // 일별 데이터 로드
+      loadGraphData('daily', 'humidity', 'myChart2'); // 습도 데이터 로드
+      loadGraphData('daily', 'co2', 'myChart3'); // CO2 데이터 로드
+      loadGraphData('daily', 'ammonia', 'myChart4'); // 암모니아 데이터 로드
+      loadGraphData('daily', 'pm', 'myChart5'); // 미세먼지 데이터 로드
    });
 
    function newsList() {
@@ -163,8 +167,7 @@
             console.log("뉴스 객체:", obj); // 각 뉴스 객체 확인
             listHtml += "<tr>";
             listHtml += "<td colspan='2'>";
-            listHtml += "<a href='news?news_idx=" + obj.news_idx
-                  + "' class='news-title'>" + obj.news_title + "</a>";
+            listHtml += "<a href='news?news_idx=" + obj.news_idx + "' class='news-title'>" + obj.news_title + "</a>";
             listHtml += "</td>";
             listHtml += "</tr>";
          });
@@ -183,7 +186,11 @@
          success : function(data) {
             console.log("환경 정보:", data);
             displayEnvInfo(data);
-            loadEnvCriteria(data); // 환경 정보를 로드한 후 환경 기준 데이터를 로드합니다.
+            if (data && data.length > 0) {
+                loadEnvCriteria(data); // 환경 정보를 로드한 후 환경 기준 데이터를 로드합니다.
+            } else {
+                console.error("환경 데이터가 비어있습니다.");
+            }
          },
          error : function() {
             alert("환경 정보 로드 오류");
@@ -198,7 +205,11 @@
          dataType: "json",
          success: function(criteria) {
             console.log("환경 기준:", criteria);
-            updateEnvStatus(envData, criteria); // 환경 기준 데이터를 사용하여 상태 업데이트
+            if (envData) {
+                updateEnvStatus(envData, criteria); // 환경 기준 데이터를 사용하여 상태 업데이트
+            } else {
+                console.error("환경 데이터가 비어있습니다.");
+            }
          },
          error: function() {
             alert("환경 기준 정보 로드 오류");
@@ -254,6 +265,363 @@
          statusElement.text("쾌적해요").css("color", "green");
       }
    }
+
+   function loadGraphData(period, type, chartId) {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/farm/env",
+            type: "post",
+            dataType: "json",
+            data: { period: period, type: type },
+            success: function(data) {
+                console.log("Received data: ", data);
+                makeData(data, type, chartId);
+            },
+            error: function(request, status, error) {
+                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    }
+
+   function makeData(data, type, chartId) {
+	    var dateList = [];
+	    var valueList = [];
+
+	    // 일별 데이터일 경우 날짜를 라벨로 사용
+	    dateList = data.map(item => item.created_at);
+	    valueList = data.map(item => item[type]);
+
+	    console.log("dateList: ", dateList);
+	    console.log("valueList: ", valueList);
+
+	    if (charts[chartId]) {
+	        charts[chartId].destroy();
+	    }
+
+	    if (type === 'temperature') {
+	        charts[chartId] = createChartTemp(dateList, valueList, chartId);
+	    } else if (type === 'humidity') {
+	        charts[chartId] = createChartHumid(dateList, valueList, chartId);
+	    } else if (type === 'co2') {
+	        charts[chartId] = createChartCo2(dateList, valueList, chartId);
+	    } else if (type === 'ammonia') {
+	        charts[chartId] = createChartAmm(dateList, valueList, chartId);
+	    } else if (type === 'pm') {
+	        charts[chartId] = createChartPm(dateList, valueList, chartId);
+	    }
+	}
+
+
+    function createChartTemp(dateList, tempList, chartId) {
+        const ctx = document.getElementById(chartId).getContext('2d');
+
+        const backgroundColors = tempList.map(temp => {
+            if (temp <= 10) return '#1f77b4';
+            else if (temp <= 26) return '#90be6d';
+            else return '#FF8C8C';
+        });
+
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dateList,
+                datasets: [{
+                    label: '온도',
+                    data: tempList,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors,
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    pointHoverRadius: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '온도',
+                        align: 'start',
+                        font: {
+                            size: 18
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            generateLabels: function(chart) {
+                                return [
+                                    {
+                                        text: '10°C 이하',
+                                        fillStyle: '#1f77b4',
+                                        strokeStyle: '#1f77b4',
+                                        lineWidth: 1
+                                    },
+                                    {
+                                        text: '10°C ~ 26°C',
+                                        fillStyle: '#90be6d',
+                                        strokeStyle: '#90be6d',
+                                        lineWidth: 1
+                                    },
+                                    {
+                                        text: '27°C 이상',
+                                        fillStyle: '#FF8C8C',
+                                        strokeStyle: '#FF8C8C',
+                                        lineWidth: 1
+                                    }
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: '온도 (°C)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function createChartHumid(dateList, humidList, chartId) {
+        const ctx = document.getElementById(chartId).getContext('2d');
+
+        const backgroundColors = humidList.map(humidity => humidity > 80 ? '#f9c74f' : 'rgba(144, 190, 109, 0.5)');
+        const borderColors = humidList.map(humidity => humidity > 80 ? '#f9c74f' : '#90be6d');
+
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dateList,
+                datasets: [{
+                    label: '습도',
+                    data: humidList,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    pointHoverRadius: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '습도',
+                        align: 'start',
+                        font: {
+                            size: 18
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            generateLabels: function(chart) {
+                                return [
+                                    {
+                                        text: '80% 이하',
+                                        fillStyle: 'rgba(144, 190, 109, 0.5)',
+                                        strokeStyle: '#90be6d',
+                                        lineWidth: 1
+                                    },
+                                    {
+                                        text: '80% 이상',
+                                        fillStyle: '#f9c74f',
+                                        strokeStyle: '#f9c74f',
+                                        lineWidth: 1
+                                    }
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: '습도 (%)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function createChartCo2(dateList, co2List, chartId) {
+        const ctx = document.getElementById(chartId).getContext('2d');
+
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dateList,
+                datasets: [{
+                    label: '이산화탄소',
+                    data: co2List,
+                    backgroundColor: '#f94144',
+                    borderColor: '#f94144',
+                    pointRadius: 0,
+                    pointHoverRadius: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '이산화탄소',
+                        align: 'start',
+                        font: {
+                            size: 18
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'CO2 농도 (ppm)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function createChartAmm(dateList, ammList, chartId) {
+        const ctx = document.getElementById(chartId).getContext('2d');
+
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dateList,
+                datasets: [{
+                    label: '암모니아',
+                    data: ammList,
+                    backgroundColor: '#f3722c',
+                    borderColor: '#f3722c',
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    pointHoverRadius: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '암모니아',
+                        align: 'start',
+                        font: {
+                            size: 18
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: '암모니아 (ppm)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function createChartPm(dateList, pmList, chartId) {
+        const ctx = document.getElementById(chartId).getContext('2d');
+
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dateList,
+                datasets: [{
+                    label: '미세먼지',
+                    data: pmList,
+                    backgroundColor: '#f9c74f',
+                    borderColor: '#f9c74f',
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    pointHoverRadius: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '미세먼지',
+                        align: 'start',
+                        font: {
+                            size: 18
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: '미세먼지 (µg/m³)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 </script>
 
 </head>
@@ -272,7 +640,6 @@
 						<div class="col-lg-3 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body1">
-
 									<div class="env-info-box">
 										<h6>온도</h6>
 										<span id="temperature" class="envContent">N/A</span><span
@@ -280,7 +647,6 @@
 										<div class="status">쾌적해요</div>
 									</div>
 								</div>
-
 							</div>
 						</div>
 						<div class="col-lg-3 d-flex align-items-stretch">
@@ -400,7 +766,6 @@
 							<div class="card w-100">
 								<div class="card-body p-4">
 									<h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
-
 								</div>
 							</div>
 						</div>
@@ -421,16 +786,12 @@
 											</tbody>
 										</table>
 									</div>
-
-									<!-- 여기에 내용이 들어갑니다. -->
-
-
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body">
 									<div>
@@ -439,9 +800,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body">
 									<div>
@@ -450,9 +809,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body">
 									<div>
@@ -461,9 +818,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body">
 									<div>
@@ -472,9 +827,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 d-flex align-items-strech">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body">
 									<div>
@@ -488,386 +841,5 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$(function() {
-
-			console.log("ready!");
-
-			$.ajax({
-				url : "farm/env",
-				type : "post",
-				dataType : "json",
-				success : function(data) {
-					console.log(data);
-					makeData(data);
-				},
-				error : function(request, status, error) {
-					console.log("code:" + request.status + "\n" + "message:"
-							+ request.responseText + "\n" + "error:" + error);
-				}
-			}) // ajax
-		}); // 함수
-
-		function makeData(data) {
-		    var dateList = [];
-		    var tempList = [];
-		    var humidList = [];
-		    var co2List = [];
-		    var ammList = [];
-		    var pmList = [];
-
-		    $.each(data, function() {
-		        // created_at에서 날짜 부분만 추출
-		        var date = this["created_at"].split(' ')[0];
-		        dateList.push(date);
-		        tempList.push(this["temperature"]);
-		        humidList.push(this["humidity"]);
-		        co2List.push(this["co2"]);
-		        ammList.push(this["ammonia"]);
-		        pmList.push(this["pm"]);
-		    });
-
-		    createChartTemp(dateList, tempList);
-		    createChartHumid(dateList, humidList);
-		    createChartCo2(dateList, co2List);
-		    createChartAmm(dateList, ammList);
-		    createChartPm(dateList, pmList);
-		}
-	</script>
-
-
-	<script>
-	
-		// 그래프 1
-function createChartTemp(dateList, tempList) {
-    const ctx = document.getElementById('myChart1').getContext('2d');
-
-    // 온도에 따라 색상 구분
-    const backgroundColors = tempList.map(temp => {
-        if (temp <= 10) return '#1f77b4'; // 파란색
-        else if (temp <= 26) return '#90be6d'; // 초록색
-        else return '#FF8C8C'; // 노란색
-    });
-
-    const myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: dateList,
-            datasets: [{
-                label: '시간별 온도',
-                data: tempList,
-                backgroundColor: backgroundColors,
-                borderColor: backgroundColors,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: '시간별 온도',
-                    align: 'start', // 제목을 왼쪽으로 정렬
-                    font: {
-                        size: 18 // 글자 크기를 크게 설정
-                    },
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
-                },
-                legend: {
-                    display: true,
-                    labels: {
-                        generateLabels: function(chart) {
-                            return [
-                                {
-                                    text: '10°C 이하',
-                                    fillStyle: '#1f77b4',
-                                    strokeStyle: '#1f77b4',
-                                    lineWidth: 1
-                                },
-                                {
-                                    text: '10°C ~ 24°C',
-                                    fillStyle: '#90be6d',
-                                    strokeStyle: '#90be6d',
-                                    lineWidth: 1
-                                },
-                                {
-                                    text: '27°C 이상',
-                                    fillStyle: '#FF8C8C',
-                                    strokeStyle: '#FF8C8C',
-                                    lineWidth: 1
-                                }
-                            ];
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        maxRotation: 45, // 레이블 각도 조정
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: '온도 (°C)' // y축 레이블에 단위 추가
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-
-
-
-
-
-		// 그래프 2
-		function createChartHumid(dateList, humidList) {
-    const ctx = document.getElementById('myChart2').getContext('2d');
-
-    // 습도가 80을 초과하면 배경색과 테두리 색상을 변경
-    const backgroundColors = humidList.map(humidity => humidity > 80 ? '#f9c74f' : 'rgba(144, 190, 109, 0.5)');
-    const borderColors = humidList.map(humidity => humidity > 80 ? '#f9c74f' : '#90be6d');
-
-    const myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: dateList,
-            datasets: [{
-                label: '시간별 습도',
-                data: humidList,
-                backgroundColor: backgroundColors,
-                borderColor: borderColors,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: '시간별 습도',
-                    align: 'start', // 제목을 왼쪽으로 정렬
-                    font: {
-                        size: 18 // 글자 크기를 크게 설정
-                    },
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
-                },
-                legend: {
-                    display: true,
-                    labels: {
-                        generateLabels: function(chart) {
-                            return [
-                                {
-                                    text: '80% 이하',
-                                    fillStyle: 'rgba(144, 190, 109, 0.5)',
-                                    strokeStyle: '#90be6d',
-                                    lineWidth: 1
-                                },
-                                {
-                                    text: '80% 이상',
-                                    fillStyle: '#f9c74f',
-                                    strokeStyle: '#f9c74f',
-                                    lineWidth: 1
-                                }
-                            ];
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        maxRotation: 45, // 레이블 각도 조정
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: '습도 (%)' // y축 레이블에 단위 추가
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-
-
-		// 이산화 탄소 그래프3
-function createChartCo2(dateList, co2List) {
-    const ctx = document.getElementById('myChart3').getContext('2d');
-
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: dateList,
-            datasets: [{
-                label: '이산화탄소',
-                data: co2List,
-                backgroundColor: '#f94144',
-                borderColor: '#f94144',
-                borderWidth: 1,
-                pointRadius: 1, // 점 크기 설정
-                pointHoverRadius: 6,
-                fill: false // 영역을 채우지 않음
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: '시간별 이산화탄소 농도',
-                    align: 'start', // 제목을 왼쪽으로 정렬
-                    font: {
-                        size: 18 // 글자 크기를 크게 설정
-                    },
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        maxRotation: 45, // 레이블 각도 조정
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'CO2 농도 (ppm)' // y축 레이블에 단위 추가
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-		// 그래프4
-function createChartAmm(dateList, ammList) {
-    const ctx = document.getElementById('myChart4').getContext('2d');
-
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: dateList,
-            datasets: [{
-                label: '시간별 암모니아',
-                data: ammList,
-                backgroundColor: '#f3722c',
-                borderColor: '#f3722c',
-                borderWidth: 1,
-                pointRadius: 1, // 점 크기 설정
-                pointHoverRadius: 6,
-                fill: false // 영역을 채우지 않음
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: '시간별 암모니아 수치',
-                    align: 'start', // 제목을 왼쪽으로 정렬
-                    font: {
-                        size: 18 // 글자 크기를 크게 설정
-                    },
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        maxRotation: 45, // 레이블 각도 조정
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: '암모니아 수치 (ppm)' // y축 레이블에 단위 추가
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-		// 그래프 5
-function createChartPm(dateList, pmList) {
-    const ctx = document.getElementById('myChart5').getContext('2d');
-
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: dateList,
-            datasets: [{
-                label: '미세먼지',
-                data: pmList,
-                backgroundColor: '#f9c74f',
-                borderColor: '#f9c74f',
-                borderWidth: 1,
-                pointRadius: 1, // 점 크기 설정
-                pointHoverRadius: 6,
-                fill: false // 영역을 채우지 않음
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: '시간별 미세먼지 수치',
-                    align: 'start', // 제목을 왼쪽으로 정렬
-                    font: {
-                        size: 18 // 글자 크기를 크게 설정
-                    },
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        maxRotation: 45, // 레이블 각도 조정
-                        minRotation: 45
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: '미세먼지 수치 (µg/m³)' // y축 레이블에 단위 추가
-                    }
-                }
-            }
-        }
-    });
-}
-
-	</script>
 </body>
-
 </html>

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +7,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<link rel="shortcut icon" type="image/png"
-<href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
-<script
-	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 
 <style>
 .chart-container {
@@ -25,16 +21,13 @@
 <body>
 
 	<!--  Body Wrapper -->
-	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
-		data-navbarbg="skin6" data-sidebartype="full"
-		data-sidebar-position="fixed" data-header-position="fixed">
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
 
 		<%@ include file="../common/sidebar.jsp"%>
 		<div class="body-wrapper">
 			<%@ include file="../common/header.jsp"%>
 
 			<!--  Main wrapper -->
-
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div id="chartsContainer">
@@ -43,10 +36,9 @@
 								<div class="card w-100">
 									<div class="card-body">
 										<div>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('daily', 'temperature', 'myChart1')">일별</button>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('latest-weekly', 'temperature', 'myChart1')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'temperature', 'myChart1')">일별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-weekly', 'temperature', 'myChart1')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-monthly', 'temperature', 'myChart1')">월별</button>
 										</div>
 										<div>
 											<canvas id="myChart1" width="4000" height="2000"></canvas>
@@ -60,10 +52,9 @@
 								<div class="card w-100">
 									<div class="card-body">
 										<div>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('daily', 'humidity', 'myChart2')">일별</button>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('latest-weekly', 'humidity', 'myChart2')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'humidity', 'myChart2')">일별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-weekly', 'humidity', 'myChart2')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-monthly', 'humidity', 'myChart2')">월별</button>
 										</div>
 										<div>
 											<canvas id="myChart2" width="4000" height="2000"></canvas>
@@ -77,10 +68,9 @@
 								<div class="card w-100">
 									<div class="card-body">
 										<div>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('daily', 'co2', 'myChart3')">일별</button>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('latest-weekly', 'co2', 'myChart3')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'co2', 'myChart3')">일별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-weekly', 'co2', 'myChart3')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-monthly', 'co2', 'myChart3')">월별</button>
 										</div>
 										<div>
 											<canvas id="myChart3" width="4000" height="2000"></canvas>
@@ -94,10 +84,9 @@
 								<div class="card w-100">
 									<div class="card-body">
 										<div>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('daily', 'ammonia', 'myChart4')">일별</button>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('latest-weekly', 'ammonia', 'myChart4')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'ammonia', 'myChart4')">일별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-weekly', 'ammonia', 'myChart4')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-monthly', 'ammonia', 'myChart4')">월별</button>
 										</div>
 										<div>
 											<canvas id="myChart4" width="4000" height="2000"></canvas>
@@ -111,10 +100,9 @@
 								<div class="card w-100">
 									<div class="card-body">
 										<div>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('daily', 'pm', 'myChart5')">일별</button>
-											<button class="btn btn-outline-primary"
-												onclick="loadGraphData('latest-weekly', 'pm', 'myChart5')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'pm', 'myChart5')">일별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-weekly', 'pm', 'myChart5')">주별</button>
+											<button class="btn btn-outline-primary" onclick="loadGraphData('latest-monthly', 'pm', 'myChart5')">월별</button>
 										</div>
 										<div>
 											<canvas id="myChart5" width="4000" height="2000"></canvas>
@@ -129,16 +117,11 @@
 		</div>
 	</div>
 
-	<script
-		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 
 	<script>
 var charts = {};
@@ -176,6 +159,10 @@ function makeData(data, period, type, chartId) {
         // 주별 데이터일 경우 주차를 라벨로 사용
         const weeks = ['1주차', '2주차', '3주차', '4주차'];
         dateList = data.map((_, index) => weeks[index % 4]);
+        valueList = data.map(item => item[type]);
+    } else if (period === 'latest-monthly') {
+        // 월별 데이터일 경우 월을 라벨로 사용
+        dateList = data.map(item => item.created_at.substr(0, 7)); // 월까지만 표시
         valueList = data.map(item => item[type]);
     } else {
         // 일별 데이터일 경우 날짜를 라벨로 사용

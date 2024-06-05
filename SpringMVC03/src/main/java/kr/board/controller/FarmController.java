@@ -46,73 +46,74 @@ public class FarmController {
                 int idx = farm.getFarm_idx();
 
                 if ("latest-weekly".equals(period)) {
+                    // 주별 데이터 처리
                     List<FarmEnv> latestWeeklyEnv = farmMapper.getLatestWeeklyEnv(idx);
-                    List<FarmEnv> weeklyAverages = new ArrayList<>();
-                    
-                    int cnt = 0;
-                    double totalTemperature = 0;
-                    double totalHumidity = 0;
-                    double totalCo2 = 0;
-                    double totalAmmonia = 0;
-                    double totalPm = 0;
-
-                    for (int i = 0; i < latestWeeklyEnv.size(); i++) {
-                    	
-                    	// 데이터 가져오기
-                        FarmEnv env = latestWeeklyEnv.get(i);
-                        cnt++;
-                        
-                        // 합계에 값 더해주기
-                        totalTemperature += env.getTemperature();
-                        totalHumidity += env.getHumidity();
-                        totalCo2 += env.getCo2();
-                        totalAmmonia += env.getAmmonia();
-                        totalPm += env.getPm();
-
-                        if (cnt == 7) {
-                        	// 7일 단위로 평균을 계산하여 리스트에 추가
-                            FarmEnv averageEnv = new FarmEnv();
-                            
-                            // 7로 나눠서 구한 평균값
-                            averageEnv.setTemperature((float) (totalTemperature / 7));
-                            averageEnv.setHumidity((float) (totalHumidity / 7));
-                            averageEnv.setCo2((int) (totalCo2 / 7));
-                            averageEnv.setAmmonia((int) (totalAmmonia / 7));
-                            averageEnv.setPm((float) (totalPm / 7));
-                            weeklyAverages.add(averageEnv);
-                            System.out.println(averageEnv);
-
-                            // 초기화해주기
-                            cnt = 0;
-                            totalTemperature = 0;
-                            totalHumidity = 0;
-                            totalCo2 = 0;
-                            totalAmmonia = 0;
-                            totalPm = 0;
-                        }
-                    }
-
-                    // 마지막 주 남은 날들
-                    if (cnt > 0) {
-                        FarmEnv averageEnv = new FarmEnv();
-                        averageEnv.setTemperature((float) (totalTemperature / cnt));
-                        averageEnv.setHumidity((float) (totalHumidity / cnt));
-                        averageEnv.setCo2((int) (totalCo2 / cnt)); // double을 int로 변환
-                        averageEnv.setAmmonia((int) (totalAmmonia / cnt));
-                        averageEnv.setPm((float) (totalPm / cnt));
-                        weeklyAverages.add(averageEnv);
-                    }
-
-                    System.out.println("주별 평균 데이터: " + weeklyAverages);
+                    List<FarmEnv> weeklyAverages = calculateWeeklyAverages(latestWeeklyEnv);
                     farm_env.addAll(weeklyAverages);
+
                 } else if ("daily".equals(period)) {
+                    // 일별 데이터 처리
                     List<FarmEnv> dailyEnv = farmMapper.getEnv(idx);
                     System.out.println("일별 데이터: " + dailyEnv);
                     farm_env.addAll(dailyEnv);
+
+                } else if ("latest-monthly".equals(period)) {
+                    // 월별 데이터 처리
+                    List<FarmEnv> latestMonthlyEnv = farmMapper.getLatestMonthlyEnv(idx);
+                    System.out.println("월별 데이터: " + latestMonthlyEnv);
+                    farm_env.addAll(latestMonthlyEnv);
                 }
             }
         }
         return farm_env;
+    }
+
+    private List<FarmEnv> calculateWeeklyAverages(List<FarmEnv> latestWeeklyEnv) {
+        List<FarmEnv> weeklyAverages = new ArrayList<>();
+        int cnt = 0;
+        double totalTemperature = 0;
+        double totalHumidity = 0;
+        double totalCo2 = 0;
+        double totalAmmonia = 0;
+        double totalPm = 0;
+
+        for (int i = 0; i < latestWeeklyEnv.size(); i++) {
+            FarmEnv env = latestWeeklyEnv.get(i);
+            cnt++;
+            totalTemperature += env.getTemperature();
+            totalHumidity += env.getHumidity();
+            totalCo2 += env.getCo2();
+            totalAmmonia += env.getAmmonia();
+            totalPm += env.getPm();
+
+            if (cnt == 7) {
+                FarmEnv averageEnv = new FarmEnv();
+                averageEnv.setTemperature((float) (totalTemperature / 7));
+                averageEnv.setHumidity((float) (totalHumidity / 7));
+                averageEnv.setCo2((int) (totalCo2 / 7));
+                averageEnv.setAmmonia((int) (totalAmmonia / 7));
+                averageEnv.setPm((float) (totalPm / 7));
+                weeklyAverages.add(averageEnv);
+                cnt = 0;
+                totalTemperature = 0;
+                totalHumidity = 0;
+                totalCo2 = 0;
+                totalAmmonia = 0;
+                totalPm = 0;
+            }
+        }
+
+        if (cnt > 0) {
+            FarmEnv averageEnv = new FarmEnv();
+            averageEnv.setTemperature((float) (totalTemperature / cnt));
+            averageEnv.setHumidity((float) (totalHumidity / cnt));
+            averageEnv.setCo2((int) (totalCo2 / cnt));
+            averageEnv.setAmmonia((int) (totalAmmonia / cnt));
+            averageEnv.setPm((float) (totalPm / cnt));
+            weeklyAverages.add(averageEnv);
+        }
+
+        return weeklyAverages;
     }
 
     // 농장 전체보기
