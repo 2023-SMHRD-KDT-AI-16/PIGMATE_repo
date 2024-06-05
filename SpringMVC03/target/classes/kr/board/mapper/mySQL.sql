@@ -37,3 +37,137 @@ delete from env_criteria_info where criteria_idx = 2;
 select * from farm_env_info where farm_idx=19 desc;
 
 SELECT * FROM farm_env_info WHERE farm_idx = 19 ORDER BY created_at DESC;
+		
+SELECT
+    DATE_FORMAT(created_at, '%Y-%u') as week,
+    AVG(temperature) as temperature,
+    AVG(humidity) as humidity,
+    AVG(co2) as co2,
+    AVG(ammonia) as ammonia,
+    AVG(pm) as pm,
+    19 as farm_idx
+FROM
+    farm_env_info
+WHERE
+    farm_idx = 19
+GROUP BY
+    week
+    
+    SELECT
+        DATE(created_at) as created_at,
+        AVG(temperature) as temperature,
+        AVG(humidity) as humidity,
+        AVG(co2) as co2,
+        AVG(ammonia) as ammonia,
+        AVG(pm) as pm,
+        19 as farm_idx
+    FROM
+        farm_env_info
+    WHERE
+        farm_idx = 19
+        AND created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)
+    GROUP BY DATE(created_at)
+    ORDER BY created_at
+    
+SELECT
+    DATE(created_at) as created_at,
+    AVG(temperature) as temperature,
+    AVG(humidity) as humidity,
+    AVG(co2) as co2,
+    AVG(ammonia) as ammonia,
+    AVG(pm) as pm,
+    19 as farm_idx
+FROM
+    farm_env_info
+WHERE
+    farm_idx = 19
+    AND DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+GROUP BY DATE(created_at)
+ORDER BY created_at;
+
+SELECT
+    created_at,
+    temperature,
+    humidity,
+    co2,
+    ammonia,
+    pm,
+    19 as farm_idx
+FROM
+    farm_env_info
+WHERE
+    farm_idx = 19
+    AND DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+ORDER BY created_at
+
+SELECT
+    created_at,
+    temperature,
+    humidity,
+    co2,
+    ammonia,
+    pm,
+    19 as farm_idx
+FROM
+    farm_env_info
+WHERE
+    farm_idx = 19
+    AND DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+ORDER BY created_at;
+
+ SELECT
+        created_at,
+        temperature,
+        humidity,
+        co2,
+        ammonia,
+        pm,
+        19 as farm_idx
+    FROM
+        farm_env_info
+    WHERE
+        farm_idx = 19
+        AND created_at >= (
+            SELECT DATE_SUB(MAX(created_at), INTERVAL 1 WEEK)
+            FROM farm_env_info
+            WHERE farm_idx = 19
+        )
+    ORDER BY created_at;
+    
+    
+  SELECT
+        created_at,
+        temperature,
+        humidity,
+        co2,
+        ammonia,
+        pm,
+        19 as farm_idx
+    FROM
+        farm_env_info
+    WHERE
+        farm_idx = 19 and created_at >= CURDATE() - INTERVAL 28 DAY;
+    
+SELECT
+    created_at,
+    temperature,
+    humidity,
+    co2,
+    ammonia,
+    pm,
+    19 as farm_idx
+FROM
+    farm_env_info
+WHERE
+    farm_idx = 19
+    AND created_at >= (
+        SELECT DATE_SUB(MAX(created_at), INTERVAL 28 DAY)
+        FROM farm_env_info
+        WHERE farm_idx = 19
+    )
+ORDER BY
+    created_at;
+    
+
+
+
