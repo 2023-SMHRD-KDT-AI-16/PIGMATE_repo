@@ -398,18 +398,16 @@
 										<form id="addFarmFormAjax">
 											<div class="form-group mb-3">
 												<label for="farm_name">농장 이름</label> <input type="text"
-													class="form-control" id="farm_name" name="farm_name"
-													placeholder="농장 이름">
+													class="form-control" id="farm_name" name="farm_name">
 											</div>
 											<div class="form-group mb-3">
 												<label for="farm_loc">농장 위치</label> <input type="text"
-													class="form-control" id="farm_loc" name="farm_loc"
-													placeholder="농장 위치">
+													class="form-control" id="farm_loc" name="farm_loc">
 											</div>
 											<div class="form-group mb-3">
 												<label for="farm_livestock_cnt">사육 두수</label> <input
 													type="text" class="form-control" id="farm_livestock_cnt"
-													name="farm_livestock_cnt" placeholder="사육 두수">
+													name="farm_livestock_cnt">
 											</div>
 											<div class="row">
 												<input type="submit"
