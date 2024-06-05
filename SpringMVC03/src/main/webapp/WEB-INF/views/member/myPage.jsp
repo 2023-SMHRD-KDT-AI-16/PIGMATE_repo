@@ -74,7 +74,7 @@
 	function makeView(data) {
 		console.log("makeView 함수 실행:", data);
 		var listHtml = "<table class='table table-bordered'>";
-		listHtml += "<tr>";
+		listHtml += "<tr align='center'>";
 		listHtml += "<td>농장 이름</td>";
 		listHtml += "<td>농장 주소</td>";
 		listHtml += "<td>사육 두수</td>";
@@ -92,10 +92,10 @@
                                     + "' readonly></td>";
 							listHtml += "<td><input type='text' class='form-control' value='" + obj.farm_livestock_cnt + "' readonly></td>";
 							listHtml += "<td>";
-							listHtml += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
-							listHtml += "<button class='btn btn-outline-success' onclick='saveFarm(this)' style='display:none'>저장</button> ";
-							listHtml += "<button class='btn btn-outline-danger' onclick='deleteFarm(this)'>삭제</button> ";
-							listHtml += "<button class='btn btn-outline-dark' onclick='editEnv(this)' data-farm-id='"
+							listHtml += "<button class='btn btn-outline-primary btn-sm' onclick='editFarm(this)'>수정</button> ";
+							listHtml += "<button class='btn btn-outline-success btn-sm' onclick='saveFarm(this)' style='display:none'>저장</button> ";
+							listHtml += "<button class='btn btn-outline-danger btn-sm' onclick='deleteFarm(this)'>삭제</button> ";
+							listHtml += "<button class='btn btn-outline-dark btn-sm' onclick='editEnv(this)' data-farm-id='"
 									+ obj.farm_idx
 									+ "' data-farm-name='"
 									+ obj.farm_name + "'>환경기준</button>";
@@ -340,7 +340,7 @@
 												style="color: black;">${member.mem_name}</span>
 										</div>
 										<div class="row">
-											<input type="button" class="btn btn-outline-success"
+											<input type="button" class="btn btn-outline-primary"
 												value="수정" id="editProfileBtn">
 										</div>
 									</div>
@@ -389,7 +389,7 @@
 									<div id="farmList"></div>
 									<div class="row">
 										<input type="button"
-											class="btn btn-outline-primary" value="추가"
+											class="btn btn-outline-success" value="추가"
 											id="addFarmBtn">
 									</div>
 

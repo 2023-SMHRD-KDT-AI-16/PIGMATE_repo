@@ -37,27 +37,27 @@
 					<span class="hide-menu">UI COMPONENTS</span></li>
 
 				<li class="sidebar-item"><c:choose>
-						<c:when test="${empty sessionScope.mvo}"><a class="sidebar-link" href="${contextPath}/loginForm.do"
+						<c:when test="${empty sessionScope.mvo}">
+						<a class="sidebar-link" href="${contextPath}/loginForm.do"
 					aria-expanded="false"> <iconify-icon
 							icon="solar:layers-minimalistic-bold-duotone"></iconify-icon> <span
 						class="hide-menu">돼지정보</span>
 				</a>
 				</c:when>
 						<c:otherwise>
-						<a class="sidebar-link" href="#"
-					aria-expanded="false"> <iconify-icon
+						<a class="sidebar-link" href="#" aria-expanded="false"> <iconify-icon
 							icon="solar:layers-minimalistic-bold-duotone"></iconify-icon> <span
 						class="hide-menu">돼지정보</span>
+						</a>
 						</c:otherwise>
 					</c:choose>
 				</li>
 
 				<li class="sidebar-item"><c:choose>
 						<c:when test="${empty sessionScope.mvo}">
-							<a class="sidebar-link" href="${contextPath}/loginForm.do"
-								aria-expanded="false"> <iconify-icon
-									icon="solar:danger-circle-line-duotone"></iconify-icon> <span
-								class="hide-menu">환경정보</span>
+							<a class="sidebar-link" href="${contextPath}/loginForm.do" aria-expanded="false"> 
+							<iconify-icon icon="solar:danger-circle-line-duotone"></iconify-icon> 
+							<span class="hide-menu">환경정보</span>
 							</a>
 						</c:when>
 						<c:otherwise>
