@@ -12,6 +12,25 @@
 .hide-menu2 {
 	font-size: 0.755rem;
 }
+
+/* 기본 상태 */
+.sidebar-link {
+  color: #333;
+  text-decoration: none;
+}
+
+/* 하위 메뉴 */
+.collapse {
+  transition: max-height 0.5s ease-in-out;
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* 활성화된 부모 메뉴 */
+.collapse.show {
+  max-height: 500px; /* 충분히 큰 값으로 설정 */
+}
+
 </style>
 <aside class="left-sidebar">
 	<div>
