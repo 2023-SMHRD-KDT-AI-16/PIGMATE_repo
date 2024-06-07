@@ -604,6 +604,7 @@ function createChartPm(dateList, pmList, chartId) {
     });
 }
 </script>
+
 </head>
 <body>
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
@@ -674,7 +675,7 @@ function createChartPm(dateList, pmList, chartId) {
                                             </select>
                                         </div>
                                     </div>
-                                    <!-- 축사환경 영상 -->
+                                    <img src="http://localhost:5000/video_feed" width="600" />
                                 </div>
                             </div>
                         </div>
@@ -801,5 +802,6 @@ function createChartPm(dateList, pmList, chartId) {
             </div>
         </div>
     </div>
+
 </body>
 </html>

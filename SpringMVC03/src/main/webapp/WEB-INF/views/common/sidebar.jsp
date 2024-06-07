@@ -19,6 +19,7 @@
   text-decoration: none;
 }
 
+
 /* 하위 메뉴 */
 .collapse {
   transition: max-height 0.5s ease-in-out;
