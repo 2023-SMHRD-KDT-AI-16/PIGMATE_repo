@@ -17,7 +17,6 @@
 <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
 <style>
-<<<<<<< HEAD
 .news-title {
 	white-space: nowrap;
 	overflow: hidden;
@@ -78,7 +77,6 @@
 	padding-left: 20px;
 }
 
-=======
     .news-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 300px; }
     .table-custom tbody td { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .env-info-container { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 20px 0; }
@@ -116,6 +114,7 @@ $(document).ready(function() {
     loadGraphData('daily', 'pm', 'myChart5');
 });
 
+// 뉴스 기사 가져오기
 function newsList() {
     $.ajax({
         url : "board/newsList",
@@ -123,15 +122,16 @@ function newsList() {
         dataType : "json",
         success : function(data) {
             console.log("받은 데이터 구조:", data);
-            makeView(data);
+            makeNews(data);
         },
         error : function() {
             alert("news error");
         }
-    });
-}
+    }); // ajax 끝
+} // 함수
 
-function makeView(data) {
+// 뉴스 기사 띄우기
+function makeNews(data) {
     console.log("받은 데이터:", data);
     var listHtml = "";
 
@@ -144,20 +144,27 @@ function makeView(data) {
             listHtml += "<a href='news?news_idx=" + obj.news_idx + "' class='news-title'>" + obj.news_title + "</a>";
             listHtml += "</td>";
             listHtml += "</tr>";
-        });
+        }); // 반복문 종료
     } else {
         console.error("뉴스 데이터를 찾을 수 없습니다.");
     }
 
     $("#index_newsList").html(listHtml);
+} // 함수
+
+function getQueryStringParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
 }
 
+// 환경 정보 가져오기
 function loadEnvInfo() {
-    var farmId = "${farm.farm_idx}";
-    $.ajax({
+	 var farm_id = getQueryStringParameter('farmId');
+	 
+	 $.ajax({
         url : "index/env",
         type : "post",
-        data: { farmId: farmId },
+        data: { farm_id: farm_id },
         dataType : "json",
         success : function(data) {
             console.log("환경 정보:", data);
@@ -169,11 +176,13 @@ function loadEnvInfo() {
             }
         },
         error : function() {
+      
             alert("환경 정보 로드 오류");
         }
     });
 }
 
+// 환경 기준 가져오기
 function loadEnvCriteria(envData) {
     $.ajax({
         url: "env/criteria",
@@ -717,7 +726,7 @@ function createChartPm(dateList, pmList, chartId) {
                         <div class="col-lg-8 d-flex align-items-stretch">
                             <div class="card w-100">
                                 <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
+                                    <h5 class="card-title fw-semibold mb-4">환경 정보 요약</h5>
                                 </div>
                             </div>
                         </div>

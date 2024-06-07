@@ -41,6 +41,11 @@
 											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'co2', 'myChart1')">이산화탄소</button>
 											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'ammonia', 'myChart1')">암모니아</button>
 											<button class="btn btn-outline-primary" onclick="loadGraphData('daily', 'pm', 'myChart1')">이산화황</button>
+											 <select class="form-select">
+                                                <option value="1">일별</option>
+                                                <option value="2">주별</option>
+                                                <option value="3">월별</option>
+                                            </select>
 										</div>
 										<div>
 										

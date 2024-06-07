@@ -124,6 +124,7 @@ public class FarmController {
         return weeklyAverages;
     }
 
+    // 멤버가 가지고 있는 모든 농장 정보 가져오는 메소드
     @GetMapping("/all")
     public List<Farm> getFarm(HttpSession session) {
         Member m = (Member) session.getAttribute("mvo");
@@ -131,6 +132,7 @@ public class FarmController {
         return farmMapper.getFarm(mem_id);
     }
 
+    // 회원의 농장
     @PostMapping("/insertFarm.do")
     public String updateFarm(Farm farm, HttpSession session) {
         Member mvo = (Member) session.getAttribute("mvo");
@@ -201,6 +203,7 @@ public class FarmController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    
     @PostMapping("/insertEnvCri.do")
     public ResponseEntity<String> insertEnvCri(EnvCri envCri, HttpSession session) {
         try {
@@ -217,18 +220,19 @@ public class FarmController {
         }
     }
 
+    // 회원이 가지고 있는 농장의 인덱스로 이동
     @PostMapping("/index/env")
-    public List<FarmEnv> IndexEnvList(HttpSession session) {
-        List<FarmEnv> farm_env = new ArrayList<>();
-        Member m = (Member) session.getAttribute("mvo");
-        if (m != null) {
-            String mem_id = m.getMem_id();
-            List<Farm> farm = farmMapper.getFarm(mem_id);
-            for (int i = 0; i < farm.size(); i++) {
-                int idx = farm.get(i).getFarm_idx();
-                farm_env.addAll(farmMapper.getEnv(idx));
-            }
-        }
+    public List<FarmEnv> IndexEnvList(@RequestParam("farm_id") String farm_id, HttpSession session) {
+        
+    	List<FarmEnv> farm_env = new ArrayList<>();
+    	
+    	if (farm_id != null) {
+	    	
+	    	int farm_idx = Integer.parseInt(farm_id);
+	    	
+	        farm_env = farmMapper.getEnv(farm_idx);
+    	}
+    	
         return farm_env;
     }
 }

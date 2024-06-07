@@ -58,18 +58,18 @@
 					<c:forEach var="farm" items="${sessionScope.mvo.farms}">
 						<li class="sidebar-item">
 							<div class="d-flex align-items-center justify-content-between">
-								<a class="sidebar-link" href="${contextPath}/index.jsp?farmId=${farm.farm_idx}" aria-expanded="false"> <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
+								<a class="sidebar-link" href="${contextPath}/?farmId=${farm.farm_idx}" aria-expanded="false"> <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
 									<span class="hide-menu1">${farm.farm_name}</span>
 								</a>
 								<iconify-icon icon="mdi:chevron-down" class="ms-auto cursor-pointer" onclick="toggleSubmenu('${farm.farm_idx}')"></iconify-icon>
 							</div>
 							<ul id="${farm.farm_idx}" class="collapse list-unstyled">
-								<li class="sidebar-item"><a class="sidebar-link" href="${contextPath}/?farmId=${farm.farm_idx}">
-										<iconify-icon icon="mdi:file-document-outline"></iconify-icon>
-										<span class="hide-menu2">대시보드</span>
-									</a></li>
 								<li class="sidebar-item"><a class="sidebar-link" href="${contextPath}/#.do?farmId=${farm.farm_idx}"> <iconify-icon icon="mdi:pig"></iconify-icon> <span class="hide-menu2">돼지정보</span></a></li>
 								<li class="sidebar-item"><a class="sidebar-link" href="${contextPath}/farmEnv.do?farmId=${farm.farm_idx}"> <iconify-icon icon="mdi:leaf"></iconify-icon> <span class="hide-menu2">환경정보</span></a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="${contextPath}/?farmId=${farm.farm_idx}">
+										<iconify-icon icon="mdi:file-document-outline"></iconify-icon>
+										<span class="hide-menu2">리포트</span>
+									</a></li>
 							</ul>
 						</li>
 					</c:forEach>
