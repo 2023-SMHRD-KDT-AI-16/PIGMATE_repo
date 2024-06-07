@@ -2,6 +2,7 @@ package kr.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import kr.board.entity.Farm;
 import kr.board.entity.Member;
 import kr.board.mapper.MemberMapper;
 
@@ -28,33 +30,23 @@ public class MemberController {
 	@Autowired
 	private MemberMapper memberMapper;
 
-	// 로그인 기능 /login.do
-	@PostMapping("/login.do")
-	public String login(Member m, RedirectAttributes rttr, HttpSession session) {
+    @PostMapping("/login.do")
+    public String login(Member m, RedirectAttributes rttr, HttpSession session) {
 
-		// 로그인 기능 구현
-
-		// 성공 시 session에 mvo 이름으로 회원의 정보를 저장 => index.jsp에서 "로그인에 성공했습니다." 모달창
-		// 실패 시 loginForm.jsp로 이동 후 "아이디와 비밀번호를 다시 입력해주세요." 모달창
-
-		// System.out.println(m.getMem_id());
-
-		Member mvo = memberMapper.login(m);
-		if (mvo == null) {
-			// 로그인 실패
-			rttr.addFlashAttribute("msgType", "실패 메세지");
-			rttr.addFlashAttribute("msg", "아이디와 비밀번호를 입력해주세요.");
-			// System.out.println("로그인 실패");
-			return "redirect:/loginForm.do";
-		} else {
-			// 로그인 성공
-			rttr.addFlashAttribute("msgType", "성공 메세지");
-			rttr.addFlashAttribute("msg", "로그인에 성공했습니다.");
-			// System.out.println("로그인 성공 " + mvo.getMem_id());
-			session.setAttribute("mvo", mvo);
-			return "redirect:/";
-		}
-	}
+        Member mvo = memberMapper.login(m);
+        if (mvo == null) {
+            rttr.addFlashAttribute("msgType", "실패 메세지");
+            rttr.addFlashAttribute("msg", "아이디와 비밀번호를 입력해주세요.");
+            return "redirect:/loginForm.do";
+        } else {
+            List<Farm> farms = memberMapper.loginFarm(mvo.getMem_id());
+            mvo.setFarms(farms);
+            rttr.addFlashAttribute("msgType", "성공 메세지");
+            rttr.addFlashAttribute("msg", "로그인에 성공했습니다.");
+            session.setAttribute("mvo", mvo);
+            return "redirect:/";
+        }
+    }
 
 	// 로그인 페이지 이동 /loginForm.do
 	@GetMapping("/loginForm.do")
