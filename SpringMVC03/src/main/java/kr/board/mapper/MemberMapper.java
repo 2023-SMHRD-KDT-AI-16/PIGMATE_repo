@@ -11,6 +11,8 @@ import kr.board.entity.Member;
 public interface MemberMapper {
 
 	public Member login(Member m);
+	
+	public List<Farm> loginFarm(String mem_id);
 
 	public Member getMember(String mem_id);
 	

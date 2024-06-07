@@ -142,6 +142,7 @@ $(function() {
 
 
 function loadGraphData(period, type, chartId) {
+	console.log("hi");
     $.ajax({
         url: "${pageContext.request.contextPath}/farm/env",
         type: "post",
@@ -168,7 +169,7 @@ function makeData(data, period, type, chartId) {
         valueList = data.map(item => item[type]);
     } else if (period === 'latest-monthly') {
         // 월별 데이터일 경우 월을 라벨로 사용
-        dateList = data.map(item => item.created_at.substr(0, 7)); // 월까지만 표시
+        dateList = data.map(item => item.created_at); // 월까지만 표시
         valueList = data.map(item => item[type]);
     } else {
         // 일별 데이터일 경우 날짜를 라벨로 사용
@@ -266,3 +267,4 @@ function createHighcharts(dateList, valueList, chartId, type) {
 	</script>
 </body>
 </html>
+

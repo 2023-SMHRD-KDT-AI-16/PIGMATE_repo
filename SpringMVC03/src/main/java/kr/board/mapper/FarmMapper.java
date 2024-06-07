@@ -9,17 +9,17 @@ import kr.board.entity.FarmEnv;
 @Mapper
 public interface FarmMapper {
 
-    // 회원의 모든 농장 정보 가져오기
-    List<Farm> getFarm(String mem_id);
+    List<FarmEnv> getEnv(int farm_idx);
 
-    // 농장의 일별 환경 정보 가져오기
-    List<FarmEnv> getDaliyEnv(@Param("farm_idx") int farm_idx);
+    List<Farm> getFarm(String mem_id);
     
+    Farm getFarmById(int farmId);
+
     // 최신 4주 데이터 가져오기
-    List<FarmEnv> getWeeklyEnv(@Param("farm_idx") int farm_idx);
+    List<FarmEnv> getLatestWeeklyEnv(@Param("farm_idx") int farm_idx);
     
-    // 월별 데이터 가져오기
-    List<FarmEnv> getMonthlyEnv(@Param("farm_idx") int farm_idx);
+    // 최신 1년 월별 데이터 가져오기
+    List<FarmEnv> getLatestMonthlyEnv(@Param("farm_idx") int farm_idx);
 
     void insertFarm(Farm farm);
 
