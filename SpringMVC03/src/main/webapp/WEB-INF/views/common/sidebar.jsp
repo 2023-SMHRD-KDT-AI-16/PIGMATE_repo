@@ -11,11 +11,7 @@
 .hide-menu2 {
 	font-size: 0.755rem;
 }
-/* 기본 상태 */
-.sidebar-link {
-  color: #333;
-  text-decoration: none;
-}
+
 
 /* 하위 메뉴 */
 .collapse {

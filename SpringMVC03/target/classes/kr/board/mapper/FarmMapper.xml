@@ -4,19 +4,19 @@
 
 	<select id="getEnv" parameterType="int"
 		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
+		SELECT * FROM farm_env_info WHERE farm_idx = 19
 	</select>
 
 	<!-- 최신 4주 데이터 가져오기 -->
 	<select id="getLatestWeeklyEnv" parameterType="int"
 		resultType="kr.board.entity.FarmEnv">
 		SELECT created_at, temperature, humidity, co2, ammonia, pm,
-		#{farm_idx} as farm_idx
+		19 as farm_idx
 		FROM farm_env_info
-		WHERE farm_idx = #{farm_idx}
+		WHERE farm_idx = 19
 		AND created_at >= (SELECT
 		DATE_SUB(MAX(created_at), INTERVAL 28 DAY)
-		FROM farm_env_info WHERE farm_idx = #{farm_idx})
+		FROM farm_env_info WHERE farm_idx = 19)
 		ORDER BY created_at
 		LIMIT
 		28;
@@ -32,7 +32,7 @@
 		AVG(ammonia) AS ammonia,
 		AVG(pm) AS pm
 		FROM farm_env
-		WHERE farm_idx = #{farm_idx}
+		WHERE farm_idx = 19
 		AND created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
 		GROUP BY DATE_FORMAT(created_at, '%Y-%m')
 	</select>

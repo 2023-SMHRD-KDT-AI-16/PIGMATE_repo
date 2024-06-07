@@ -617,6 +617,7 @@ var charts = {};
 
 </script>
 
+
 </head>
 
 <body>
@@ -685,6 +686,8 @@ var charts = {};
 										class="d-sm-flex d-block align-items-center justify-content-between mb-9">
 										<div class="mb-3 mb-sm-0">
 											<h5 class="card-title fw-semibold">축사환경</h5>
+											
+											 
 										</div>
 										<div>
 											<select class="form-select">
@@ -695,7 +698,9 @@ var charts = {};
 											</select>
 										</div>
 									</div>
-									<!-- 축사환경 영상 -->
+									<!-- 웹캠 연결 -->
+
+									 <img src="http://localhost:5000/video_feed" width="600" />
 								</div>
 							</div>
 						</div>
@@ -834,5 +839,6 @@ var charts = {};
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

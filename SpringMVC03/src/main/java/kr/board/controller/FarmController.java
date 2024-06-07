@@ -39,18 +39,18 @@ public class FarmController {
         if (m != null) {
             String mem_id = m.getMem_id();
             System.out.println("환경 정보 조회할 회원 :" + mem_id);
-
+            System.out.println("flag1");
             List<Farm> farms = farmMapper.getFarm(mem_id);
 
             for (Farm farm : farms) {
                 int idx = farm.getFarm_idx();
-
+                System.out.println("flag2");
                 if ("latest-weekly".equals(period)) {
                     // 주별 데이터 처리
                     List<FarmEnv> latestWeeklyEnv = farmMapper.getLatestWeeklyEnv(idx);
                     List<FarmEnv> weeklyAverages = calculateWeeklyAverages(latestWeeklyEnv);
                     farm_env.addAll(weeklyAverages);
-
+                    System.out.println("flag3");
                 } else if ("daily".equals(period)) {
                     // 일별 데이터 처리
                     List<FarmEnv> dailyEnv = farmMapper.getEnv(idx);
@@ -62,9 +62,9 @@ public class FarmController {
                     List<FarmEnv> latestMonthlyEnv = farmMapper.getLatestMonthlyEnv(idx);
                     System.out.println("월별 데이터: " + latestMonthlyEnv);
                     farm_env.addAll(latestMonthlyEnv);
-                }
-            }
-        }
+                } System.out.println("flag5");
+            } System.out.println("flag6");
+        } System.out.println("flag7");
         return farm_env;
     }
 
