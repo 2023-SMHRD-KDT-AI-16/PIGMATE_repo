@@ -17,6 +17,68 @@
 <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
 <style>
+<<<<<<< HEAD
+.news-title {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	max-width: 300px; /* 필요에 따라 조정 가능 */
+}
+
+.table-custom tbody td {
+	max-width: 200px; /* 필요에 따라 조정 가능 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.env-info-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 20px 0;
+}
+
+.env-info-box {
+	flex: 0 0 48%; /* 크기를 2열로 맞추기 위해 설정 */
+	text-align: center;
+	padding: 20px;
+	margin: 10px 0;
+	border: 1px solid #fff;
+	border-radius: 10px;
+	background-color: #fff;
+}
+
+.env-info-box h6 {
+	margin-bottom: 10px;
+	font-size: 15px;
+}
+
+.envContent {
+	display: block;
+	font-size: 55px;
+	margin-bottom: 5px;
+}
+
+.env-info-box .status {
+	font-size: 18px;
+}
+
+.unitss {
+	font-size: 20px;
+	color: black;
+}
+
+.env-info-text {
+	font-size: 30px;
+}
+
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+	padding-left: 20px;
+}
+
+=======
     .news-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 300px; }
     .table-custom tbody td { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .env-info-container { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 20px 0; }
@@ -27,6 +89,7 @@
     .unitss { font-size: 20px; color: black; }
     .env-info-text { font-size: 30px; }
     .sidebar-nav .sidebar-item .collapse .sidebar-item { padding-left: 20px; }
+>>>>>>> branch 'master' of https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo.git
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
