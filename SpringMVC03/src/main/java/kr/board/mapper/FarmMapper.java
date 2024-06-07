@@ -12,6 +12,8 @@ public interface FarmMapper {
     List<FarmEnv> getEnv(int farm_idx);
 
     List<Farm> getFarm(String mem_id);
+    
+    Farm getFarmById(int farmId);
 
     // 최신 4주 데이터 가져오기
     List<FarmEnv> getLatestWeeklyEnv(@Param("farm_idx") int farm_idx);
