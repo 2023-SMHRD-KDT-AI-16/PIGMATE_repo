@@ -47,19 +47,19 @@ public class FarmController {
 
                 if ("latest-weekly".equals(period)) {
                     // 주별 데이터 처리
-                    List<FarmEnv> latestWeeklyEnv = farmMapper.getLatestWeeklyEnv(idx);
+                    List<FarmEnv> latestWeeklyEnv = farmMapper.getWeeklyEnv(idx);
                     List<FarmEnv> weeklyAverages = calculateWeeklyAverages(latestWeeklyEnv);
                     farm_env.addAll(weeklyAverages);
 
                 } else if ("daily".equals(period)) {
                     // 일별 데이터 처리
-                    List<FarmEnv> dailyEnv = farmMapper.getEnv(idx);
+                    List<FarmEnv> dailyEnv = farmMapper.getDaliyEnv(idx);
                     System.out.println("일별 데이터: " + dailyEnv);
                     farm_env.addAll(dailyEnv);
 
                 } else if ("latest-monthly".equals(period)) {
                     // 월별 데이터 처리
-                    List<FarmEnv> latestMonthlyEnv = farmMapper.getLatestMonthlyEnv(idx);
+                    List<FarmEnv> latestMonthlyEnv = farmMapper.getMonthlyEnv(idx);
                     System.out.println("월별 데이터: " + latestMonthlyEnv);
                     farm_env.addAll(latestMonthlyEnv);
                 }
@@ -257,7 +257,7 @@ public class FarmController {
 
             for (int i = 0; i < farm.size(); i++) {
                 int idx = farm.get(i).getFarm_idx();
-                farm_env.addAll(farmMapper.getEnv(idx));
+                farm_env.addAll(farmMapper.getDaliyEnv(idx));
             }
         }
         return farm_env;
