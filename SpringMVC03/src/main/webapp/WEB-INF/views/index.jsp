@@ -77,17 +77,6 @@
 	padding-left: 20px;
 }
 
-    .news-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 300px; }
-    .table-custom tbody td { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .env-info-container { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 20px 0; }
-    .env-info-box { flex: 0 0 48%; text-align: center; padding: 20px; margin: 10px 0; border: 1px solid #fff; border-radius: 10px; background-color: #fff; }
-    .env-info-box h6 { margin-bottom: 10px; font-size: 15px; }
-    .envContent { display: block; font-size: 55px; margin-bottom: 5px; }
-    .env-info-box .status { font-size: 18px; }
-    .unitss { font-size: 20px; color: black; }
-    .env-info-text { font-size: 30px; }
-    .sidebar-nav .sidebar-item .collapse .sidebar-item { padding-left: 20px; }
->>>>>>> branch 'master' of https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo.git
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
@@ -99,19 +88,26 @@
 <script src="${contextPath}/resources/js/dashboard.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
+<c:if test="${not empty sessionScope.mvo}">
+    <script>
+        var firstFarmId = "${sessionScope.mvo.farms[0].farm_idx}";
+    </script>
+</c:if>
+
 <script>
 var charts = {}; 
 
 $(document).ready(function() {
     console.log("Document is ready");
+    console.log("firstFarmId: ", firstFarmId);
     newsList();
-    loadEnvInfo();
+    loadEnvInfo(firstFarmId);
     loadEnvCriteria();
-    loadGraphData('daily', 'temperature', 'myChart1');
-    loadGraphData('daily', 'humidity', 'myChart2');
-    loadGraphData('daily', 'co2', 'myChart3');
-    loadGraphData('daily', 'ammonia', 'myChart4');
-    loadGraphData('daily', 'pm', 'myChart5');
+    loadGraphData('daily', 'temperature', 'myChart1', firstFarmId);
+    loadGraphData('daily', 'humidity', 'myChart2', firstFarmId);
+    loadGraphData('daily', 'co2', 'myChart3', firstFarmId);
+    loadGraphData('daily', 'ammonia', 'myChart4', firstFarmId);
+    loadGraphData('daily', 'pm', 'myChart5', firstFarmId);
 });
 
 // 뉴스 기사 가져오기
@@ -158,15 +154,19 @@ function getQueryStringParameter(name) {
 }
 
 // 환경 정보 가져오기
-function loadEnvInfo() {
-	 var farm_id = getQueryStringParameter('farmId');
-	 
-	 $.ajax({
-        url : "index/env",
-        type : "post",
-        data: { farm_id: farm_id },
-        dataType : "json",
-        success : function(data) {
+function loadEnvInfo(farmId) {
+    if (!farmId) {
+        farmId = getQueryStringParameter('farmId');
+    }
+
+    console.log("Loading environment info for farmId: ", farmId);
+
+    $.ajax({
+        url: "index/env",
+        type: "post",
+        data: { farm_id: farmId },
+        dataType: "json",
+        success: function(data) {
             console.log("환경 정보:", data);
             displayEnvInfo(data);
             if (data && data.length > 0) {
@@ -175,9 +175,11 @@ function loadEnvInfo() {
                 console.error("환경 데이터가 비어있습니다.");
             }
         },
-        error : function() {
-      
-            alert("환경 정보 로드 오류");
+        error: function(request, status, error) {
+            console.error("환경 정보 로드 오류");
+            console.log("Request: ", request);
+            console.log("Status: ", status);
+            console.log("Error: ", error);
         }
     });
 }
@@ -253,10 +255,9 @@ function updateStatus(elementId, value, range) {
 }
 
 // 그래프 데이터 가져오는 함수
-function loadGraphData(period, type, chartId) {
-    var farmId = "${farm.farm_idx}";
+function loadGraphData(period, type, chartId, farmId) {
     $.ajax({
-        url: "${pageContext.request.contextPath}/farm/env",
+        url: "${contextPath}/farm/env",
         type: "post",
         dataType: "json",
         data: { period: period, type: type, farmId: farmId },
