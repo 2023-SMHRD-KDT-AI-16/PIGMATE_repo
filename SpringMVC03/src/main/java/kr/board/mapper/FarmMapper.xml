@@ -36,30 +36,36 @@
       SELECT * FROM farm_info WHERE mem_id = #{mem_id}
    </select>
 
-   <insert id="insertFarm" parameterType="kr.board.entity.Farm">
-      INSERT INTO farm_info (farm_name, farm_loc, farm_livestock_cnt, mem_id)
-      VALUES (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
-   </insert>
+	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
+		INSERT INTO farm_info (farm_name, farm_loc, farm_livestock_cnt, mem_id)
+		VALUES (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+	</insert>
 
-   <delete id="deletePenInfoByFarmName">
-      DELETE FROM pen_info WHERE farm_idx IN (SELECT farm_idx FROM farm_info WHERE
-      farm_name = #{farm_name})
-   </delete>
+	<delete id="deletePenInfoByFarmName">
+		DELETE FROM pen_info WHERE farm_idx IN (SELECT farm_idx FROM farm_info WHERE
+		farm_name = #{farm_name})
+	</delete>
 
-   <delete id="deleteEnvCriteriaByFarmName">
-      DELETE FROM env_criteria_info WHERE farm_idx IN (SELECT farm_idx FROM
-      farm_info WHERE farm_name = #{farm_name})
-   </delete>
+	<delete id="deleteEnvCriteriaByFarmName">
+		DELETE FROM env_criteria_info WHERE farm_idx IN (SELECT farm_idx FROM
+		farm_info WHERE farm_name = #{farm_name})
+	</delete>
 
-   <delete id="deleteFarmByName" parameterType="String">
-      DELETE FROM farm_info WHERE farm_name = #{farm_name}
-   </delete>
+	<delete id="deleteFarmByName" parameterType="String">
+		DELETE FROM farm_info WHERE farm_name = #{farm_name}
+	</delete>
 
-   <update id="updateFarmByOldName"
-      parameterType="kr.board.entity.Farm">
-      UPDATE farm_info
-      SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt
-      = #{farmLivestockCnt}
-      WHERE farm_name = #{oldFarmName}
-   </update>
+	<update id="updateFarmByOldName"
+		parameterType="kr.board.entity.Farm">
+		UPDATE farm_info
+		SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt
+		= #{farmLivestockCnt}
+		WHERE farm_name = #{oldFarmName}
+	</update>
+
+	<select id="getLatestEnvironment" parameterType="int"
+		resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx} ORDER BY created_at
+		DESC LIMIT 1
+	</select>
 </mapper>

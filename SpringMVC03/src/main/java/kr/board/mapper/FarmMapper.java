@@ -37,4 +37,6 @@ public interface FarmMapper {
 
     void updateFarmByOldName(@Param("oldFarmName") String oldFarmName, @Param("newFarmName") String newFarmName,
                              @Param("farmLoc") String farmLoc, @Param("farmLivestockCnt") int farmLivestockCnt);
+
+    FarmEnv getLatestEnvironment(int farm_idx);
 }

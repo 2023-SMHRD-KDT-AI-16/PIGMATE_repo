@@ -13,74 +13,85 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- FullCalendar CSS 추가 -->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
 <!-- Iconify for icons -->
 <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
 <style>
 .news-title {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: block;
-	max-width: 300px; /* 필요에 따라 조정 가능 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 300px; /* 필요에 따라 조정 가능 */
 }
 
 .table-custom tbody td {
-	max-width: 200px; /* 필요에 따라 조정 가능 */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    max-width: 200px; /* 필요에 따라 조정 가능 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .env-info-container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0;
 }
 
 .env-info-box {
-	flex: 0 0 48%; /* 크기를 2열로 맞추기 위해 설정 */
-	text-align: center;
-	padding: 20px;
-	margin: 10px 0;
-	border: 1px solid #fff;
-	border-radius: 10px;
-	background-color: #fff;
+    flex: 0 0 23%; /* 크기를 4열로 맞추기 위해 설정 */
+    text-align: center;
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background-color: #fff;
 }
 
 .env-info-box h6 {
-	margin-bottom: 10px;
-	font-size: 15px;
+    margin-bottom: 10px;
+    font-size: 15px;
 }
 
 .envContent {
-	display: block;
-	font-size: 55px;
-	margin-bottom: 5px;
+    display: block;
+    font-size: 55px;
+    margin-bottom: 5px;
 }
 
 .env-info-box .status {
-	font-size: 18px;
+    font-size: 18px;
 }
 
 .unitss {
-	font-size: 20px;
-	color: black;
+    font-size: 20px;
+    color: black;
 }
 
 .env-info-text {
-	font-size: 30px;
+    font-size: 30px;
 }
 
 .sidebar-nav .sidebar-item .collapse .sidebar-item {
-	padding-left: 20px;
+    padding-left: 20px;
 }
 
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- FullCalendar JS 추가 -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/js/sidebarmenu.js"></script>
 <script src="${contextPath}/resources/js/app.min.js"></script>
@@ -108,6 +119,86 @@ $(document).ready(function() {
     loadGraphData('daily', 'co2', 'myChart3', firstFarmId);
     loadGraphData('daily', 'ammonia', 'myChart4', firstFarmId);
     loadGraphData('daily', 'pm', 'myChart5', firstFarmId);
+
+    // FullCalendar 초기화
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month'
+        },
+        editable: true,
+        events: function(start, end, timezone, callback) {
+            $.ajax({
+                url: '${contextPath}/getEvents', // 이벤트를 불러올 서버측 URL
+                dataType: 'json',
+                success: function(data) {
+                    var events = [];
+                    $(data).each(function() {
+                        events.push({
+                            id: this.id,
+                            title: this.title,
+                            start: this.start, // 날짜 형식: 2024-06-08T16:00:00
+                            end: this.end,
+                            description: this.description
+                        });
+                    });
+                    callback(events);
+                }
+            });
+        },
+        selectable: true,
+        selectHelper: true,
+        select: function(start, end) {
+            var title = prompt('Event Title:');
+            var eventData;
+            if (title) {
+                eventData = {
+                    title: title,
+                    start: start,
+                    end: end
+                };
+                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                // 서버에 새 이벤트 저장
+                $.ajax({
+                    url: '${contextPath}/addEvent',
+                    data: {
+                        title: title,
+                        start: start.format(),
+                        end: end.format()
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        console.log('Event added successfully');
+                    },
+                    error: function(e) {
+                        console.log('Error while adding event');
+                    }
+                });
+            }
+            $('#calendar').fullCalendar('unselect');
+        },
+        eventClick: function(event) {
+            if (confirm("Do you want to delete this event?")) {
+                $('#calendar').fullCalendar('removeEvents', event._id);
+                // 서버에서 이벤트 삭제
+                $.ajax({
+                    url: '${contextPath}/deleteEvent',
+                    data: { id: event.id },
+                    type: 'POST',
+                    success: function(response) {
+                        console.log('Event deleted successfully');
+                    },
+                    error: function(e) {
+                        console.log('Error while deleting event');
+                    }
+                });
+            }
+        }
+    });
+
+    // 로그인 시 해야 할 일 모달 창 표시
+    showPendingTasksModal();
 });
 
 // 뉴스 기사 가져오기
@@ -608,6 +699,29 @@ function createChartPm(dateList, pmList, chartId) {
         }
     });
 }
+
+// 해야 할 일 모달 창 표시 함수
+function showPendingTasksModal() {
+    $.ajax({
+        url: 'getPendingTasks',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if (data.length > 0) {
+                var tasks = '<ul>';
+                $.each(data, function(index, task) {
+                    tasks += '<li>' + task.description + '</li>';
+                });
+                tasks += '</ul>';
+                $('#pendingTasksModal .modal-body').html(tasks);
+                $('#pendingTasksModal').modal('show');
+            }
+        },
+        error: function() {
+            console.log('Error while fetching pending tasks');
+        }
+    });
+}
 </script>
 
 </head>
@@ -733,6 +847,8 @@ function createChartPm(dateList, pmList, chartId) {
                             <div class="card w-100">
                                 <div class="card-body p-4">
                                     <h5 class="card-title fw-semibold mb-4">환경 정보 요약</h5>
+                                    <!-- FullCalendar 추가 -->
+                                    <div id="calendar"></div>
                                 </div>
                             </div>
                         </div>
@@ -803,6 +919,26 @@ function createChartPm(dateList, pmList, chartId) {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 해야 할 일 모달 창 -->
+    <div class="modal fade" id="pendingTasksModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">해야 할 일</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 해야 할 일이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>

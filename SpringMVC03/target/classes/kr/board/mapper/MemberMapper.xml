@@ -36,4 +36,9 @@
 		where mem_id = #{mem_id}
 	</update>
 
+	<select id="getAllMembers" resultType="kr.board.entity.Member">
+		SELECT mem_id, mem_pw, mem_name, mem_phone, mem_email, joined_at
+		FROM member_info
+	</select>
+
 </mapper>
