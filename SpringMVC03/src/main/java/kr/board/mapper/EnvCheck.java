@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Component
-public class EnvironmentCheckComponent {
+public class EnvCheck {
 
     @Autowired
     private EmailService emailService;
@@ -25,7 +25,7 @@ public class EnvironmentCheckComponent {
     @Autowired
     private Env_criteria_infoMapper envCriMapper;
 
-    private static final Logger logger = Logger.getLogger(EnvironmentCheckComponent.class.getName());
+    private static final Logger logger = Logger.getLogger(EnvCheck.class.getName());
 
     @Scheduled(fixedRate = 3600000) // 1시간마다 실행
     public void checkEnvironments() {
