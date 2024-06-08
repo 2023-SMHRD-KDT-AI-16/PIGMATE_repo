@@ -15,11 +15,17 @@ public interface FarmMapper {
     
     Farm getFarmById(int farmId);
 
-    // 최신 4주 데이터 가져오기
-    List<FarmEnv> getLatestWeeklyEnv(@Param("farm_idx") int farm_idx);
+    // 시간별 데이터 가져오기
+    List<FarmEnv> getHourEnv(@Param("farm_idx") int farm_idx);
     
-    // 최신 1년 월별 데이터 가져오기
-    List<FarmEnv> getLatestMonthlyEnv(@Param("farm_idx") int farm_idx);
+    // 일별 데이터 가져오기
+    List<FarmEnv> getDailyEnv(@Param("farm_idx") int farm_idx);
+    
+    // 최신 4주 데이터 가져오기
+    List<FarmEnv> getWeeklyEnv(@Param("farm_idx") int farm_idx);
+    
+    // 월별 데이터 가져오기
+    List<FarmEnv> getMonthlyEnv(@Param("farm_idx") int farm_idx);
 
     void insertFarm(Farm farm);
 

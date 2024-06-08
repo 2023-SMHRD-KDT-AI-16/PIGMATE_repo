@@ -204,6 +204,7 @@ function loadEnvCriteria(envData) {
     });
 }
 
+// 환경 기준에 띄울 정보
 function displayEnvInfo(data) {
     var temperature = "N/A";
     var humidity = "N/A";
@@ -224,6 +225,7 @@ function displayEnvInfo(data) {
     $("#ammonia").text(ammonia);
 }
 
+// 
 function updateEnvStatus(envData, criteria) {
     var latestEnv = envData[envData.length - 1];
 
@@ -238,6 +240,7 @@ function updateEnvStatus(envData, criteria) {
     updateStatus("#ammonia", latestEnv.ammonia, ammoniaRange);
 }
 
+// 
 function updateStatus(elementId, value, range) {
     var element = $(elementId);
     var statusElement = element.siblings(".status");
@@ -251,6 +254,7 @@ function updateStatus(elementId, value, range) {
     }
 }
 
+// 그래프 데이터 가져오는 함수
 function loadGraphData(period, type, chartId, farmId) {
     $.ajax({
         url: "${contextPath}/farm/env",

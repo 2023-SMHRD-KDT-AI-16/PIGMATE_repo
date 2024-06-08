@@ -172,7 +172,10 @@ ORDER BY
 SELECT m.*, f.*
 		FROM member_info m
 		LEFT JOIN farm_info f ON m.mem_id = f.mem_id
-		WHERE m.mem_id = 'admin' AND m.mem_pw = MD5('1234')
+		WHERE m.mem_id = 'admin' AND m.mem_pw = MD5('1234');
+		
+SELECT * FROM farm_env_info_day where farm_idx = 19;
 
+SELECT * FROM farm_env_info_day;
 
 
