@@ -14,4 +14,8 @@ public interface NewsMapper {
     int countAllNews();
 
 	public News getNews(int news_idx);
+	
+	List<News> getAllNews();
+    
+    void updateNewsImageUrl(News news);
 }

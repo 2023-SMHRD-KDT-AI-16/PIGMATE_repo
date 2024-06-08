@@ -17,6 +17,39 @@
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script
    src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<style>
+.news-list {
+    display: flex;
+    flex-direction: column;
+}
+.news-item {
+    display: flex;
+    margin-bottom: 15px;
+}
+.news-thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 8px; /* 이미지 라운드 처리 */
+}
+.news-details {
+    display: flex;
+    flex-direction: column;
+}
+.news-title {
+    font-size: 1.5em; /* 제목 크기 조정 */
+    margin: 0;
+}
+.news-subtitle {
+    font-size: 1.0em; /* 부제목 크기 조정 */
+    margin: 0;
+}
+.news-date {
+    font-size: 0.8em;
+    color: gray;
+}
+</style>
 
 <script type="text/javascript">
    $(document).ready(function() {
@@ -46,31 +79,20 @@
 
    // 뉴스 불러와서 목록으로 띄워주는 함수
    function makeView(newsList, pageMaker) { // 추가: pageMaker 매개변수 추가
-      console.log(newsList);
-      var listHtml = "<table class='table  table-hover' border='1'>";
-      listHtml += "<thead class='table-success' style='font-size: smaller;'>";
-      listHtml += "<tr>";
-      listHtml += "<th scope='col'></th>";
-      listHtml += "<th scope='col'>제목</th>";
-      listHtml += "<th scope='col'>등록일자</th>";
-      listHtml += "</tr>";
-      listHtml += "</thead>";
-      listHtml += "<tbody style='font-size: smaller;'>";
-
-      // jQuery 반복문
-      $.each(newsList, function(index, obj) {
-         var rowIndex = (pageMaker.cri.page - 1) * 10 + index + 1; // 추가: 현재 페이지와 인덱스를 고려하여 행 번호 계산
-         listHtml += "<tr>";
-         listHtml += "<th scope='row'>" + rowIndex + "</th>"; // 수정: rowIndex 사용
-         listHtml += "<td id='t"+obj.news_idx+"'><a href='news?news_idx="
-               + obj.news_idx + "'>" + obj.news_title + "</a></td>";
-         listHtml += "<td>" + obj.pressed_at.split(' ')[0] + "</td>";
-         listHtml += "</tr>";
-
-      }) // 반복문
-
-      listHtml += "</tbody>";
-      listHtml += "</table>";
+       console.log(newsList);
+       var listHtml = "<div class='news-list'>";
+       $.each(newsList, function(index, obj) {
+           var rowIndex = (pageMaker.cri.page - 1) * 10 + index + 1;
+           var imageUrl = obj.news_url ? obj.news_url : 'path/to/default/image.jpg';
+           listHtml += "<div class='news-item'>";
+           listHtml += "<img src='" + imageUrl + "' alt='News Image' class='news-thumbnail'>";
+           listHtml += "<div class='news-details'>";
+           listHtml += "<h2 class='news-title'><a href='news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "</a></h2>";
+           listHtml += "<h4 class='news-subtitle'>" + obj.news_subtitle + "</h4>";
+           listHtml += "<p class='news-date'>" + obj.pressed_at.split(' ')[0] + "</p>";
+           listHtml += "</div></div>";
+       });
+       listHtml += "</div>";
 
       $('#newsListView').html(listHtml);
 
@@ -86,17 +108,14 @@
 
       for (var i = pageMaker.startPage; i <= pageMaker.endPage; i++) {
          if (i === pageMaker.cri.page) {
-            paginationHtml += "<li class='page-item active'><a class='page-link' href='javascript:void(0);'>"
-                  + i + "</a></li>";
+            paginationHtml += "<li class='page-item active'><a class='page-link' href='javascript:void(0);'>" + i + "</a></li>";
          } else {
-            paginationHtml += "<li class='page-item'><a class='page-link' href='javascript:void(0);' onclick='newsList("
-                  + i + ")'>" + i + "</a></li>";
+            paginationHtml += "<li class='page-item'><a class='page-link' href='javascript:void(0);' onclick='newsList(" + i + ")'>" + i + "</a></li>";
          }
       }
 
       if (pageMaker.next) {
-         paginationHtml += "<li class='page-item'><a class='page-link' href='javascript:void(0);' onclick='newsList("
-               + (pageMaker.endPage + 1) + ")'>Next</a></li>";
+         paginationHtml += "<li class='page-item'><a class='page-link' href='javascript:void(0);' onclick='newsList(" + (pageMaker.endPage + 1) + ")'>Next</a></li>";
       }
 
       paginationHtml += "</ul>";
@@ -119,7 +138,6 @@
 
          <!--  Main wrapper -->
 
-
          <div class="body-wrapper-inner">
             <div class="container-fluid">
                <div class="card">
@@ -131,8 +149,6 @@
                </div>
             </div>
          </div>
-
-
       </div>
    </div>
    <script

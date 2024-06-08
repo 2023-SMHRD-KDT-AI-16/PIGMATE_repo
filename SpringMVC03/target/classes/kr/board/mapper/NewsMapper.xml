@@ -13,4 +13,5 @@
     <select id="countAllNews" resultType = "int">
     	select count(*) from news_info
     </select>
+    
 </mapper>

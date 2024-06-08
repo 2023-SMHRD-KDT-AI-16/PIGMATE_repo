@@ -15,5 +15,6 @@ public class News {
 	private String news_url;
 	private String news_subtitle;
 	private String pressed_at;
+	private String img_url;
 
 }

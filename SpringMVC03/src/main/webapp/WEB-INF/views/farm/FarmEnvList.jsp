@@ -147,17 +147,25 @@ $(function() {
 
 
 function loadGraphData(period, type, chartId) {
+	
 	console.log("hi");
+	
+	const urlParams = new URLSearchParams(window.location.search);
+	
+	var farm_id = urlParams.get('farmId');
+	
+	console.log(farm_id);
+	
     $.ajax({
         url: "${pageContext.request.contextPath}/farm/env",
         type: "post",
         dataType: "json",
-        data: { period: period, type: type },
+        data: { period: period, type: type, farm_id: farm_id},
         success: function(data) {
             console.log(data);
             makeData(data, period, type, chartId);
         },
-        error: function(request, status, error) {
+        error: function() {
             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         }
     });
