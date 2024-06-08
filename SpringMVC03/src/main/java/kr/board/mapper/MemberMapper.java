@@ -19,5 +19,8 @@ public interface MemberMapper {
 	public int join(Member m);
 
 	public void update(Member m);
+	
+	// 모든 회원정보 가져오기 - 이메일 전송
+	public List<Member> getAllMembers();
 
 }
