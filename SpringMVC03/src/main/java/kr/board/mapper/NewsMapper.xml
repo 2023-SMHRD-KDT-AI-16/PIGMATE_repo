@@ -3,11 +3,11 @@
 <mapper namespace="kr.board.mapper.NewsMapper">
 
     <select id="getNewsList" parameterType="kr.board.entity.Criteria" resultType="kr.board.entity.News">
-        select * from news_info order by pressed_at limit #{pageStart}, #{perPageNum}
+        select * from news_info order by pressed_at desc limit #{pageStart}, #{perPageNum}
     </select>
     
     <select id="getNews" resultType="kr.board.entity.News">
-    	select * from news_info where news_idx = #{news_idx}
+    	select * from news_info where news_idx = #{news_idx} 
     </select>
     
     <select id="countAllNews" resultType = "int">
