@@ -4,14 +4,16 @@ import kr.board.entity.EnvCri;
 import kr.board.entity.Farm;
 import kr.board.entity.FarmEnv;
 import kr.board.entity.Member;
+import kr.board.mapper.Env_criteria_infoMapper;
+import kr.board.mapper.FarmMapper;
+import kr.board.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Component
+@Service
 public class EnvCheck {
 
     @Autowired
@@ -26,25 +28,25 @@ public class EnvCheck {
     @Autowired
     private Env_criteria_infoMapper envCriMapper;
 
-    private static final Logger logger = Logger.getLogger(EnvCheck.class.getName());
+    // private static final Logger logger = Logger.getLogger(EnvCheck.class.getName());
 
     @Scheduled(fixedRate = 3600000) // 1시간마다 실행
     public void checkEnvironments() {
-        logger.info("Checking environments...");
-
+        // logger.info("Checking environments...");
+        
         // 모든 회원의 농장 정보 가져오기
         List<Member> members = memberMapper.getAllMembers();
 
         for (Member member : members) {
             List<Farm> farms = farmMapper.getFarm(member.getMem_id());
             for (Farm farm : farms) {
-                // 최신 환경 정보 가져오기
+            	// 최신 환경 정보 가져오기
                 FarmEnv currentEnv = farmMapper.getLatestEnvironment(farm.getFarm_idx());
                 // 환경 기준 정보 가져오기
                 EnvCri criteria = envCriMapper.getEnvCriByFarmIdx(farm.getFarm_idx());
 
                 if (currentEnv != null && criteria != null) {
-                    // 기준에서 벗어나면 알림 전송
+                	// 기준에서 벗어나면 알림 전송
                     if (isOutOfRange(currentEnv, criteria)) {
                         sendAlert(member, farm, currentEnv);
                     }
@@ -67,7 +69,7 @@ public class EnvCheck {
 
     // 이메일 전송하는 메서드
     private void sendAlert(Member member, Farm farm, FarmEnv env) {
-        emailService.sendAlertMessage(member.getMem_email(), farm.getFarm_name(), env.getTemperature(), env.getHumidity(), env.getCo2(), env.getAmmonia(), env.getPm());
-        logger.info("Sent email alert to " + member.getMem_email());
+        emailService.sendAlertMessage(member.getMem_id(), farm.getFarm_name(), env.getTemperature(), env.getHumidity(), env.getCo2(), env.getAmmonia(), env.getPm());
+        // logger.info("Sent email alert to " + member.getMem_email());
     }
 }

@@ -84,6 +84,21 @@
     margin: 0 auto;
     padding: 20px;
 }
+
+.alert-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+.alert-card h6 {
+    margin-top: 0;
+    font-size: 16px;
+}
+.alert-card p {
+    margin: 0;
+}
 </style>
 
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
@@ -106,7 +121,8 @@
 </c:if>
 
 <script>
-var charts = {}; 
+var charts = {};
+var alertCount = {}; // 날짜별 알림 개수 저장 객체
 
 $(document).ready(function() {
     console.log("Document is ready");
@@ -130,70 +146,60 @@ $(document).ready(function() {
         editable: true,
         events: function(start, end, timezone, callback) {
             $.ajax({
-                url: '${contextPath}/getEvents', // 이벤트를 불러올 서버측 URL
+                url: '${contextPath}/getAlerts', // 알림 데이터를 가져오는 서버측 URL
                 dataType: 'json',
                 success: function(data) {
+                    console.log("Fetched alerts data: ", data); // 데이터를 확인하는 출력문 추가
                     var events = [];
+                    alertCount = {}; // 날짜별 알림 개수 저장 객체 초기화
+
                     $(data).each(function() {
+                        var date = moment(this.alarmedAt).format('YYYY-MM-DD');
+                        if (!alertCount[date]) {
+                            alertCount[date] = {
+                                count: 0,
+                                alerts: []
+                            };
+                        }
+                        alertCount[date].count += 1;
+                        alertCount[date].alerts.push(this.alarmMsg);
+                    });
+
+                    // 알림 개수 표시
+                    $.each(alertCount, function(date, details) {
                         events.push({
-                            id: this.id,
-                            title: this.title,
-                            start: this.start, // 날짜 형식: 2024-06-08T16:00:00
-                            end: this.end,
-                            description: this.description
+                            id: date,
+                            title: '알림 ' + details.count + '개',
+                            start: date, // 알림 날짜
+                            color: 'red' // 빨간 점
                         });
                     });
+
+                    console.log("Events to display: ", events); // 이벤트 데이터를 확인하는 출력문 추가
                     callback(events);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Failed to fetch alerts data: ", status, error); // 오류 메시지 출력
                 }
             });
         },
-        selectable: true,
-        selectHelper: true,
-        select: function(start, end) {
-            var title = prompt('Event Title:');
-            var eventData;
-            if (title) {
-                eventData = {
-                    title: title,
-                    start: start,
-                    end: end
-                };
-                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                // 서버에 새 이벤트 저장
-                $.ajax({
-                    url: '${contextPath}/addEvent',
-                    data: {
-                        title: title,
-                        start: start.format(),
-                        end: end.format()
-                    },
-                    type: 'POST',
-                    success: function(response) {
-                        console.log('Event added successfully');
-                    },
-                    error: function(e) {
-                        console.log('Error while adding event');
-                    }
-                });
-            }
-            $('#calendar').fullCalendar('unselect');
-        },
         eventClick: function(event) {
-            if (confirm("Do you want to delete this event?")) {
-                $('#calendar').fullCalendar('removeEvents', event._id);
-                // 서버에서 이벤트 삭제
-                $.ajax({
-                    url: '${contextPath}/deleteEvent',
-                    data: { id: event.id },
-                    type: 'POST',
-                    success: function(response) {
-                        console.log('Event deleted successfully');
-                    },
-                    error: function(e) {
-                        console.log('Error while deleting event');
-                    }
-                });
-            }
+            var date = event.id;
+            var alerts = alertCount[date] ? alertCount[date].alerts : [];
+            console.log("Alerts on date ", date, ": ", alerts); // 로그 추가
+            var alertDetails = alerts.map(function(alert) {
+                // 알림 메시지를 파싱하여 농장 이름과 내용을 추출합니다.
+                var parts = alert.split(',');
+                var farmName = parts[0].split(':')[1].trim();
+                var details = parts.slice(1).join(',').trim();
+                return `<div class="alert-card">
+                            <h6>농장 이름: ${farmName}</h6>
+                            <p>${details}</p>
+                        </div>`;
+            }).join('');
+            console.log("Alert details HTML: ", alertDetails); // 로그 추가
+            $('#alertDetailsContent').html(alertDetails); // 모달 창에 세부 사항 표시
+            $('#alertDetailsModal').modal('show'); // 모달 창 표시
         }
     });
 
@@ -389,7 +395,6 @@ function makeData(data, type, chartId) {
     }
 }
 
-
 // 해야 할 일 모달 창 표시 함수
 function showPendingTasksModal() {
     $.ajax({
@@ -416,7 +421,7 @@ function showPendingTasksModal() {
 
 </head>
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebarmenu="full" data-sidebar-position="fixed" data-header-position="fixed">
         <%@ include file="common/sidebar.jsp"%>
         <div class="body-wrapper">
             <%@ include file="common/header.jsp"%>
@@ -590,6 +595,27 @@ function showPendingTasksModal() {
                 </div>
                 <div class="modal-body">
                     <!-- 해야 할 일이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 세부 사항 모달 창 -->
+    <div class="modal fade" id="alertDetailsModal" tabindex="-1" role="dialog" aria-labelledby="alertDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertDetailsModalLabel">알림 세부 사항</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 알림 세부 사항이 여기에 표시됩니다 -->
+                    <div id="alertDetailsContent"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>

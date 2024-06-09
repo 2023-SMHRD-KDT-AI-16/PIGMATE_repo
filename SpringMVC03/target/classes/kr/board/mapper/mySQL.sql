@@ -4,6 +4,8 @@ select * from member_info;
 select * from farm_info;
 select * from farm_env_info where farm_idx = 19;
 select * from env_criteria_info;
+select * from alert_info;
+delete from alert_info where mem_id = 'admin';
 
 insert into env_criteria_info (farm_idx, temperature, humidity, co2, ammonia,
 		pm)
