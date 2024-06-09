@@ -7,6 +7,7 @@ import kr.board.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,20 +31,20 @@ public class EnvCheck {
     @Scheduled(fixedRate = 3600000) // 1시간마다 실행
     public void checkEnvironments() {
         logger.info("Checking environments...");
-        
+
         // 모든 회원의 농장 정보 가져오기
         List<Member> members = memberMapper.getAllMembers();
 
         for (Member member : members) {
             List<Farm> farms = farmMapper.getFarm(member.getMem_id());
             for (Farm farm : farms) {
-            	// 최신 환경 정보 가져오기
+                // 최신 환경 정보 가져오기
                 FarmEnv currentEnv = farmMapper.getLatestEnvironment(farm.getFarm_idx());
                 // 환경 기준 정보 가져오기
                 EnvCri criteria = envCriMapper.getEnvCriByFarmIdx(farm.getFarm_idx());
 
                 if (currentEnv != null && criteria != null) {
-                	// 기준에서 벗어나면 알림 전송
+                    // 기준에서 벗어나면 알림 전송
                     if (isOutOfRange(currentEnv, criteria)) {
                         sendAlert(member, farm, currentEnv);
                     }
