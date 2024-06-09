@@ -63,21 +63,18 @@ public class FarmController {
 
 				System.out.print(farm_idx);
 
-				if ("latest-weekly".equals(period)) {
-					System.out.print("weekly");
+				if ("weekly".equals(period)) {
 					List<FarmEnv> WeeklyEnv = farmMapper.getWeeklyEnv(farm_idx);
 					List<FarmEnv> weeklyAverages = calculateWeeklyAverages(WeeklyEnv);
 					System.out.print(weeklyAverages);
 					farm_env.addAll(weeklyAverages);
 
 				} else if ("daily".equals(period)) {
-					System.out.print("daily");
 					List<FarmEnv> dailyEnv = farmMapper.getDailyEnv(farm_idx);
 					System.out.print(dailyEnv);
 					farm_env.addAll(dailyEnv);
 
-				} else if ("latest-monthly".equals(period)) {
-					System.out.print("monthly");
+				} else if ("monthly".equals(period)) {
 					List<FarmEnv> MonthlyEnv = farmMapper.getMonthlyEnv(farm_idx);
 					System.out.print(MonthlyEnv);
 					farm_env.addAll(MonthlyEnv);

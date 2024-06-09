@@ -53,6 +53,17 @@
 
 </script>
 
+<style>
+
+#newsContent {
+	color: black;
+}
+
+#news_body_area + p{
+	display : none;
+}
+</style>
+
 </head>
 
 <body>

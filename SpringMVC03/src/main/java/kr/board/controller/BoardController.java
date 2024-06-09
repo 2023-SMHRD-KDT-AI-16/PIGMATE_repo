@@ -38,6 +38,7 @@ public class BoardController {
 	        pgm.setTotalCount(totalNewsCount);
 	        
 	        Map<String, Object> result = new HashMap<>();
+
 	        result.put("newsList", newsList);
 	        result.put("pageMaker", pgm);
 	        
@@ -50,8 +51,6 @@ public class BoardController {
 	    public News getNews(@RequestParam("news_idx") int news_idx) {
 	    	
 	    	News news = newsMapper.getNews(news_idx);
-	    	
-	    	System.out.println(news);
 	    	
 	    	return news;
 	    	

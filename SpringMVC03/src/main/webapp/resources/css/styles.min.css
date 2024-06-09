@@ -6298,25 +6298,6 @@ fieldset:disabled .btn {
     color: var(--bs-card-color)
 }
 
-.btn-text-only {
-    background: none !important;
-    border: none !important;
-    color: inherit !important;
-    padding: 0 !important;
-    margin: 5px 6px !important;
-    font: inherit !important;
-    font-size: 15px !important;
-    cursor: pointer !important;
-    outline: none !important;
-}
-
-.btn-text-only:focus,
-.btn-text-only:active {
-    outline: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    font-weight: bold !important;
-}
 
 .card-title {
     margin-bottom: var(--bs-card-title-spacer-y);

@@ -17,6 +17,7 @@
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script
    src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
 <style>
 .news-list {
     display: flex;
@@ -51,6 +52,7 @@
 }
 </style>
 
+
 <script type="text/javascript">
    $(document).ready(function() {
       newsList(1);
@@ -58,7 +60,6 @@
 
    // 뉴스 데이터 가져오는 함수
    function newsList(page) {
-
       $.ajax({
          url : "board/newsList",
          type : "get",
@@ -79,20 +80,38 @@
 
    // 뉴스 불러와서 목록으로 띄워주는 함수
    function makeView(newsList, pageMaker) { // 추가: pageMaker 매개변수 추가
-       console.log(newsList);
-       var listHtml = "<div class='news-list'>";
-       $.each(newsList, function(index, obj) {
-           var rowIndex = (pageMaker.cri.page - 1) * 10 + index + 1;
-           var imageUrl = obj.news_url ? obj.news_url : 'path/to/default/image.jpg';
-           listHtml += "<div class='news-item'>";
-           listHtml += "<img src='" + imageUrl + "' alt='News Image' class='news-thumbnail'>";
-           listHtml += "<div class='news-details'>";
-           listHtml += "<h2 class='news-title'><a href='news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "</a></h2>";
-           listHtml += "<h4 class='news-subtitle'>" + obj.news_subtitle + "</h4>";
-           listHtml += "<p class='news-date'>" + obj.pressed_at.split(' ')[0] + "</p>";
-           listHtml += "</div></div>";
-       });
-       listHtml += "</div>";
+	   console.log(newsList);
+	      var listHtml = "<table class='table table-hover' border='1'>";
+	      listHtml += "<thead class='table-success' style='font-size: smaller;'>";
+	      listHtml += "<tr>";
+	      listHtml += "<th scope='col'></th>";
+	      listHtml += "<th scope='col'>제목</th>";
+	      listHtml += "<th scope='col'>등록일자</th>";
+	      listHtml += "</tr>";
+	      listHtml += "</thead>";
+	      listHtml += "<tbody style='font-size: smaller;'>";
+
+	      // jQuery 반복문
+	      $.each(newsList, function(index, obj) {
+	         var rowIndex = (pageMaker.cri.page - 1) * 10 + index + 1; // 추가: 현재 페이지와 인덱스를 고려하여 행 번호 계산
+	         listHtml += "<tr>";
+	         listHtml += "<td rowspan='3'>"+rowIndex +"</td>"
+	         listHtml += "<td rowspan='3'>";
+	         listHtml += "<img src='"+ obj.image_url+"' class='news-thumbnail' alt='news_image'>";
+	         listHtml += "</td>";
+	         listHtml += "<td id='t"+obj.news_idx+"'><a href='news?news_idx=" + obj.news_idx + "'>" + obj.news_title + "</a></td>";
+	         listHtml += "</tr>";
+	         listHtml += "<tr>";
+	         listHtml += "<td>"+ obj.news_subtitle +"</td>"
+	         listHtml += "</tr>";
+	         listHtml += "<tr>";
+	         listHtml += "<td>" + obj.pressed_at.split(' ')[0] + "</td>";
+	         listHtml += "</tr>";
+
+	      }) // 반복문
+
+	      listHtml += "</tbody>";
+	      listHtml += "</table>";
 
       $('#newsListView').html(listHtml);
 
