@@ -84,21 +84,6 @@
     margin: 0 auto;
     padding: 20px;
 }
-
-.alert-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-}
-.alert-card h6 {
-    margin-top: 0;
-    font-size: 16px;
-}
-.alert-card p {
-    margin: 0;
-}
 </style>
 
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
@@ -186,19 +171,8 @@ $(document).ready(function() {
         eventClick: function(event) {
             var date = event.id;
             var alerts = alertCount[date] ? alertCount[date].alerts : [];
-            console.log("Alerts on date ", date, ": ", alerts); // 로그 추가
-            var alertDetails = alerts.map(function(alert) {
-                // 알림 메시지를 파싱하여 농장 이름과 내용을 추출합니다.
-                var parts = alert.split(',');
-                var farmName = parts[0].split(':')[1].trim();
-                var details = parts.slice(1).join(',').trim();
-                return `<div class="alert-card">
-                            <h6>농장 이름: ${farmName}</h6>
-                            <p>${details}</p>
-                        </div>`;
-            }).join('');
-            console.log("Alert details HTML: ", alertDetails); // 로그 추가
-            $('#alertDetailsContent').html(alertDetails); // 모달 창에 세부 사항 표시
+            var alertDetails = alerts.join('<br>');
+            $('#alertDetailsModal .modal-body').html(alertDetails); // 모달 창에 세부 사항 표시
             $('#alertDetailsModal').modal('show'); // 모달 창 표시
         }
     });
@@ -421,7 +395,7 @@ function showPendingTasksModal() {
 
 </head>
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebarmenu="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
         <%@ include file="common/sidebar.jsp"%>
         <div class="body-wrapper">
             <%@ include file="common/header.jsp"%>
@@ -615,7 +589,6 @@ function showPendingTasksModal() {
                 </div>
                 <div class="modal-body">
                     <!-- 알림 세부 사항이 여기에 표시됩니다 -->
-                    <div id="alertDetailsContent"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
