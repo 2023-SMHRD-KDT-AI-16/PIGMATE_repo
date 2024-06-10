@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
@@ -101,26 +100,29 @@
 .modal-body .alert-item:last-child {
 	border-bottom: none;
 }
+
+.fc-event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    display: inline-block;
+    margin-right: 5px;
+}
 </style>
 
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- FullCalendar JS 추가 -->
-<script
-	src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
-<script
-	src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script
-	src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/js/sidebarmenu.js"></script>
 <script src="${contextPath}/resources/js/app.min.js"></script>
-<script
-	src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="${contextPath}/resources/js/dashboard.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <c:if test="${not empty sessionScope.mvo}">
 	<script>
@@ -177,9 +179,8 @@ $(document).ready(function() {
                     $.each(alertCount, function(date, details) {
                         events.push({
                             id: date,
-                            title: '알림 ' + details.count + '개',
-                            start: date, // 알림 날짜
-                            color: 'red' // 빨간 점
+                            title: '<span class="fc-event-dot"></span>' + details.count + '개',
+                            start: date // 알림 날짜,
                         });
                     });
 
@@ -191,14 +192,16 @@ $(document).ready(function() {
                 }
             });
         },
+        eventRender: function(event, element) {
+            element.find('.fc-title').html(event.title); // 이벤트 타이틀 HTML 업데이트
+        },
         eventClick: function(event) {
             var date = event.id;
             var alerts = alertCount[date] ? alertCount[date].alerts : [];
             var alertDetails = alerts.map(alert => {
-                // 줄바꿈 추가 및 농장 이름 굵게
+                // 농장 이름 부분 제거
                 var parts = alert.split('내용:');
-                var farmName = parts[0].replace('농장 이름:', '<strong>농장 이름:</strong>');
-                return farmName + '<br>' + '내용:' + parts[1];
+                return '내용:' + parts[1];
             }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
             $('#alertDetailsModal .modal-body').html(alertDetails); // 모달 창에 세부 사항 표시
             $('#alertDetailsModal').modal('show'); // 모달 창 표시
@@ -565,7 +568,7 @@ function showPendingTasksModal() {
 						<div class="col-lg-8 d-flex align-items-stretch">
 							<div class="card w-100">
 								<div class="card-body p-4">
-									<h5 class="card-title fw-semibold mb-4">환경 정보 요약</h5>
+									<h5 class="card-title fw-semibold mb-4"></h5>
 									<!-- FullCalendar 추가 -->
 									<div id="calendar"></div>
 								</div>
@@ -656,4 +659,4 @@ function showPendingTasksModal() {
 	</div>
 
 </body>
-</html>
+</html> 
