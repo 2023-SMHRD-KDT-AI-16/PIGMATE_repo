@@ -24,8 +24,13 @@
 	background-color: #6EB876;
 	color: white;
 }
+
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+    padding-left: 20px;
+}
+
 </style>
-</style>
+
 
 </head>
 <body>

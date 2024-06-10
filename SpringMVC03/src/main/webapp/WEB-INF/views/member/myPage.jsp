@@ -309,7 +309,12 @@
 		});
 	}
 </script>
+<style >
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+    padding-left: 20px;
+}
 </style>
+
 </head>
 <body>
 
