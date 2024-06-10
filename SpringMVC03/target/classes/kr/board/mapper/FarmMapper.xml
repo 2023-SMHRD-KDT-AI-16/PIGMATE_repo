@@ -86,13 +86,14 @@
 
 	<select id="getLatestEnvironment" parameterType="int"
 		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
-		ORDER BY created_at
+		SELECT * FROM farm_env_info_time WHERE farm_idx = #{farm_idx} ORDER BY
+		created_at
 		DESC LIMIT 1
 	</select>
 
 	<select id="getPenInfo" resultType="kr.board.entity.Farm">
-		SELECT * FROM pen_info WHERE farm_idx = #{farmIdx}
+		SELECT * FROM pen_info WHERE
+		farm_idx = #{farmIdx}
 	</select>
 
 </mapper>
