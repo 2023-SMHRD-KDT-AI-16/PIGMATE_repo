@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +8,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<link rel="shortcut icon" type="image/png"
+	href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 
 <style>
 .chart-container {
@@ -17,17 +21,24 @@
 }
 
 .active {
-    background-color: #6EB876;
-    color: white;
+	background-color: #6EB876;
+	color: white;
 }
+
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+    padding-left: 20px;
+}
+
 </style>
-</style>
+
 
 </head>
 <body>
 
 	<!--  Body Wrapper -->
-	<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
+		data-navbarbg="skin6" data-sidebartype="full"
+		data-sidebar-position="fixed" data-header-position="fixed">
 
 		<%@ include file="../common/sidebar.jsp"%>
 		<div class="body-wrapper">
@@ -41,17 +52,21 @@
 							<div class="col-lg-12 d-flex align-items-stretch">
 								<div class="card w-100">
 									<div class="card-body">
-										<div>
-											<button class="btn btn-outline-primary" id="temperature">온도</button>
-                                            <button class="btn btn-outline-primary" id="humidity">습도</button>
-                                            <button class="btn btn-outline-primary" id="co2">이산화탄소</button>
-                                            <button class="btn btn-outline-primary" id="ammonia">암모니아</button>
-                                            <button class="btn btn-outline-primary" id="pm">이산화황</button>
-											<select class="form-select" id="periodSelect">
-                                               <option value="daily">일별</option>
-                                                <option value="weekly">주별</option>
-                                                <option value="monthly">월별</option>
-                                            </select>
+										<div class="d-flex justify-content-between align-items-center">
+											<div>
+												<button class="btn btn-outline-primary me-3" id="temperature">온도</button>
+												<button class="btn btn-outline-primary me-3" id="humidity">습도</button>
+												<button class="btn btn-outline-primary me-3" id="co2">이산화탄소</button>
+												<button class="btn btn-outline-primary me-3" id="ammonia">암모니아</button>
+												<button class="btn btn-outline-primary me-3" id="pm">이산화황</button>
+											</div>
+											<div>
+												<select class="form-select ms-auto" id="periodSelect">
+													<option value="daily">일별</option>
+													<option value="weekly">주별</option>
+													<option value="monthly">월별</option>
+												</select>
+											</div>
 										</div>
 										<div>
 											<div id="myChart" style="width: 100%; height: 400px;"></div>
@@ -67,11 +82,16 @@
 	</div>
 
 
-	<script src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 
 	<script>
 	

@@ -3,7 +3,7 @@
 <mapper namespace="kr.board.mapper.FarmMapper">
 
    <select id="getEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
-      SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx}
+      SELECT * FROM farm_env_info_time WHERE farm_idx = #{farm_idx}
    </select>
 
    <select id="getFarmById" parameterType="int" resultType="kr.board.entity.Farm">
@@ -20,7 +20,7 @@
 
    <select id="getWeeklyEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
       SELECT created_at, temperature, humidity, co2, ammonia, pm, #{farm_idx} as farm_idx
-      FROM farm_env_info
+      FROM farm_env_info_day
       WHERE farm_idx = #{farm_idx}
       AND created_at >= (SELECT DATE_SUB(MAX(created_at), INTERVAL 28 DAY) FROM
       farm_env_info_day WHERE farm_idx = #{farm_idx})
@@ -65,7 +65,7 @@
 
 	<select id="getLatestEnvironment" parameterType="int"
 		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info WHERE farm_idx = #{farm_idx} ORDER BY created_at
+		SELECT * FROM farm_env_info_time WHERE farm_idx = #{farm_idx} ORDER BY created_at
 		DESC LIMIT 1
 	</select>
 </mapper>

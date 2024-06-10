@@ -8,15 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>리포트</title>
 <link rel="shortcut icon" type="image/png"
-	href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
+   href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+   href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+   src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </head>
 
 <body>
