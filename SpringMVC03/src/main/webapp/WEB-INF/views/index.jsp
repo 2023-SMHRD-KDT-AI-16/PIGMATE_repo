@@ -92,6 +92,15 @@
 	margin: 0 auto;
 	padding: 20px;
 }
+
+.modal-body .alert-item {
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.modal-body .alert-item:last-child {
+	border-bottom: none;
+}
 </style>
 
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
@@ -148,7 +157,7 @@ $(document).ready(function() {
                 url: '${contextPath}/getAlerts', // 알림 데이터를 가져오는 서버측 URL
                 dataType: 'json',
                 success: function(data) {
-                    console.log("Fetched alerts data: ", data); // 데이터를 확인하는 출력문 추가
+                    console.log("Fetched alerts data: ", data); // 데이터를 확인하는 출력문
                     var events = [];
                     alertCount = {}; // 날짜별 알림 개수 저장 객체 초기화
 
@@ -174,7 +183,7 @@ $(document).ready(function() {
                         });
                     });
 
-                    console.log("Events to display: ", events); // 이벤트 데이터를 확인하는 출력문 추가
+                    console.log("Events to display: ", events); // 이벤트 데이터를 확인하는 출력문
                     callback(events);
                 },
                 error: function(xhr, status, error) {
@@ -185,7 +194,12 @@ $(document).ready(function() {
         eventClick: function(event) {
             var date = event.id;
             var alerts = alertCount[date] ? alertCount[date].alerts : [];
-            var alertDetails = alerts.join('<br>');
+            var alertDetails = alerts.map(alert => {
+                // 줄바꿈 추가 및 농장 이름 굵게
+                var parts = alert.split('내용:');
+                var farmName = parts[0].replace('농장 이름:', '<strong>농장 이름:</strong>');
+                return farmName + '<br>' + '내용:' + parts[1];
+            }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
             $('#alertDetailsModal .modal-body').html(alertDetails); // 모달 창에 세부 사항 표시
             $('#alertDetailsModal').modal('show'); // 모달 창 표시
         }
@@ -193,6 +207,11 @@ $(document).ready(function() {
 
     // 로그인 시 해야 할 일 모달 창 표시
     showPendingTasksModal();
+    
+    // 모달 닫기 버튼 이벤트 리스너
+    $('.modal .close, .modal .btn-secondary').on('click', function() {
+        $(this).closest('.modal').modal('hide');
+    });
 });
 
 // 뉴스 기사 가져오기
@@ -217,7 +236,7 @@ function makeNews(data) {
     var listHtml = "";
 
     if (data.newsList) {
-        $.each(data.newsList.slice(0, 10), function(index, obj) {
+        $.each(data.newsList.slice(0, 11), function(index, obj) {
             console.log("뉴스 데이터 이동 성공");
             console.log("뉴스 객체:", obj);
             listHtml += "<tr>";
