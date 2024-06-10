@@ -9,8 +9,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PigMate</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/styles.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
@@ -26,6 +26,18 @@
       }
     });
   </script>
+  
+  <style>
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo-image {
+    display: block;
+    margin: 0 auto;
+}
+</style>
 </head>
 <body>
 
@@ -39,10 +51,10 @@
 				<div class="row justify-content-center w-100">
 					<div class="col-md-8 col-lg-6 col-xxl-3">
 						<a href="${contextPath}/index.html"
-							class="text-nowrap logo-img text-center d-block py-3 w-100">
-							<img width="600" height="150"
+							class="text-nowrap logo-img text-center d-block py-3 w-100 logo-container">
+							<img width="450" height="150"
 							src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
-							alt="">
+							alt="" class="logo-image">
 						</a>
 						<div class="card mb-0">
 							<div class="card-body">
@@ -103,12 +115,14 @@
 		</div>
 	</div>
 
-	<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-	<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="../assets/js/sidebarmenu.js"></script>
-	<script src="../assets/js/app.min.js"></script>
-	<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-	<!-- solar icons -->
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
