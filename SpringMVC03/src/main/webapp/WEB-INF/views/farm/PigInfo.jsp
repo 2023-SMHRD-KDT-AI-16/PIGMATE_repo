@@ -6,42 +6,49 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>피그메이트</title>
-<link rel="shortcut icon" type="image/png" href="${contextPath}/resources/img/logos/piglogos.png" />
-<link rel="stylesheet" href="${contextPath}/resources/css/styles.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>피그메이트</title>
+    <link rel="shortcut icon" type="image/png" href="${contextPath}/resources/img/logos/piglogos.png" />
+    <link rel="stylesheet" href="${contextPath}/resources/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Iconify for icons -->
-<script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+    <!-- Iconify for icons -->
+    <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
 
-<style>
+    <style>
+        .sidebar-nav .sidebar-item .collapse .sidebar-item {
+            padding-left: 20px;
+        }
 
-.sidebar-nav .sidebar-item .collapse .sidebar-item {
-    padding-left: 20px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
 
-</style>
-
-<script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/js/sidebarmenu.js"></script>
-<script src="${contextPath}/resources/js/app.min.js"></script>
-<script src="${contextPath}/resources/js/dashboard.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-
-
+    <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${contextPath}/resources/js/sidebarmenu.js"></script>
+    <script src="${contextPath}/resources/js/app.min.js"></script>
+    <script src="${contextPath}/resources/js/dashboard.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-        <%@ include file="common/sidebar.jsp"%>
+        <%@ include file="../common/sidebar.jsp" %>
         <div class="body-wrapper">
-            <%@ include file="common/header.jsp"%>
+            <%@ include file="../common/header.jsp" %>
             <div class="body-wrapper-inner">
                 <div class="container-fluid">
                     <!--  Row 1 -->
@@ -110,14 +117,47 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- Pen Info Table -->
+                    <div class="row">
+                        <div class="col-lg-12 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold mb-4">Pen Info</h5>
+                                    <c:if test="${empty penInfoList}">
+                                        <p></p>
+                                    </c:if>
+                                    <c:if test="${not empty penInfoList}">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Farm ID</th>
+                                                    <!-- 추가 필드들 -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="penInfo" items="${penInfoList}">
+                                                    <tr>
+                                                        <td>${penInfo.id}</td>
+                                                        <td>${penInfo.farmIdx}</td>
+                                                        <!-- 추가 필드들 -->
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- 그래프 들어가는 곳 -->
                     <div class="row">
                         <div class="col-lg-12 d-flex align-items-stretch">
                             <div class="card w-100">
                                 <div class="card-body">
                                     <div>
-                                    <!-- 그래프 들어갈 자리 -->
+                                        <!-- 그래프 들어갈 자리 -->
                                     </div>
                                 </div>
                             </div>
@@ -127,8 +167,5 @@
             </div>
         </div>
     </div>
-
-
-
 </body>
 </html>

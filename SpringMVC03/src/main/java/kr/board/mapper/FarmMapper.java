@@ -39,4 +39,8 @@ public interface FarmMapper {
                              @Param("farmLoc") String farmLoc, @Param("farmLivestockCnt") int farmLivestockCnt);
 
     FarmEnv getLatestEnvironment(int farm_idx);
+    
+    static List<Farm> getPenInfo(int farm_idx) {
+		return null;
+	}
 }
