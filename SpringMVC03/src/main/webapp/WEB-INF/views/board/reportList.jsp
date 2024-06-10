@@ -17,6 +17,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<style>
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+	padding-left: 20px;
+}
+</style>
 </head>
 
 <body>
@@ -24,23 +29,21 @@
 	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
 		data-navbarbg="skin6" data-sidebartype="full"
 		data-sidebar-position="fixed" data-header-position="fixed">
-		
+
 		<!--  Main wrapper -->
 		<%@ include file="../common/sidebar.jsp"%>
 		<div class="body-wrapper">
 			<%@ include file="../common/header.jsp"%>
-			
+
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div class="card">
-						<div class="card-body">
-							
-							</div>
-						</div>
+						<div class="card-body"></div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
