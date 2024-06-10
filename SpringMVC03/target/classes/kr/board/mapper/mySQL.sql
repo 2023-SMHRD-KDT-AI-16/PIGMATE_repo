@@ -1,5 +1,3 @@
-
-
 select * from member_info;
 select * from farm_info;
 select * from farm_env_info where farm_idx = 19;
