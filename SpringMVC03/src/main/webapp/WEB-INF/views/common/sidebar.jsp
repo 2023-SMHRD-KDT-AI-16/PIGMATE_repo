@@ -50,7 +50,7 @@
 							</div>
 							<ul id="${farm.farm_idx}" class="collapse list-unstyled">
 								<li class="sidebar-item"><a class="sidebar-link pig-link"
-									href="${contextPath}/#.do?farmId=${farm.farm_idx}"> <iconify-icon
+									href="${contextPath}/piginfo.do?farmId=${farm.farm_idx}"> <iconify-icon
 											icon="mdi:pig"></iconify-icon> <span class="hide-menu2">돼지정보</span>
 								</a></li>
 								<li class="sidebar-item"><a class="sidebar-link env-link"
