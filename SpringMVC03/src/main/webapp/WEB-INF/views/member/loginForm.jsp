@@ -52,7 +52,7 @@
 					<div class="col-md-8 col-lg-6 col-xxl-3">
 						<a href="${contextPath}/index.html"
 							class="text-nowrap logo-img text-center d-block py-3 w-100 logo-container">
-							<img width="450" height="100"
+							<img width="450" height="120"
 							src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
 							alt="" class="logo-image">
 						</a>
