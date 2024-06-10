@@ -64,6 +64,10 @@
 #news_body_area + p{
 	display : none;
 }
+
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+    padding-left: 20px;
+}
 </style>
 
 </head>

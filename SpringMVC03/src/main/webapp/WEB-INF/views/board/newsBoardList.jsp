@@ -50,6 +50,10 @@
     font-size: 0.8em;
     color: gray;
 }
+
+.sidebar-nav .sidebar-item .collapse .sidebar-item {
+    padding-left: 20px;
+}
 </style>
 
 
