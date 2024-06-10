@@ -5,6 +5,8 @@ select * from env_criteria_info;
 select * from alert_info;
 delete from alert_info where mem_id = 'admin';
 
+select * from pen_info where farm_idx = 19;
+
 insert into env_criteria_info (farm_idx, temperature, humidity, co2, ammonia,
 		pm)
 		values ('19', '20', '20', '20', '20', '20')
