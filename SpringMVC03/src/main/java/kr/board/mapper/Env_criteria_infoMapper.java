@@ -9,7 +9,7 @@ public interface Env_criteria_infoMapper {
 	
 	void insertEnvCri(EnvCri envCri);
 	
-	EnvCri getEnvCriByFarmIdx(int farmIdx);
+	EnvCri getEnvCriByFarmIdx(int farm_idx);
 	
 	void updateEnvCri(EnvCri envCri);
 	

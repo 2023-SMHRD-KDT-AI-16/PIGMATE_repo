@@ -3,9 +3,9 @@ select * from farm_info;
 select * from farm_env_info where mem_id = 'admin';
 select * from env_criteria_info;
 select * from alert_info;
-delete from alert_info where alarm_idx=48;
+delete from alert_info;
 
-select * from pen_info where farm_idx = 19;
+select * from pen_info where farm_idx = 22;
 
 insert into env_criteria_info (farm_idx, temperature, humidity, co2, ammonia,
 		pm)

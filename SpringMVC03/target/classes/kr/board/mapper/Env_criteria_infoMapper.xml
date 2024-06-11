@@ -8,9 +8,9 @@
     </insert>
 
     <select id="getEnvCriByFarmIdx" parameterType="int" resultType="kr.board.entity.EnvCri">
-        SELECT temperature, humidity, co2, ammonia, pm
+        SELECT *
         FROM env_criteria_info
-        WHERE farm_idx = #{farmIdx}
+        WHERE farm_idx = #{farm_idx}
     </select>
     
     <update id="updateEnvCri" parameterType="kr.board.entity.EnvCri">
