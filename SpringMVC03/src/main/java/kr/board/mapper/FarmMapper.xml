@@ -2,98 +2,83 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.FarmMapper">
 
-	<select id="getEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info_time WHERE farm_idx =
-		#{farm_idx}
+	<!-- 농장의 분 단위 환경 정보 가져오기 -->
+	<select id="getEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info_time WHERE farm_idx = #{farm_idx}
 	</select>
 
-	<select id="getFarmById" parameterType="int"
-		resultType="kr.board.entity.Farm">
+	<!-- 농장의 정보 가져오기 -->
+	<select id="getFarmById" parameterType="int" resultType="kr.board.entity.Farm">
 		SELECT * FROM farm_info WHERE farm_idx = #{farm_idx}
 	</select>
 
-	<select id="getHourEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info_hour where farm_idx =
-		#{farm_idx}
+	<!-- 농장의 시간 단위 환경 정보 가져오기 -->
+	<select id="getHourEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info_hour where farm_idx = #{farm_idx}
 	</select>
 
-	<select id="getDailyEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info_day where farm_idx =
-		#{farm_idx}
+	<!-- 농장의 하루 단위 환경 정보 가져오기 -->
+	<select id="getDailyEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info_day where farm_idx = #{farm_idx}
 	</select>
 
-	<select id="getWeeklyEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT created_at, temperature, humidity, co2, ammonia, pm,
-		#{farm_idx} as
-		farm_idx
+	<!-- 농장의 주 단위 환경 정보 가져오기 -->
+	<select id="getWeeklyEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		SELECT created_at, temperature, humidity, co2, ammonia, pm, #{farm_idx} as farm_idx
 		FROM farm_env_info_day
 		WHERE farm_idx = #{farm_idx}
 		AND created_at >= (SELECT DATE_SUB(MAX(created_at), INTERVAL 28 DAY)
-		FROM
-		farm_env_info_day WHERE farm_idx = #{farm_idx})
+		FROM farm_env_info_day WHERE farm_idx = #{farm_idx})
 		ORDER BY created_at
 		LIMIT 28
 	</select>
 
-	<select id="getMonthlyEnv" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info_month where farm_idx =
-		#{farm_idx}
+	<!-- 농장의 월 단위 환경 정보 가져오기 -->
+	<select id="getMonthlyEnv" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info_month where farm_idx = #{farm_idx}
 	</select>
 
-	<select id="getFarm" parameterType="String"
-		resultType="kr.board.entity.Farm">
+	<!-- 회원의 모든 농장 정보 가져오기 -->
+	<select id="getFarm" parameterType="String" resultType="kr.board.entity.Farm">
 		SELECT * FROM farm_info WHERE mem_id = #{mem_id}
 	</select>
 
+	<!-- 농장 등록 -->
 	<insert id="insertFarm" parameterType="kr.board.entity.Farm">
-		INSERT INTO farm_info
-		(farm_name, farm_loc, farm_livestock_cnt, mem_id)
-		VALUES (#{farm_name},
-		#{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
+		INSERT INTO farm_info (farm_name, farm_loc, farm_livestock_cnt, mem_id)
+		VALUES (#{farm_name}, #{farm_loc}, #{farm_livestock_cnt}, #{mem_id})
 	</insert>
 
+	<!-- 농장 삭제 -->
 	<delete id="deletePenInfoByFarmName">
-		DELETE FROM pen_info WHERE farm_idx IN (SELECT
-		farm_idx FROM farm_info WHERE
-		farm_name = #{farm_name})
+		DELETE FROM pig_info WHERE farm_idx IN (SELECT farm_idx FROM farm_info WHERE farm_name = #{farm_name})
 	</delete>
 
+	<!-- 농장 환경 기준 지우기 -->
 	<delete id="deleteEnvCriteriaByFarmName">
-		DELETE FROM env_criteria_info WHERE farm_idx IN
-		(SELECT farm_idx FROM
-		farm_info WHERE farm_name = #{farm_name})
+		DELETE FROM env_criteria_info WHERE farm_idx IN (SELECT farm_idx FROM farm_info WHERE farm_name = #{farm_name})
 	</delete>
 
+	<!-- 농장 이름 지우기 -->
 	<delete id="deleteFarmByName" parameterType="String">
-		DELETE FROM
-		farm_info WHERE farm_name = #{farm_name}
+		DELETE FROM farm_info WHERE farm_name = #{farm_name}
 	</delete>
 
-	<update id="updateFarmByOldName"
-		parameterType="kr.board.entity.Farm">
+	<!-- 농장 정보 수정하기 -->
+	<update id="updateFarmByOldName" parameterType="kr.board.entity.Farm">
 		UPDATE farm_info
-		SET farm_name = #{newFarmName}, farm_loc
-		= #{farmLoc}, farm_livestock_cnt
-		= #{farmLivestockCnt}
-		WHERE farm_name =
-		#{oldFarmName}
+		SET farm_name = #{newFarmName}, farm_loc = #{farmLoc}, farm_livestock_cnt = #{farmLivestockCnt}
+		WHERE farm_name = #{oldFarmName}
 	</update>
 
-	<select id="getLatestEnvironment" parameterType="int"
-		resultType="kr.board.entity.FarmEnv">
-		SELECT * FROM farm_env_info_time WHERE farm_idx = #{farm_idx} ORDER BY
-		created_at
-		DESC LIMIT 1
+	<!-- 농장 가장 최근 환경 정보 가져오기 -->
+	<select id="getLatestEnvironment" parameterType="int" resultType="kr.board.entity.FarmEnv">
+		SELECT * FROM farm_env_info_time WHERE farm_idx = #{farm_idx} ORDER BY created_at DESC LIMIT 1
 	</select>
 
+	<!-- 농장의 모든 가축 정보 가져오기 -->
 	<select id="getPenInfo" resultType="kr.board.entity.Farm">
-		SELECT * FROM pen_info WHERE
-		farm_idx = #{farm_idx}
+		SELECT * FROM pig_info WHERE farm_idx = #{farm_idx}
 	</select>
 
 </mapper>
