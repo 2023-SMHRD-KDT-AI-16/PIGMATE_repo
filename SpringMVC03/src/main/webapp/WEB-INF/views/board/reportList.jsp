@@ -53,20 +53,8 @@
     position: relative;
 }
 
-.calendar-container .calendar-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px; /* 버튼의 크기를 조정합니다 */
-    border-radius: 5px;
-}
-
 .calendar-container .calendar-button:hover {
-    background-color: #0056b3;
+    background-color: #677B69;
 }
 
 #calendarModal .modal-dialog {
