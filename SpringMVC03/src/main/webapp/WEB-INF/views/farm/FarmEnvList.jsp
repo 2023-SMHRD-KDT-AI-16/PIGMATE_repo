@@ -26,9 +26,8 @@
 }
 
 .sidebar-nav .sidebar-item .collapse .sidebar-item {
-    padding-left: 20px;
+	padding-left: 20px;
 }
-
 </style>
 
 
@@ -54,7 +53,8 @@
 									<div class="card-body">
 										<div class="d-flex justify-content-between align-items-center">
 											<div>
-												<button class="btn btn-outline-primary me-3" id="temperature">온도</button>
+												<button class="btn btn-outline-primary me-3"
+													id="temperature">온도</button>
 												<button class="btn btn-outline-primary me-3" id="humidity">습도</button>
 												<button class="btn btn-outline-primary me-3" id="co2">이산화탄소</button>
 												<button class="btn btn-outline-primary me-3" id="ammonia">암모니아</button>
@@ -71,6 +71,24 @@
 										<div>
 											<div id="myChart" style="width: 100%; height: 400px;"></div>
 										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="card card-custom">
+									<div class="card-body">
+										<h5 class="card-title">앉아있는 객체 수</h5>
+										<p class="card-text"></p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="card card-custom">
+									<div class="card-body">
+										<h5 class="card-title">이상행동 객체 수</h5>
+										<p class="card-text"></p>
 									</div>
 								</div>
 							</div>
