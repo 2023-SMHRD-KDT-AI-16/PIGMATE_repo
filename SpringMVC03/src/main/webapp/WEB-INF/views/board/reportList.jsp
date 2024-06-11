@@ -63,7 +63,7 @@
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-lg-9 d-flex align-items-stretch">
+						<div class="col-lg-8 d-flex align-items-stretch">
 							<div class="card  w-100">
 								<div class="card-body">
 									<h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
@@ -71,7 +71,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-3 d-flex align-items-stretch">
+						<div class="col-lg-4 d-flex align-items-stretch">
 							<div class="card  w-100">
 								<div class="card-body">
 									<!-- 캘린더가 여기에 들어갑니다 -->
