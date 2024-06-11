@@ -1,10 +1,12 @@
 package kr.board.controller;
 
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.board.entity.Alert;
@@ -16,13 +18,22 @@ public class AlertController {
     @Autowired
     private AlertInfoMapper alertMapper;
 
-    // private static final Logger logger = Logger.getLogger(AlertController.class.getName());
-
     @GetMapping("/getAlerts")
-    public List<Alert> getAlerts() {
-        List<Alert> alerts = alertMapper.findAll();
-        // logger.info("Fetched alerts: " + alerts);
-        System.out.println("Fetched alerts: " + alerts);
-        return alerts;
+    public List<Alert> getAlerts(@RequestParam("farmId") int farmId) {
+        return alertMapper.findAlertsByFarmId(farmId);
     }
+
+    @PostMapping("/insertAlert")
+    public void insertAlert(@RequestParam("memId") String memId,
+                            @RequestParam("alarmMsg") String alarmMsg,
+                            @RequestParam("alarmedAt") Date alarmedAt,
+                            @RequestParam("farm_idx") int farm_idx) {
+        Alert alert = new Alert();
+        alert.setMemId(memId);
+        alert.setAlarmMsg(alarmMsg);
+        alert.setAlarmedAt(alarmedAt);
+        alert.setFarm_idx(farm_idx);
+        alertMapper.insertAlert(alert);
+    }
+
 }

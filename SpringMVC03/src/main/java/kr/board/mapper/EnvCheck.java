@@ -67,9 +67,9 @@ public class EnvCheck {
         return tempDiff > 0.05 || humidityDiff > 0.05 || co2Diff > 0.05 || ammoniaDiff > 0.05 || pmDiff > 0.05;
     }
 
-    // 이메일 전송하는 메서드
+ // 이메일 전송하는 메서드
     private void sendAlert(Member member, Farm farm, FarmEnv env) {
-        emailService.sendAlertMessage(member.getMem_id(), farm.getFarm_name(), env.getTemperature(), env.getHumidity(), env.getCo2(), env.getAmmonia(), env.getPm());
+        emailService.sendAlertMessage(member.getMem_id(), farm.getFarm_name(), env.getTemperature(), env.getHumidity(), env.getCo2(), env.getAmmonia(), env.getPm(), farm.getFarm_idx());
         // logger.info("Sent email alert to " + member.getMem_email());
     }
 }

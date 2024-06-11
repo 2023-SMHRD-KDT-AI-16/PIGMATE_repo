@@ -5,6 +5,13 @@ select * from env_criteria_info;
 select * from alert_info;
 delete from alert_info;
 
+INSERT INTO alert_info
+		(mem_id, alarm_msg, alarmed_at, farm_idx)
+		VALUES ('admin',
+		'test', '2024-06-11-00:00:00', '32')
+
+ALTER TABLE alert_info MODIFY COLUMN alarm_idx INT AUTO_INCREMENT;
+
 select * from pen_info where farm_idx = 22;
 
 insert into env_criteria_info (farm_idx, temperature, humidity, co2, ammonia,
@@ -18,8 +25,7 @@ select * from farm_info where mem_id = 'admin';
 
 select * from news_info order by pressed_at limit #{pageStart}, #{perPageNum};
 
-DELETE FROM farm_info WHERE farm_livestock_cnt = 303;
-
+DELETE FROM farm_info WHERE farm_loc = '전남 담양군 무정면 광주대구고속도로 11';
 
 update farm_info set farm_name = 'admin' where farm_livestock_cnt = 50;
 
