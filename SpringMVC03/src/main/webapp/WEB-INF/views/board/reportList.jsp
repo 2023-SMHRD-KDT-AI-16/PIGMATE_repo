@@ -106,6 +106,17 @@
     color: red;
     font-weight: bold;
 }
+
+.calendar-container .calendar-button {
+    position: absolute;
+    top: -50px;
+    right: -300px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
 </style>
 </head>
 <body>
