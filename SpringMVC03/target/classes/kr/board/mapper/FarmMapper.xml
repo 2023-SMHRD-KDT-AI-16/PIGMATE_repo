@@ -30,7 +30,7 @@
 		SELECT created_at, temperature, humidity, co2, ammonia, pm,
 		#{farm_idx} as
 		farm_idx
-		FROM farm_env_info
+		FROM farm_env_info_day
 		WHERE farm_idx = #{farm_idx}
 		AND created_at >= (SELECT DATE_SUB(MAX(created_at), INTERVAL 28 DAY)
 		FROM
