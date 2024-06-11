@@ -23,7 +23,7 @@
                     </a></li>
                 <li><span class="sidebar-divider lg"></span></li>
                 <li class="nav-small-cap"><iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                    <span class="hide-menu">UI COMPONENTS</span>
+                    <span class="hide-menu">FARM</span>
                 </li>
                 <c:if test="${not empty sessionScope.mvo}">
                     <c:set var="firstFarmId" value="${sessionScope.mvo.farms[0].farm_idx}" />
@@ -50,6 +50,7 @@
                         </li>
                     </c:forEach>
                 </c:if>
+                <li><span class="sidebar-divider lg"></span></li>
                 <li class="sidebar-item">
                     <c:choose>
                         <c:when test="${empty sessionScope.mvo}">

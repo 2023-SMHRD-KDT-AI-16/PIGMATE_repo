@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
@@ -102,50 +103,54 @@
 }
 
 .fc-event-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: red;
-    display: inline-block;
-    margin-right: 5px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: red;
+	display: inline-block;
+	margin-right: 5px;
 }
 </style>
 
 <script src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- FullCalendar JS 추가 -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+<script
+	src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script
+	src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/js/sidebarmenu.js"></script>
 <script src="${contextPath}/resources/js/app.min.js"></script>
-<script src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script
+	src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="${contextPath}/resources/js/dashboard.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <c:if test="${not empty sessionScope.mvo}">
 	<script>
-        var firstFarmId = "${sessionScope.mvo.farms[0].farm_idx}";
+	var farmId = urlParams.get('farmId');
+	console.log(farmId);
     </script>
 </c:if>
 
 <script>
 var charts = {};
 var alertCount = {}; // 날짜별 알림 개수 저장 객체
+const urlParams = new URLSearchParams(window.location.search);
+var farmId = urlParams.get('farmId');
 
 $(document).ready(function() {
     console.log("Document is ready");
-    console.log("firstFarmId: ", firstFarmId);
+    console.log("firstFarmId: ", farmId);
     newsList();
-    loadEnvInfo(firstFarmId);
-    loadEnvCriteria();
-    loadGraphData('daily', 'temperature', 'myChart1', firstFarmId);
-    loadGraphData('daily', 'humidity', 'myChart2', firstFarmId);
-    loadGraphData('daily', 'co2', 'myChart3', firstFarmId);
-    loadGraphData('daily', 'ammonia', 'myChart4', firstFarmId);
-    loadGraphData('daily', 'pm', 'myChart5', firstFarmId);
-
+    loadEnvInfo(farmId);
+    loadEnvCriteria(farmId);
+   
     // FullCalendar 초기화
     $('#calendar').fullCalendar({
         header: {
@@ -224,7 +229,6 @@ function newsList() {
         type : "get",
         dataType : "json",
         success : function(data) {
-            console.log("받은 데이터 구조:", data);
             makeNews(data);
         },
         error : function() {
@@ -241,7 +245,6 @@ function makeNews(data) {
     if (data.newsList) {
         $.each(data.newsList.slice(0, 11), function(index, obj) {
             console.log("뉴스 데이터 이동 성공");
-            console.log("뉴스 객체:", obj);
             listHtml += "<tr>";
             listHtml += "<td colspan='2'>";
             listHtml += "<a href='news?news_idx=" + obj.news_idx + "' class='news-title'>" + obj.news_title + "</a>";
@@ -260,12 +263,30 @@ function getQueryStringParameter(name) {
     return urlParams.get(name);
 }
 
-// 환경 정보 가져오기
-function loadEnvInfo(farmId) {
+function loadEnvCriteria(farmId) {
     if (!farmId) {
         farmId = getQueryStringParameter('farmId');
     }
+    console.log("Loading environment criteria for farmId: ", farmId);
+    $.ajax({
+        url: "env/cri",
+        type: "get",
+        data: { farmId: farmId },
+        dataType: "json",
+        success: function(criteria) {
+            console.log("환경 기준:", criteria);
+            loadEnvInfo(farmId, criteria);
+        },
+        error: function() {
+            // alert("환경 기준 정보 로드 오류");
+        }
+    });
+}
 
+function loadEnvInfo(farmId, criteria) {
+    if (!farmId) {
+        farmId = getQueryStringParameter('farmId');
+    }
     console.log("Loading environment info for farmId: ", farmId);
 
     $.ajax({
@@ -276,50 +297,23 @@ function loadEnvInfo(farmId) {
         success: function(data) {
             console.log("환경 정보:", data);
             displayEnvInfo(data);
-            if (data && data.length > 0) {
-                loadEnvCriteria(data);
-            } else {
-                console.error("환경 데이터가 비어있습니다.");
-            }
+            updateEnvStatus(data, criteria);
         },
         error: function(request, status, error) {
             console.error("환경 정보 로드 오류");
-            console.log("Request: ", request);
-            console.log("Status: ", status);
-            console.log("Error: ", error);
         }
     });
 }
 
-// 환경 기준 가져오기
-function loadEnvCriteria(envData) {
-    $.ajax({
-        url: "env/criteria",
-        type: "get",
-        dataType: "json",
-        success: function(criteria) {
-            console.log("환경 기준:", criteria);
-            if (envData) {
-                updateEnvStatus(envData, criteria);
-            } else {
-                console.error("환경 데이터가 비어있습니다.");
-            }
-        },
-        error: function() {
-            alert("환경 기준 정보 로드 오류");
-        }
-    });
-}
-
-// 환경 기준에 띄울 정보
+//환경 기준에 띄울 정보
 function displayEnvInfo(data) {
     var temperature = "N/A";
     var humidity = "N/A";
     var co2 = "N/A";
     var ammonia = "N/A";
 
-    if (data.length > 0) {
-        var latestEnv = data[data.length - 1];
+    if (Object.keys(data).length > 0) {
+        var latestEnv = data;
         temperature = latestEnv.temperature;
         humidity = latestEnv.humidity;
         co2 = latestEnv.co2;
@@ -332,9 +326,10 @@ function displayEnvInfo(data) {
     $("#ammonia").text(ammonia);
 }
 
-// 
 function updateEnvStatus(envData, criteria) {
-    var latestEnv = envData[envData.length - 1];
+    var latestEnv = envData;
+    console.log("Latest Environment Data: ", latestEnv);
+    console.log("Criteria: ", criteria);
 
     var tempRange = { min: criteria.temperature * 0.9, max: criteria.temperature * 1.1 };
     var humidityRange = { min: criteria.humidity * 0.9, max: criteria.humidity * 1.1 };
@@ -347,7 +342,6 @@ function updateEnvStatus(envData, criteria) {
     updateStatus("#ammonia", latestEnv.ammonia, ammoniaRange);
 }
 
-// 
 function updateStatus(elementId, value, range) {
     var element = $(elementId);
     var statusElement = element.siblings(".status");
@@ -659,4 +653,4 @@ function showPendingTasksModal() {
 	</div>
 
 </body>
-</html> 
+</html>
