@@ -58,6 +58,15 @@
     top: 10px;
     right: 10px;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.calendar-container .calendar-button:hover {
+    background-color: #0056b3;
 }
 
 #calendarModal .modal-dialog {
@@ -124,9 +133,9 @@
                                 </div>
                                 <div class="col-lg-4 d-flex align-items-stretch">
                                     <div class="calendar-container">
-                                        <div class="calendar-button" data-toggle="modal" data-target="#calendarModal">
-                                            <iconify-icon data-icon="mdi:calendar" data-inline="false"></iconify-icon>
-                                        </div>
+                                        <button class="calendar-button" data-toggle="modal" data-target="#calendarModal">
+                                            달력 열기
+                                        </button>
                                         <!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
                                         <form id="reportForm">
                                             <div class="form-group mb-3">
@@ -201,24 +210,6 @@
 
             updateDates();
 
-            $('#calendar').fullCalendar({
-                header : {
-                    left : 'prev,next today',
-                    center : 'title',
-                    right : 'month'
-                },
-                selectable : true,
-                selectHelper : true,
-                select : function(start, end) {
-                    var date = moment(start).format('YYYY-MM-DD');
-                    $('#reportDate').val(date);
-                    $('#reportForm').show();
-                },
-                editable : true,
-                events : []
-                // 여기에서 서버에서 가져온 이벤트 데이터를 넣을 수 있습니다.
-            });
-
             $('#calendarMini').fullCalendar({
                 header : {
                     left : 'prev,next today',
@@ -235,10 +226,6 @@
                 editable : true,
                 events : []
                 // 여기에서 서버에서 가져온 이벤트 데이터를 넣을 수 있습니다.
-            });
-
-            $('.calendar-button').on('click', function() {
-                $('#calendar').toggle();
             });
 
             $('#reportForm').submit(function(event) {
