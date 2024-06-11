@@ -61,7 +61,7 @@
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 10px 20px; /* 버튼의 크기를 조정합니다 */
     border-radius: 5px;
 }
 
@@ -232,6 +232,11 @@
                 event.preventDefault();
                 // 여기에서 폼 데이터를 서버로 전송하는 코드를 추가합니다.
                 alert('리포트가 저장되었습니다.');
+            });
+
+            // 모달 관련 코드
+            $('.calendar-button').click(function() {
+                $('#calendarModal').modal('show');
             });
         });
     </script>
