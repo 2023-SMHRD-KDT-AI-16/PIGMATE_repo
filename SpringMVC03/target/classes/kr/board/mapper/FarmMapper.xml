@@ -93,7 +93,7 @@
 
 	<select id="getPenInfo" resultType="kr.board.entity.Farm">
 		SELECT * FROM pen_info WHERE
-		farm_idx = #{farmIdx}
+		farm_idx = #{farm_idx}
 	</select>
 
 </mapper>

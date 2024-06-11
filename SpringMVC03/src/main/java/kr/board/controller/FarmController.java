@@ -183,8 +183,9 @@ public class FarmController {
 		}
 	}
 
-	@GetMapping("/getEnvCriteria.do")
-	public ResponseEntity<EnvCri> getEnvCriteria(@RequestParam("farm_idx") int farmIdx) {
+	@GetMapping("/env/cri")
+	public ResponseEntity<EnvCri> getEnvCriteriaOne(@RequestParam("farmId") int farmIdx) {
+		System.out.println("도착");
 		try {
 			EnvCri envCri = env_criteria_infoMapper.getEnvCriByFarmIdx(farmIdx);
 			if (envCri != null) {
@@ -197,8 +198,10 @@ public class FarmController {
 		}
 	}
 
+	// 이메일 보내기 위한 멤버의 모든 농장 기준 가져오기
 	@GetMapping("/env/criteria")
 	public ResponseEntity<EnvCri> getEnvCriteria(HttpSession session) {
+		
 		Member m = (Member) session.getAttribute("mvo");
 		if (m != null) {
 			String mem_id = m.getMem_id();
@@ -230,15 +233,15 @@ public class FarmController {
 
 	// 회원이 가지고 있는 농장의 인덱스로 이동
 	@PostMapping("/index/env")
-	public List<FarmEnv> IndexEnvList(@RequestParam("farm_id") String farm_id, HttpSession session) {
+	public FarmEnv IndexEnvList(@RequestParam("farm_id") String farm_id, HttpSession session) {
 
-		List<FarmEnv> farm_env = new ArrayList<>();
+		FarmEnv farm_env = null;
 
 		if (farm_id != null && !farm_id.isEmpty()) {
 
 			int farm_idx = Integer.parseInt(farm_id);
 
-			farm_env = farmMapper.getEnv(farm_idx);
+			farm_env = farmMapper.getLatestEnvironment(farm_idx);
 		}
 
 		return farm_env;

@@ -33,9 +33,9 @@ public class EmailService {
 		message.setText(text); // 이메일 본문 설정
 		try {
 			mailSender.send(message); // 이메일 전송
-			System.out.println("Email sent successfully to " + to);
+			// System.out.println("Email sent successfully to " + to);
 		} catch (Exception e) {
-			System.err.println("Error sending email to " + to + ": " + e.getMessage());
+			// System.err.println("Error sending email to " + to + ": " + e.getMessage());
 		}
 	}
 
@@ -46,7 +46,7 @@ public class EmailService {
 		// member 정보 가져오기
 		Member member = memberMapper.getMember(memId);
 		if (member == null) {
-			System.err.println("No member found with mem_id: " + memId);
+			// System.err.println("No member found with mem_id: " + memId);
 			return;
 		}
 
@@ -70,6 +70,6 @@ public class EmailService {
 		alert.setAlarmMsg(alertMsg); // 간단한 알림 메시지
 		alert.setAlarmedAt(new Date()); // 현재 날짜 및 시간
 		alertMapper.insertAlert(alert); // 데이터베이스에 삽입
-		System.out.println("Alert saved to database for mem_id: " + memId);
+		// System.out.println("Alert saved to database for mem_id: " + memId);
 	}
 }
