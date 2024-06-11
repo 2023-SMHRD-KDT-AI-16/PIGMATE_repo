@@ -62,6 +62,7 @@
 			<%@ include file="../common/header.jsp"%>
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
+				<div class="col-lg-12">
 					<div class="row">
 						<div class="col-lg-8 d-flex align-items-stretch">
 							<div class="card  w-100">
@@ -97,6 +98,7 @@
 
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
