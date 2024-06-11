@@ -63,7 +63,7 @@
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-lg-8 d-flex align-items-stretch">
+						<div class="col-lg-12 d-flex align-items-stretch">
 							<div class="card  w-100">
 								<div class="card-body">
 									<h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
@@ -74,7 +74,6 @@
 						<div class="col-lg-4 d-flex align-items-stretch">
 							<div class="card  w-100">
 								<div class="card-body">
-									<h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
 									<!-- 캘린더가 여기에 들어갑니다 -->
 									<div id="calendar"></div>
 									<!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
