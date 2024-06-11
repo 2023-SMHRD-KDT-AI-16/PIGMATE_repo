@@ -46,7 +46,7 @@ public class MainController {
 
 	@GetMapping("/reportList.do")
 	public String reportList() {
-		return "board/reportContent";
+		return "board/reportList";
 	}
 
 	@GetMapping("/PigInfo.do")
