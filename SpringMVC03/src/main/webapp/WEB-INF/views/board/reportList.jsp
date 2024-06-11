@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="en">
@@ -6,22 +7,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>리포트 목록</title>
-<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<link rel="shortcut icon" type="image/png"
+    href="${pageContext.request.contextPath}/resources/img/logos/piglogos.png" />
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/resources/css/styles.min.css" />
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <style>
 .sidebar-nav .sidebar-item .collapse .sidebar-item {
     padding-left: 20px;
 }
 
 #calendar {
-    max-width: 300px;
-    margin: 0 auto;
+    display: none;
 }
 
 #reportForm {
@@ -41,20 +49,14 @@
     font-size: 0.9rem;
 }
 
-.card-body {
-    display: flex;
-    justify-content: space-between;
-}
-
 .calendar-container {
     position: relative;
 }
 
 .calendar-container .calendar-button {
     position: absolute;
-    top: 0;
-    right: 0;
-    margin: 10px;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
 }
 
@@ -70,6 +72,31 @@
     flex: 1;
     margin-right: 20px;
 }
+
+.horizontal-dates {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.horizontal-dates button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.date-item {
+    margin: 0 10px;
+    font-size: 1.2em;
+}
+
+.current-date {
+    color: red;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -83,29 +110,39 @@
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-                            <div class="graph-container">
-                                <h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
-                                <!-- 그래프를 추가할 공간 -->
+                            <div class="horizontal-dates">
+                                <button id="prev-day">&lt;</button>
+                                <span id="dates"></span>
+                                <button id="next-day">&gt;</button>
                             </div>
-                            <div class="calendar-container">
-                                <div id="calendar"></div>
-                                <div class="calendar-button" data-toggle="modal" data-target="#calendarModal">
-                                    <i class="iconify" data-icon="mdi:calendar" data-inline="false"></i>
+                            <div class="row">
+                                <div class="col-lg-8 d-flex align-items-stretch">
+                                    <div class="graph-container">
+                                        <h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
+                                        <!-- 그래프를 추가할 공간 -->
+                                    </div>
                                 </div>
-                                <!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
-                                <form id="reportForm">
-                                    <div class="form-group mb-3">
-                                        <label for="reportDate">등록일자</label>
-                                        <input type="text" class="form-control" id="reportDate" name="reportDate" readonly>
+                                <div class="col-lg-4 d-flex align-items-stretch">
+                                    <div class="calendar-container">
+                                        <div class="calendar-button" data-toggle="modal" data-target="#calendarModal">
+                                            <iconify-icon data-icon="mdi:calendar" data-inline="false"></iconify-icon>
+                                        </div>
+                                        <!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
+                                        <form id="reportForm">
+                                            <div class="form-group mb-3">
+                                                <label for="reportDate">등록일자</label>
+                                                <input type="text" class="form-control" id="reportDate" name="reportDate" readonly>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="reportContent">내용</label>
+                                                <input type="text" class="form-control" id="reportContent" name="reportContent">
+                                            </div>
+                                            <div class="row">
+                                                <input type="submit" class="btn btn-outline-success pull-right" value="저장">
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="form-group mb-3">
-                                        <label for="reportContent">내용</label>
-                                        <input type="text" class="form-control" id="reportContent" name="reportContent">
-                                    </div>
-                                    <div class="row">
-                                        <input type="submit" class="btn btn-outline-success pull-right" value="저장">
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,6 +173,34 @@
     <script src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
     <script>
         $(document).ready(function() {
+            var currentDate = moment();
+            var currentDateIndex = 0;
+
+            function updateDates() {
+                var dates = [];
+                for (var i = -1; i <= 1; i++) {
+                    var date = currentDate.clone().add(i, 'days');
+                    var dateItem = $('<span class="date-item"></span>').text(date.format('MM/DD'));
+                    if (i === 0) {
+                        dateItem.addClass('current-date');
+                    }
+                    dates.push(dateItem);
+                }
+                $('#dates').empty().append(dates);
+            }
+
+            $('#prev-day').on('click', function() {
+                currentDate.subtract(1, 'days');
+                updateDates();
+            });
+
+            $('#next-day').on('click', function() {
+                currentDate.add(1, 'days');
+                updateDates();
+            });
+
+            updateDates();
+
             $('#calendar').fullCalendar({
                 header : {
                     left : 'prev,next today',
@@ -170,6 +235,10 @@
                 editable : true,
                 events : []
                 // 여기에서 서버에서 가져온 이벤트 데이터를 넣을 수 있습니다.
+            });
+
+            $('.calendar-button').on('click', function() {
+                $('#calendar').toggle();
             });
 
             $('#reportForm').submit(function(event) {
