@@ -10,13 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Alert {
-	
-	private Long alarmIdx;
-	
-	private String memId;
-	
-	private String alarmMsg;
-	
-	private Date alarmedAt;
-	
+
+    private Long alarmIdx;
+    private String memId;
+    private String alarmMsg;
+    private Date alarmedAt;
+    private int farm_idx; 
+
 }

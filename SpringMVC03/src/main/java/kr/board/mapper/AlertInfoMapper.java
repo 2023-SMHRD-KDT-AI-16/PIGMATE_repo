@@ -12,5 +12,6 @@ public interface AlertInfoMapper {
 	
     List<Alert> findAll();
     void insertAlert(Alert alert);
+	List<Alert> findAlertsByFarmId(int farm_idx);
     
 }
