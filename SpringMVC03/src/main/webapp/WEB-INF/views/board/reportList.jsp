@@ -220,6 +220,8 @@
                 select : function(start, end) {
                     var date = moment(start).format('YYYY-MM-DD');
                     $('#reportDate').val(date);
+                    currentDate = moment(start); // 선택한 날짜로 업데이트
+                    updateDates(); // 선택한 날짜로 가로 날짜 업데이트
                     $('#calendarModal').modal('hide');
                 },
                 editable : true,
