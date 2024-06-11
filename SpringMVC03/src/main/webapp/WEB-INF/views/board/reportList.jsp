@@ -37,15 +37,17 @@
 	display: none;
 	margin-top: 20px;
 }
+
 .fc button, .fc table, body .fc {
-    font-size: 0.9em;
+	font-size: 0.9em;
 }
 
 .fc-toolbar .fc-button-group {
 	margin-right: 10px; /* 버튼 그룹 간격 */
 }
-#calendar > div.fc-toolbar.fc-header-toolbar > div.fc-center > h2{
-	font-size:0.9rem;
+
+#calendar>div.fc-toolbar.fc-header-toolbar>div.fc-center>h2 {
+	font-size: 0.9rem;
 }
 </style>
 </head>
@@ -60,27 +62,32 @@
 			<%@ include file="../common/header.jsp"%>
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
-							<!-- 캘린더가 여기에 들어갑니다 -->
-							<div id="calendar"></div>
-							<!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
-							<form id="reportForm">
-								<div class="form-group mb-3">
-									<label for="reportDate">등록일자</label> <input type="text"
-										class="form-control" id="reportDate" name="reportDate"
-										readonly>
+					<div class="row">
+						<div class="col-lg-8 d-flex align-items-stretch">
+							<div class="card  w-100">
+								<div class="card-body">
+									<h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
+									<!-- 캘린더가 여기에 들어갑니다 -->
+									<div id="calendar"></div>
+									<!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
+									<form id="reportForm">
+										<div class="form-group mb-3">
+											<label for="reportDate">등록일자</label> <input type="text"
+												class="form-control" id="reportDate" name="reportDate"
+												readonly>
+										</div>
+										<div class="form-group mb-3">
+											<label for="reportContent">내용</label> <input type="text"
+												class="form-control" id="reportContent" name="reportContent">
+										</div>
+										<div class="row">
+											<input type="submit"
+												class="btn btn-outline-success pull-right" value="저장">
+										</div>
+									</form>
 								</div>
-								<div class="form-group mb-3">
-									<label for="reportContent">내용</label> <input type="text"
-										class="form-control" id="reportContent" name="reportContent">
-								</div>
-								<div class="row">
-									<input type="submit" class="btn btn-outline-success pull-right"
-										value="저장">
-								</div>
-							</form>
+							</div>
+
 						</div>
 					</div>
 				</div>
