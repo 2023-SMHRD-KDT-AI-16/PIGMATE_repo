@@ -112,7 +112,7 @@
     top: -50px;
     right: -300px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #6EB876;
     color: white;
     border: none;
     padding: 10px 20px;
