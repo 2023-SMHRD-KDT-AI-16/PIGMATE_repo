@@ -2,17 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.Env_criteria_infoMapper">
 
+	<!-- 농장 환경 기준 최초 등록 -->
     <insert id="insertEnvCri" parameterType="kr.board.entity.EnvCri">
         INSERT INTO env_criteria_info (farm_idx, temperature, humidity, co2, ammonia, pm)
         VALUES (#{farm_idx}, #{temperature}, #{humidity}, #{co2}, #{ammonia}, #{pm})
     </insert>
-
+    
+	<!-- 농장의 환경 기준 정보 가져오기  -->
     <select id="getEnvCriByFarmIdx" parameterType="int" resultType="kr.board.entity.EnvCri">
         SELECT *
         FROM env_criteria_info
         WHERE farm_idx = #{farm_idx}
     </select>
     
+    <!-- 농장 환경 기준 수정 -->
     <update id="updateEnvCri" parameterType="kr.board.entity.EnvCri">
         UPDATE env_criteria_info
         SET temperature = #{temperature}, humidity = #{humidity}, co2 = #{co2}, ammonia = #{ammonia}, pm = #{pm}
