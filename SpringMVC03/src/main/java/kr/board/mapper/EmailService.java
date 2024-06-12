@@ -41,7 +41,7 @@ public class EmailService {
 
 	// 환경 알림 이메일을 보내는 메서드
 	@Transactional
-	public void sendAlertMessage(String memId, String farmName, float temperature, float humidity, int co2, int ammonia, float pm, int farmIdx) {
+	public void sendAlertMessage(String memId, String farmName, float temperature, float humidity, int co2, float ammonia, float pm, int farmIdx) {
 	    // member 정보 가져오기
 	    Member member = memberMapper.getMember(memId);
 	    if (member == null) {

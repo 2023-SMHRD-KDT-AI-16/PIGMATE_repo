@@ -46,6 +46,10 @@
       height: auto;
       margin-bottom: 20px;
     }
+    .sidebar-nav .sidebar-item .collapse .sidebar-item {
+    padding-left: 20px;
+}
+    
   </style>
 </head>
 

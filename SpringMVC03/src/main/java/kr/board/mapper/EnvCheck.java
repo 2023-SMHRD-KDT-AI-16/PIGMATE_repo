@@ -60,7 +60,7 @@ public class EnvCheck {
         float tempDiff = Math.abs(env.getTemperature() - criteria.getTemperature()) / criteria.getTemperature();
         float humidityDiff = Math.abs(env.getHumidity() - criteria.getHumidity()) / criteria.getHumidity();
         int co2Diff = Math.abs(env.getCo2() - criteria.getCo2()) / criteria.getCo2();
-        int ammoniaDiff = Math.abs(env.getAmmonia() - criteria.getAmmonia()) / criteria.getAmmonia();
+        float ammoniaDiff = Math.abs(env.getAmmonia() - criteria.getAmmonia()) / criteria.getAmmonia();
         float pmDiff = Math.abs(env.getPm() - criteria.getPm()) / criteria.getPm();
 
         // +- 5% 이상 벗어났는지 확인 

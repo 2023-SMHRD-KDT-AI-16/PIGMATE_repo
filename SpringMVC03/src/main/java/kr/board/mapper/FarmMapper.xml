@@ -81,4 +81,9 @@
 		SELECT * FROM pig_info WHERE farm_idx = #{farm_idx}
 	</select>
 
+	<!-- 농장 환경 정보 등록 -->
+	<insert id="insertFarmEnvTime" parameterType="kr.board.entity.FarmEnv">
+		INSERT INTO farm_env_info_time (ammonia, co2, humidity, pm, temperature, farm_idx)
+		VALUES (#{ammonia}, #{co2}, #{humidity}, #{pm}, #{temperature}, #{farm_idx})
+	</insert>
 </mapper>

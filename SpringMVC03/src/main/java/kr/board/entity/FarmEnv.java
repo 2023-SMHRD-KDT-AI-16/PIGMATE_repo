@@ -13,7 +13,7 @@ public class FarmEnv {
 	private float temperature;
 	private float humidity;
 	private int co2;
-	private int ammonia;
+	private float ammonia;
 	private float pm;
 	private String created_at;
 	private int farm_idx;

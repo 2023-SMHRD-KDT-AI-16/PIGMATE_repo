@@ -293,19 +293,10 @@ function loadEnvCriteria(farmId) {
         error: function() {
             // alert("환경 기준 정보 로드 오류");
         }
-    });
+    }); // ajax
 }
 
-function generateRandomFloat(baseValue) {
-    let range = baseValue * 0.15; // 기준 값의 20%
 
-    let min = baseValue - range;
-    let max = baseValue + range;
-
-    let randomFloatInRange = Math.random() * (max - min) + min;
-    let formattedFloatInRange = parseFloat(randomFloatInRange.toFixed(1));
-    return formattedFloatInRange;
-}
 
 // 실시간 정보 가져오기
 function loadEnvInfo(criteria) {
@@ -313,33 +304,23 @@ function loadEnvInfo(criteria) {
         farmId = getQueryStringParameter('farmId');
     }
     console.log("loadEnvInfo farmId: ", farmId);
-    var cri = criteria;
     
-    var amm = generateRandomFloat(cri.ammonia);
-    var co = Math.round(generateRandomFloat(cri.co2));
-    var createdAt = generateRandomFloat(cri.created_at);
-    var criteriaIdx = generateRandomFloat(cri.criteria_idx);
-    var farmIdx = generateRandomFloat(cri.farm_idx);
-    var humiditY = generateRandomFloat(cri.humidity);
-    var pM = generateRandomFloat(cri.pm);
-    var temperaturE = generateRandomFloat(cri.temperature);
+    $.ajax({
+        url: "env/randomCri",
+        type: "get",
+        data: { farmId: farmId },
+        dataType: "json",
+        success: function(data) {
+            console.log("랜덤값 가져옴")
+            displayEnvInfo(data);
+            updateEnvStatus(data, criteria);
+        },
+        error: function() {
+           console.log("랜덤값 못 가져옴");
+        }
+   
+    }); // ajax
     
-    var now_data = {
-            "ammonia": amm,
-            "co2": co,
-            "created_at": createdAt,
-            "criteria_idx": criteriaIdx,
-            "farm_idx": farmIdx,
-            "humidity": humiditY,
-            "pm": pM,
-            "temperature": temperaturE
-        };
-    
-    console.log("랜덤 데이터",now_data);
-    
-    displayEnvInfo(now_data);
-    updateEnvStatus(now_data, criteria);
-
 }
 
 
@@ -375,10 +356,10 @@ function updateEnvStatus(envData, criteria) {
     console.log("Latest Environment Data: ", latestEnv);
     console.log("Criteria: ", criteria);
 
-    var tempRange = { min: criteria.temperature * 0.9, max: criteria.temperature * 1.1 };
-    var humidityRange = { min: criteria.humidity * 0.9, max: criteria.humidity * 1.1 };
-    var co2Range = { min: criteria.co2 * 0.9, max: criteria.co2 * 1.1 };
-    var ammoniaRange = { min: criteria.ammonia * 0.9, max: criteria.ammonia * 1.1 };
+    var tempRange = { min: criteria.temperature * 0.85, max: criteria.temperature * 1.15 };
+    var humidityRange = { min: criteria.humidity * 0.85, max: criteria.humidity * 1.15 };
+    var co2Range = { min: criteria.co2 * 0.85, max: criteria.co2 * 1.15 };
+    var ammoniaRange = { min: criteria.ammonia * 0.85, max: criteria.ammonia * 1.15 };
 
     updateStatus("#temperature", latestEnv.temperature, tempRange);
     updateStatus("#humidity", latestEnv.humidity, humidityRange);
@@ -417,6 +398,7 @@ function loadGraphData(period, type, chartId, farmId) {
     });
 }
 
+// 환경 차트 데이터 만드는 함수
 function makeData(data, type, chartId) {
     var dateList = [];
     var valueList = [];

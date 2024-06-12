@@ -43,4 +43,6 @@ public interface FarmMapper {
     static List<Farm> getPenInfo(int farm_idx) {
 		return null;
 	}
+    
+    int insertFarmEnvTime(FarmEnv farm_env);
 }
