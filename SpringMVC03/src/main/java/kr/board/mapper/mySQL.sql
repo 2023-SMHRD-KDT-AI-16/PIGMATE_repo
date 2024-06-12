@@ -6,11 +6,14 @@ select * from alert_info;
 delete from alert_info;
 
 INSERT INTO detection_info (livestock_cnt, sit_cnt, result, created_at, farm_idx)
-VALUES ('6', '4', '1', NOW(), , '32');
+VALUES ('32', '6', '0', NOW(), '19');
 
+INSERT INTO pig_info (livestock_cnt, warn_cnt, farm_idx, created_at)
+VALUES ('32','0','19','2024-06-08');
 
-select * from detection_info;
+select * from pig_info;
 
+delete from detection_info where detect_idx = '21';
 
 
 

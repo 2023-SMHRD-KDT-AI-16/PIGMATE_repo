@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.board.mapper.DetectionInfoMapper">
+
+    <select id="getSitCountByFarmIdx" parameterType="int" resultType="kr.board.entity.DetectionInfo">
+        SELECT created_at, sit_cnt, livestock_cnt
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx}
+    </select>
+
+</mapper>
