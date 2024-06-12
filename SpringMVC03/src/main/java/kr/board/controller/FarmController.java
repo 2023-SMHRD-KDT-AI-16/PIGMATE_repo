@@ -2,6 +2,8 @@ package kr.board.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -183,12 +185,11 @@ public class FarmController {
 		}
 	}
 
-	// 제일 최근 db 가져오기
+	// 농장 환경 기준 가져오기
 	@GetMapping("/env/cri")
-	public ResponseEntity<EnvCri> getEnvCriteriaOne(@RequestParam("farmId") int farmIdx) {
-		System.out.println("도착");
+	public ResponseEntity<EnvCri> getEnvCriteriaOne(@RequestParam("farmId") int farm_idx) {
 		try {
-			EnvCri envCri = env_criteria_infoMapper.getEnvCriByFarmIdx(farmIdx);
+			EnvCri envCri = env_criteria_infoMapper.getEnvCriByFarmIdx(farm_idx);
 			if (envCri != null) {
 				return new ResponseEntity<>(envCri, HttpStatus.OK);
 			} else {
@@ -197,8 +198,56 @@ public class FarmController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
 	}
 
+	// 새로고침 시 랜덤값 뽑아서 db에 저장
+	@GetMapping("/env/randomCri")
+	public FarmEnv getRandomEnv(@RequestParam("farmId") int farm_idx) {
+
+		EnvCri cri = env_criteria_infoMapper.getEnvCriByFarmIdx(farm_idx);
+		FarmEnv farm = new FarmEnv();
+		
+		List<Number> values = new ArrayList<>();
+	    values.add(cri.getAmmonia());
+	    values.add(cri.getCo2());
+	    values.add(cri.getHumidity());
+	    values.add(cri.getPm());
+	    values.add(cri.getTemperature());
+	    
+	    Random random = new Random();
+	    
+	    for (int i = 0; i < values.size(); i++) {
+            Number value = values.get(i);
+            double baseValue = value.doubleValue();
+            double percentage = 0.25; // 30%
+
+            double min = baseValue * (1 - percentage);
+            double max = baseValue * (1 + percentage);
+
+            double randomValue = min + (max - min) * random.nextDouble();
+            randomValue = Math.round(randomValue * 10.0) / 10.0;
+
+            // 리스트의 값을 변경
+            if (value instanceof Float) {
+                values.set(i, (float) randomValue);
+            } else if (value instanceof Integer) {
+                values.set(i, (int) randomValue);
+            }
+        }
+	    
+	    farm.setAmmonia((float)values.get(0));
+	    farm.setCo2((int)values.get(1));
+	    farm.setHumidity((float)values.get(2));
+	    farm.setPm((float)values.get(3));
+	    farm.setTemperature((float)values.get(4));
+	    farm.setFarm_idx(farm_idx);
+
+	    int result =  farmMapper.insertFarmEnvTime(farm);
+
+	    return farm;
+	}
+	
 	// 이메일 보내기 위한 멤버의 모든 농장 기준 가져오기
 	@GetMapping("/env/criteria")
 	public ResponseEntity<EnvCri> getEnvCriteria(HttpSession session) {
@@ -216,6 +265,7 @@ public class FarmController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+	
 	// 환경기준 수정
 	@PostMapping("/insertEnvCri.do")
 	public ResponseEntity<String> insertEnvCri(EnvCri envCri, HttpSession session) {
@@ -233,21 +283,6 @@ public class FarmController {
 		}
 	}
 
-	// 회원이 가지고 있는 농장의 인덱스로 이동
-//	@PostMapping("/index/env")
-//	public FarmEnv IndexEnvList(@RequestParam("farm_id") String farm_id, HttpSession session) {
-//
-//		FarmEnv farm_env = null;
-//
-//		if (farm_id != null && !farm_id.isEmpty()) {
-//
-//			int farm_idx = Integer.parseInt(farm_id);
-//
-//			farm_env = farmMapper.getLatestEnvironment(farm_idx);
-//		}
-//
-//		return farm_env;
-//	}
-	
+
 	
 }
