@@ -14,29 +14,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-<style>
-  @keyframes walk {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+<style>  
+   @keyframes fall {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
   }
 
   .pig {
     position: absolute;
-    bottom: 10%;
     width: 50px;
     height: 50px;
-    background: url('${pageContext.request.contextPath}/resources/img/logos/piglogos.png') no-repeat center center;
+    background: url('${pageContext.request.contextPath}/resources/img/logos/piglogo.png') no-repeat center center;
     background-size: contain;
-    animation: walk 5s linear infinite;
+    animation: fall 10s linear infinite;
+    animation-fill-mode: both;
   }
-
-  .pig:nth-child(2) {
-    animation-delay: 2s;
-  }
-
-  .pig:nth-child(3) {
-    animation-delay: 4s;
-  }
+  
 
   .logo-container {
       display: flex;
@@ -58,12 +51,28 @@
         $("#myMessage").modal("show");
       }
 
-      // 돼지 애니메이션 요소를 추가합니다
-      for (let i = 0; i < 3; i++) {
-        let pig = $('<div class="pig"></div>');
-        $('body').append(pig);
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    if(${not empty msgType}){
+      if(${msgType eq "실패 메세지"}){
+        $("#messageType").attr("class", "modal-content panel-warning");
       }
-    });
+      $("#myMessage").modal("show");
+    }
+
+    // 돼지 애니메이션 요소를 무작위 위치에 추가합니다
+    let numPigs = 20;
+    let interval = 10 / numPigs; // 돼지가 떨어지는 간격을 계산합니다
+
+    for (let i = 0; i < numPigs; i++) {
+      let pig = $('<div class="pig"></div>');
+      let leftPosition = Math.random() * ($(window).width() - 50); // 50은 돼지의 너비
+      let animationDelay = (interval * i) + 's'; // 일정 간격으로 딜레이 설정
+      pig.css({ top: '-50px', left: leftPosition + 'px', animationDelay: animationDelay });
+      $('body').append(pig);
+    }
+  });
 </script>
 
 </head>
