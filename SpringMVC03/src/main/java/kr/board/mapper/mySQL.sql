@@ -3,19 +3,18 @@ select * from farm_info;
 select * from farm_env_info where mem_id = 'admin';
 select * from env_criteria_info;
 select * from alert_info;
+select * from detection_info;
 delete from alert_info;
 
 INSERT INTO detection_info (livestock_cnt, sit_cnt, result, created_at, farm_idx)
-VALUES ('32', '6', '0', NOW(), '19');
+VALUES ('26', '12', '0', '2024-06-08 09:00:00', '32');
 
 INSERT INTO pig_info (livestock_cnt, warn_cnt, farm_idx, created_at)
-VALUES ('32','0','19','2024-06-08');
+VALUES ('26','0','32','2024-06-08 18:32:20');
 
 select * from pig_info;
 
 delete from detection_info where detect_idx = '21';
-
-
 
 INSERT INTO alert_info
 		(mem_id, alarm_msg, alarmed_at, farm_idx)
@@ -40,7 +39,6 @@ select * from news_info order by pressed_at limit #{pageStart}, #{perPageNum};
 DELETE FROM farm_info WHERE farm_loc = '전남 담양군 무정면 광주대구고속도로 11';
 
 update farm_info set farm_name = 'admin' where farm_livestock_cnt = 50;
-
 
 UPDATE farm_info
 SET farm_name = 'admin12', farm_loc = '전남 어딘가11', farm_livestock_cnt = 101

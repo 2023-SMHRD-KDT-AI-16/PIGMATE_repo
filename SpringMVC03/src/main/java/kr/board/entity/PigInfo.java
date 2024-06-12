@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class DetectionInfo {
+public class PigInfo {
+
+	private Date created_at;
+	private int warn_cnt;
+	private int livestock_cnt;
 	
-    private Date created_at;
-    private int sit_cnt;
-    private int livestock_cnt; 
-    
 }
