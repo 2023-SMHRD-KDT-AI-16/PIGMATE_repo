@@ -316,7 +316,7 @@ function loadEnvInfo(criteria) {
     var cri = criteria;
     
     var amm = generateRandomFloat(cri.ammonia);
-    var co = generateRandomFloat(cri.co2);
+    var co = Math.round(generateRandomFloat(cri.co2));
     var createdAt = generateRandomFloat(cri.created_at);
     var criteriaIdx = generateRandomFloat(cri.criteria_idx);
     var farmIdx = generateRandomFloat(cri.farm_idx);
