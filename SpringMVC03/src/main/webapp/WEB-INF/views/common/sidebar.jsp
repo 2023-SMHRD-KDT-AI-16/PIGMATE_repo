@@ -37,11 +37,8 @@
                                 <iconify-icon icon="mdi:chevron-down" class="ms-auto cursor-pointer" onclick="toggleSubmenu('${farm.farm_idx}')"></iconify-icon>
                             </div>
                             <ul id="${farm.farm_idx}" class="collapse list-unstyled">
-                                <li class="sidebar-item"><a class="sidebar-link pig-link" href="${contextPath}/PigInfo.do?farmId=${farm.farm_idx}">
-                                        <iconify-icon icon="mdi:pig"></iconify-icon> <span class="hide-menu2">돼지정보</span>
-                                    </a></li>
                                 <li class="sidebar-item"><a class="sidebar-link env-link" href="${contextPath}/farmEnv.do?farmId=${farm.farm_idx}">
-                                        <iconify-icon icon="mdi:leaf"></iconify-icon> <span class="hide-menu2">환경정보</span>
+                                        <iconify-icon icon="mdi:leaf"></iconify-icon> <span class="hide-menu2">축사 정보</span>
                                     </a></li>
                                 <li class="sidebar-item"><a class="sidebar-link report-link" href="${contextPath}/reportList.do?farmId=${farm.farm_idx}">
                                         <iconify-icon icon="mdi:file-document-outline"></iconify-icon> <span class="hide-menu2">리포트</span>

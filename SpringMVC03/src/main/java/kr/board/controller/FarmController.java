@@ -183,6 +183,7 @@ public class FarmController {
 		}
 	}
 
+	// 제일 최근 db 가져오기
 	@GetMapping("/env/cri")
 	public ResponseEntity<EnvCri> getEnvCriteriaOne(@RequestParam("farmId") int farmIdx) {
 		System.out.println("도착");
@@ -215,6 +216,7 @@ public class FarmController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+	// 환경기준 수정
 	@PostMapping("/insertEnvCri.do")
 	public ResponseEntity<String> insertEnvCri(EnvCri envCri, HttpSession session) {
 		try {
@@ -232,20 +234,20 @@ public class FarmController {
 	}
 
 	// 회원이 가지고 있는 농장의 인덱스로 이동
-	@PostMapping("/index/env")
-	public FarmEnv IndexEnvList(@RequestParam("farm_id") String farm_id, HttpSession session) {
-
-		FarmEnv farm_env = null;
-
-		if (farm_id != null && !farm_id.isEmpty()) {
-
-			int farm_idx = Integer.parseInt(farm_id);
-
-			farm_env = farmMapper.getLatestEnvironment(farm_idx);
-		}
-
-		return farm_env;
-	}
+//	@PostMapping("/index/env")
+//	public FarmEnv IndexEnvList(@RequestParam("farm_id") String farm_id, HttpSession session) {
+//
+//		FarmEnv farm_env = null;
+//
+//		if (farm_id != null && !farm_id.isEmpty()) {
+//
+//			int farm_idx = Integer.parseInt(farm_id);
+//
+//			farm_env = farmMapper.getLatestEnvironment(farm_idx);
+//		}
+//
+//		return farm_env;
+//	}
 	
 	
 }

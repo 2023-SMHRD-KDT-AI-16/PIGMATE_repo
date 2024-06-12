@@ -147,7 +147,6 @@ $(document).ready(function() {
     console.log("Document is ready");
     console.log("firstFarmId: ", farmId);
     newsList();
-    loadEnvInfo(farmId);
     loadEnvCriteria(farmId);
 
     initializeCalendar(farmId); // Initial calendar load
@@ -275,11 +274,12 @@ function getQueryStringParameter(name) {
     return urlParams.get(name);
 }
 
+// 기준
 function loadEnvCriteria(farmId) {
     if (!farmId) {
         farmId = getQueryStringParameter('farmId');
     }
-    console.log("Loading environment criteria for farmId: ", farmId);
+    console.log("loadEnvCriteria farmId: ", farmId);
     $.ajax({
         url: "env/cri",
         type: "get",
@@ -287,7 +287,8 @@ function loadEnvCriteria(farmId) {
         dataType: "json",
         success: function(criteria) {
             console.log("환경 기준:", criteria);
-            loadEnvInfo(farmId, criteria);
+            loadEnvInfo(criteria);
+            console.log(criteria);
         },
         error: function() {
             // alert("환경 기준 정보 로드 오류");
@@ -295,27 +296,52 @@ function loadEnvCriteria(farmId) {
     });
 }
 
-function loadEnvInfo(farmId, criteria) {
+function generateRandomFloat(baseValue) {
+    let range = baseValue * 0.15; // 기준 값의 20%
+
+    let min = baseValue - range;
+    let max = baseValue + range;
+
+    let randomFloatInRange = Math.random() * (max - min) + min;
+    let formattedFloatInRange = parseFloat(randomFloatInRange.toFixed(1));
+    return formattedFloatInRange;
+}
+
+// 실시간 정보 가져오기
+function loadEnvInfo(criteria) {
     if (!farmId) {
         farmId = getQueryStringParameter('farmId');
     }
-    console.log("Loading environment info for farmId: ", farmId);
+    console.log("loadEnvInfo farmId: ", farmId);
+    var cri = criteria;
+    
+    var amm = generateRandomFloat(cri.ammonia);
+    var co = generateRandomFloat(cri.co2);
+    var createdAt = generateRandomFloat(cri.created_at);
+    var criteriaIdx = generateRandomFloat(cri.criteria_idx);
+    var farmIdx = generateRandomFloat(cri.farm_idx);
+    var humiditY = generateRandomFloat(cri.humidity);
+    var pM = generateRandomFloat(cri.pm);
+    var temperaturE = generateRandomFloat(cri.temperature);
+    
+    var now_data = {
+            "ammonia": amm,
+            "co2": co,
+            "created_at": createdAt,
+            "criteria_idx": criteriaIdx,
+            "farm_idx": farmIdx,
+            "humidity": humiditY,
+            "pm": pM,
+            "temperature": temperaturE
+        };
+    
+    console.log("랜덤 데이터",now_data);
+    
+    displayEnvInfo(now_data);
+    updateEnvStatus(now_data, criteria);
 
-    $.ajax({
-        url: "index/env",
-        type: "post",
-        data: { farm_id: farmId },
-        dataType: "json",
-        success: function(data) {
-            console.log("환경 정보:", data);
-            displayEnvInfo(data);
-            updateEnvStatus(data, criteria);
-        },
-        error: function(request, status, error) {
-            console.error("환경 정보 로드 오류");
-        }
-    });
 }
+
 
 //환경 기준에 띄울 정보
 function displayEnvInfo(data) {
@@ -360,6 +386,7 @@ function updateEnvStatus(envData, criteria) {
     updateStatus("#ammonia", latestEnv.ammonia, ammoniaRange);
 }
 
+// 상태 업데이트(안전, 위험)
 function updateStatus(elementId, value, range) {
     var element = $(elementId);
     var statusElement = element.siblings(".status");

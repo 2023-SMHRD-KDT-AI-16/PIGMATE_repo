@@ -5,6 +5,15 @@ select * from env_criteria_info;
 select * from alert_info;
 delete from alert_info;
 
+INSERT INTO detection_info (livestock_cnt, sit_cnt, result, created_at, farm_idx)
+VALUES ('6', '4', '1', NOW(), , '32');
+
+
+select * from detection_info;
+
+
+
+
 INSERT INTO alert_info
 		(mem_id, alarm_msg, alarmed_at, farm_idx)
 		VALUES ('admin',
