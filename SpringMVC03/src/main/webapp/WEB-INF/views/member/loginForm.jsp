@@ -36,7 +36,43 @@
     display: block;
     margin: 0 auto;
 }
+
+#main-wrapper > div > div > div > div > div > div > form > div.mb-3 > label{
+	font-size: 1.2rem;
+}
+
+@keyframes walk {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .pig {
+    position: absolute;
+    bottom: 10%;
+    width: 50px;
+    height: 50px;
+    background: url('${contextPath}/resources/css/img/logos/piglogos.png') no-repeat center center;
+    background-size: contain;
+    animation: walk 5s linear infinite;
+  }
+
+  .pig:nth-child(2) {
+    animation-delay: 2s;
+  }
+
+  .pig:nth-child(3) {
+    animation-delay: 4s;
+  }
 </style>
+<script>
+  $(document).ready(function() {
+    // 돼지 애니메이션 요소를 추가합니다
+    for (let i = 0; i < 3; i++) {
+      let pig = $('<div class="pig"></div>');
+      $('body').append(pig);
+    }
+  });
+</script>
 </head>
 <body>
 
@@ -57,8 +93,6 @@
 						</a>
 						<div class="card mb-0">
 							<div class="card-body">
-								<p class="text-center">피그메이트에 오신걸 환영해요</p>
-
 								<!-- form 태그 시작 -->
 								<form action="${contextPath}/login.do" method="post">
 									<div class="mb-3">
@@ -112,6 +146,7 @@
         </div>
     </div>
 </div>
+
 
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
