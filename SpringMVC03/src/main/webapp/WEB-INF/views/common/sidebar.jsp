@@ -134,7 +134,7 @@
 </script>
 
 <style>
-    .sidebar-link.active {
+    .sidebar-item.active {
         background-color: #6eb876;
         color: white;
         display: block;
