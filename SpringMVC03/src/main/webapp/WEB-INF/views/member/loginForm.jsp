@@ -9,12 +9,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PigMate</title>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -97,23 +96,22 @@
 	<!-- 다이얼로그창(모달) -->
 	<!-- 회원가입 실패시 나오게될 모달창 -->
 	<!-- Modal -->
-	<div class="modal fade" id="myMessage" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div id="messageType" class="modal-content panel-info">
-				<div class="modal-header panel-heading">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">${msgType}</h4>
-				</div>
-				<div class="modal-body">
-					<p id="">${msg}</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="modal fade" id="myMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="messageType" class="modal-content panel-info">
+            <div class="modal-header panel-heading">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title">${msgType}</h4>
+            </div>
+            <div class="modal-body">
+                <p id="">${msg}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
