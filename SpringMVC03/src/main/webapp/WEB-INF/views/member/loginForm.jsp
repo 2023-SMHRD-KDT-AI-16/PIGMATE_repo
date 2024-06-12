@@ -25,7 +25,7 @@
     bottom: 10%;
     width: 50px;
     height: 50px;
-    background: url('${contextPath}/resources/css/img/logos/piglogos.png') no-repeat center center;
+    background: url('${pageContext.request.contextPath}/resources/img/logos/piglogos.png') no-repeat center center;
     background-size: contain;
     animation: walk 5s linear infinite;
   }
