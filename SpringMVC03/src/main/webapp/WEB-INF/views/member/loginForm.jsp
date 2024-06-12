@@ -9,39 +9,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PigMate</title>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-      if(${not empty msgType}){
-        if(${msgType eq "실패 메세지"}){
-          $("#messageType").attr("class", "modal-content panel-warning");
-        }
-        $("#myMessage").modal("show");
-      }
-    });
-  </script>
-  
-  <style>
-.logo-container {
-    display: flex;
-    justify-content: center;
-}
-
-.logo-image {
-    display: block;
-    margin: 0 auto;
-}
-
-#main-wrapper > div > div > div > div > div > div > form > div.mb-3 > label{
-	font-size: 1.2rem;
-}
-
-@keyframes walk {
+<style>
+  @keyframes walk {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
@@ -63,16 +37,35 @@
   .pig:nth-child(3) {
     animation-delay: 4s;
   }
+
+  .logo-container {
+      display: flex;
+      justify-content: center;
+  }
+
+  .logo-image {
+      display: block;
+      margin: 0 auto;
+  }
 </style>
-<script>
-  $(document).ready(function() {
-    // 돼지 애니메이션 요소를 추가합니다
-    for (let i = 0; i < 3; i++) {
-      let pig = $('<div class="pig"></div>');
-      $('body').append(pig);
-    }
-  });
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      if(${not empty msgType}){
+        if(${msgType eq "실패 메세지"}){
+          $("#messageType").attr("class", "modal-content panel-warning");
+        }
+        $("#myMessage").modal("show");
+      }
+
+      // 돼지 애니메이션 요소를 추가합니다
+      for (let i = 0; i < 3; i++) {
+        let pig = $('<div class="pig"></div>');
+        $('body').append(pig);
+      }
+    });
 </script>
+
 </head>
 <body>
 
@@ -93,6 +86,8 @@
 						</a>
 						<div class="card mb-0">
 							<div class="card-body">
+								<p class="text-center">피그메이트에 오신걸 환영해요</p>
+
 								<!-- form 태그 시작 -->
 								<form action="${contextPath}/login.do" method="post">
 									<div class="mb-3">
@@ -131,31 +126,31 @@
 	<!-- 회원가입 실패시 나오게될 모달창 -->
 	<!-- Modal -->
 	<div class="modal fade" id="myMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div id="messageType" class="modal-content panel-info">
-            <div class="modal-header panel-heading">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <h4 class="modal-title">${msgType}</h4>
-            </div>
-            <div class="modal-body">
-                <p id="">${msg}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div id="messageType" class="modal-content panel-info">
+				<div class="modal-header panel-heading">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<h4 class="modal-title">${msgType}</h4>
+				</div>
+				<div class="modal-body">
+					<p id="">${msg}</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-
 	<script
-		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
+		src="${contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		src="${contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
+		src="${contextPath}/resources/js/app.min.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
+		src="${contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
