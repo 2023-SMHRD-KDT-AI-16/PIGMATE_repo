@@ -36,7 +36,7 @@ public class MemberController {
         Member mvo = memberMapper.login(m);
         if (mvo == null) {
             rttr.addFlashAttribute("msgType", "실패 메세지");
-            rttr.addFlashAttribute("msg", "아이디와 비밀번호를 입력해주세요.");
+            rttr.addFlashAttribute("msg", "아이디와 비밀번호가 일치하지 않습니다.");
             return "redirect:/loginForm.do";
         } else {
             List<Farm> farms = memberMapper.loginFarm(mvo.getMem_id());
