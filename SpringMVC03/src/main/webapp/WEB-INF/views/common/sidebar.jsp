@@ -30,7 +30,7 @@
                     <c:forEach var="farm" items="${sessionScope.mvo.farms}">
                         <li class="sidebar-item">
                             <div class="d-flex align-items-center justify-content-between">
-                                <a class="sidebar-link farm-link" href="${contextPath}/?farmId=${farm.farm_idx}" aria-expanded="false">
+                                <a class="sidebar-link farm-link" href="${contextPath}/index.do?farmId=${farm.farm_idx}" aria-expanded="false">
                                     <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
                                     <span class="hide-menu1">${farm.farm_name}</span>
                                 </a>
