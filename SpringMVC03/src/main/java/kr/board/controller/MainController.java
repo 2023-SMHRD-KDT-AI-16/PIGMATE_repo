@@ -20,13 +20,18 @@ import kr.board.mapper.FarmMapper;
 public class MainController {
 
 	@RequestMapping("/")
-	public String index(HttpSession session) {
+	public String home(HttpSession session) {
 		Member m = (Member) session.getAttribute("mvo");
 		if (m != null) {
-			return "index";
+			return "home";
 		} else {
 			return "member/loginForm";
 		}
+	}
+	
+	@RequestMapping("/index.do")
+	public String index() {
+		return "index";
 	}
 
 	@GetMapping("/farmEnv.do")
