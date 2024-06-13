@@ -15,5 +15,6 @@ public class DetectionInfo {
     private int sit_cnt;
     private int livestock_cnt;
     private int farm_idx;
+    private int result;
     
 }

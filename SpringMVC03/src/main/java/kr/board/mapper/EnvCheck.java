@@ -10,6 +10,7 @@ import kr.board.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,29 +29,35 @@ public class EnvCheck {
     @Autowired
     private Env_criteria_infoMapper envCriMapper;
 
+    @Autowired
+    private PigEmailService pigEmailService;
+
     private static final Logger logger = Logger.getLogger(EnvCheck.class.getName());
 
     @Scheduled(fixedRate = 3600000) // 1시간마다 실행
     public void checkEnvironments() {
         logger.info("Checking environments...");
-        
+
         // 모든 회원의 농장 정보 가져오기
         List<Member> members = memberMapper.getAllMembers();
 
         for (Member member : members) {
             List<Farm> farms = farmMapper.getFarm(member.getMem_id());
             for (Farm farm : farms) {
-            	// 최신 환경 정보 가져오기
+                // 최신 환경 정보 가져오기
                 FarmEnv currentEnv = farmMapper.getLatestEnvironment(farm.getFarm_idx());
                 // 환경 기준 정보 가져오기
                 EnvCri criteria = envCriMapper.getEnvCriByFarmIdx(farm.getFarm_idx());
 
                 if (currentEnv != null && criteria != null) {
-                	// 기준에서 벗어나면 알림 전송
+                    // 기준에서 벗어나면 알림 전송
                     if (isOutOfRange(currentEnv, criteria)) {
                         sendAlert(member, farm, currentEnv);
                     }
                 }
+
+                // 이상행동 돼지 체크 및 알림 전송
+                pigEmailService.checkAndSendAlert(farm.getFarm_idx(), member.getMem_id());
             }
         }
     }
@@ -63,11 +70,11 @@ public class EnvCheck {
         float ammoniaDiff = Math.abs(env.getAmmonia() - criteria.getAmmonia()) / criteria.getAmmonia();
         float pmDiff = Math.abs(env.getPm() - criteria.getPm()) / criteria.getPm();
 
-        // +- 5% 이상 벗어났는지 확인 
+        // +- 5% 이상 벗어났는지 확인
         return tempDiff > 0.05 || humidityDiff > 0.05 || co2Diff > 0.05 || ammoniaDiff > 0.05 || pmDiff > 0.05;
     }
 
- // 이메일 전송하는 메서드
+    // 이메일 전송하는 메서드
     private void sendAlert(Member member, Farm farm, FarmEnv env) {
         emailService.sendAlertMessage(member.getMem_id(), farm.getFarm_name(), env.getTemperature(), env.getHumidity(), env.getCo2(), env.getAmmonia(), env.getPm(), farm.getFarm_idx());
         logger.info("Sent email alert to " + member.getMem_email());
