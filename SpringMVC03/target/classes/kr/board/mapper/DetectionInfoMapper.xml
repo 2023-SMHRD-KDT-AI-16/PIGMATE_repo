@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="kr.board.mapper.DetectionInfoMapper">
 
-	<select id="getSitCountByFarmIdx" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
-		SELECT *
-		FROM
-		detection_info
-		WHERE farm_idx = #{farm_idx}
-	</select>
+    <select id="getSitCountByFarmIdx" parameterType="int"
+            resultType="kr.board.entity.DetectionInfo">
+        SELECT *
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx}
+    </select>
 
-	<select id="gettimeSitCount" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
-  <![CDATA[
-    SELECT created_at, sit_cnt, livestock_cnt
-    FROM detection_info
-    WHERE farm_idx = #{farm_idx} and livestock_cnt > 5
-    ORDER BY created_at DESC
-    LIMIT 15
+    <select id="gettimeSitCount" parameterType="int"
+            resultType="kr.board.entity.DetectionInfo">
+        <![CDATA[
+        SELECT created_at, sit_cnt, livestock_cnt
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx} AND livestock_cnt > 5
+        ORDER BY created_at DESC
+        LIMIT 15
+        ]]>
+    </select>
 
-]]>
+    <select id="getdaySitCount" parameterType="int"
+            resultType="kr.board.entity.DetectionInfo">
+        SELECT created_at, sit_cnt, livestock_cnt
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx}
+    </select>
 
-	</select>
-
-	<select id="getdaySitCount" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
-		SELECT created_at, sit_cnt, livestock_cnt
-		FROM
-		detection_info
-		WHERE farm_idx = #{farm_idx}
-	</select>
+    <select id="getAbnormalDetectionCount" parameterType="int"
+            resultType="kr.board.entity.DetectionInfo">
+        SELECT created_at, sit_cnt, livestock_cnt, result
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx} AND result = 1
+        ORDER BY created_at DESC
+        LIMIT 10
+    </select>
 
 </mapper>
