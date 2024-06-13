@@ -142,6 +142,8 @@
 <script>
 var charts = {};
 var alertCount = {}; // 날짜별 알림 개수 저장 객체
+var envAlertCount = {}; // 날짜별 환경 알림 개수 저장 객체
+var pigAlertCount = {}; // 날짜별 돼지 알림 개수 저장 객체
 
 $(document).ready(function() {
     console.log("Document is ready");
@@ -179,9 +181,13 @@ function initializeCalendar(farmId) {
                     console.log("Fetched alerts data: ", data); // 데이터를 확인하는 출력문
                     var events = [];
                     alertCount = {}; // 날짜별 알림 개수 저장 객체 초기화
+                    envAlertCount = {}; // 날짜별 환경 알림 개수 저장 객체 초기화
+                    pigAlertCount = {}; // 날짜별 돼지 알림 개수 저장 객체 초기화
 
                     $(data).each(function() {
                         var date = moment(this.alarmedAt).format('YYYY-MM-DD');
+                        var type = this.type;
+
                         if (!alertCount[date]) {
                             alertCount[date] = {
                                 count: 0,
@@ -189,15 +195,45 @@ function initializeCalendar(farmId) {
                             };
                         }
                         alertCount[date].count += 1;
-                        alertCount[date].alerts.push(this.alarmMsg);
+                        alertCount[date].alerts.push(this);
+
+                        if (type === 'env') {
+                            if (!envAlertCount[date]) {
+                                envAlertCount[date] = {
+                                    count: 0,
+                                    alerts: []
+                                };
+                            }
+                            envAlertCount[date].count += 1;
+                            envAlertCount[date].alerts.push(this);
+                        } else if (type === 'pig') {
+                            if (!pigAlertCount[date]) {
+                                pigAlertCount[date] = {
+                                    count: 0,
+                                    alerts: []
+                                };
+                            }
+                            pigAlertCount[date].count += 1;
+                            pigAlertCount[date].alerts.push(this);
+                        }
                     });
 
                     // 알림 개수 표시
-                    $.each(alertCount, function(date, details) {
+                    $.each(envAlertCount, function(date, details) {
                         events.push({
                             id: date,
-                            title: '<span class="fc-event-dot"></span>' + details.count + '개',
-                            start: date // 알림 날짜,
+                            title: '<span class="fc-event-dot"></span> 환경: ' + details.count + '개',
+                            start: date,
+                            className: 'env-alert' // 환경 알림에 대한 클래스 추가
+                        });
+                    });
+
+                    $.each(pigAlertCount, function(date, details) {
+                        events.push({
+                            id: date,
+                            title: '<span class="fc-event-dot"></span> 돼지: ' + details.count + '개',
+                            start: date,
+                            className: 'pig-alert' // 돼지 알림에 대한 클래스 추가
                         });
                     });
 
@@ -214,13 +250,25 @@ function initializeCalendar(farmId) {
         },
         eventClick: function(event) {
             var date = event.id;
-            var alerts = alertCount[date] ? alertCount[date].alerts : [];
-            var alertDetails = alerts.map(alert => {
-                var parts = alert.split('내용:');
-                return '내용:' + parts[1];
-            }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
-            $('#alertDetailsModal .modal-body').html(alertDetails); // 모달 창에 세부 사항 표시
-            $('#alertDetailsModal').modal('show'); // 모달 창 표시
+            var alerts;
+
+            if (event.className.includes('env-alert')) {
+                alerts = envAlertCount[date] ? envAlertCount[date].alerts : [];
+                var alertDetails = alerts.map(alert => {
+                    var parts = alert.alarmMsg.split('내용:');
+                    return '내용:' + parts[1];
+                }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
+                $('#environmentAlertDetailsModal .modal-body').html(alertDetails); // 환경 알림 세부 사항 표시
+                $('#environmentAlertDetailsModal').modal('show'); // 환경 알림 모달 창 표시
+            } else if (event.className.includes('pig-alert')) {
+                alerts = pigAlertCount[date] ? pigAlertCount[date].alerts : [];
+                var alertDetails = alerts.map(alert => {
+                    var parts = alert.alarmMsg.split('내용:');
+                    return '내용:' + parts[1];
+                }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
+                $('#pigAlertDetailsModal .modal-body').html(alertDetails); // 돼지 알림 세부 사항 표시
+                $('#pigAlertDetailsModal').modal('show'); // 돼지 알림 모달 창 표시
+            }
         }
     });
 
@@ -267,8 +315,9 @@ function makeNews(data) {
     }
 
     $("#index_newsList").html(listHtml);
-} // 함수
+} 
 
+// 함수
 function getQueryStringParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
@@ -295,8 +344,6 @@ function loadEnvCriteria(farmId) {
         }
     }); // ajax
 }
-
-
 
 // 실시간 정보 가져오기
 function loadEnvInfo(criteria) {
@@ -640,21 +687,45 @@ function showPendingTasksModal() {
         </div>
     </div>
 
-    <!-- 알림 세부 사항 모달 창 -->
-    <div class="modal fade" id="alertDetailsModal" tabindex="-1"
-        role="dialog" aria-labelledby="alertDetailsModalLabel"
+    <!-- 알림 세부 사항 모달 창 (환경) -->
+    <div class="modal fade" id="environmentAlertDetailsModal" tabindex="-1"
+        role="dialog" aria-labelledby="environmentAlertDetailsModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="alertDetailsModalLabel">알림 세부 사항</h5>
+                    <h5 class="modal-title" id="environmentAlertDetailsModalLabel">환경 알림 세부 사항</h5>
                     <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- 알림 세부 사항이 여기에 표시됩니다 -->
+                    <!-- 환경 알림 세부 사항이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 세부 사항 모달 창 (돼지) -->
+    <div class="modal fade" id="pigAlertDetailsModal" tabindex="-1"
+        role="dialog" aria-labelledby="pigAlertDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pigAlertDetailsModalLabel">돼지 알림 세부 사항</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 돼지 알림 세부 사항이 여기에 표시됩니다 -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"

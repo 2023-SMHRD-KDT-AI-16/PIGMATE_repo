@@ -15,6 +15,7 @@ public class Alert {
     private String memId;
     private String alarmMsg;
     private Date alarmedAt;
-    private int farm_idx; 
+    private int farm_idx;
+    private String type; 
 
 }
