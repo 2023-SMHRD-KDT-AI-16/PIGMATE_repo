@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class PigInfo {
 
-	private Date created_at;
+	private String created_at;
 	private int warn_cnt;
 	private int livestock_cnt;
 	

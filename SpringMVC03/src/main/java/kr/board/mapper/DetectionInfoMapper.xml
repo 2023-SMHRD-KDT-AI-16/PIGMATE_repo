@@ -3,10 +3,33 @@
 
 <mapper namespace="kr.board.mapper.DetectionInfoMapper">
 
-    <select id="getSitCountByFarmIdx" parameterType="int" resultType="kr.board.entity.DetectionInfo">
-        SELECT created_at, sit_cnt, livestock_cnt
-        FROM detection_info
-        WHERE farm_idx = #{farm_idx}
-    </select>
+	<select id="getSitCountByFarmIdx" parameterType="int"
+		resultType="kr.board.entity.DetectionInfo">
+		SELECT *
+		FROM
+		detection_info
+		WHERE farm_idx = #{farm_idx}
+	</select>
+
+	<select id="gettimeSitCount" parameterType="int"
+		resultType="kr.board.entity.DetectionInfo">
+  <![CDATA[
+    SELECT created_at, sit_cnt, livestock_cnt
+    FROM detection_info
+    WHERE farm_idx = #{farm_idx} and livestock_cnt > 5
+    ORDER BY created_at DESC
+    LIMIT 15
+
+]]>
+
+	</select>
+
+	<select id="getdaySitCount" parameterType="int"
+		resultType="kr.board.entity.DetectionInfo">
+		SELECT created_at, sit_cnt, livestock_cnt
+		FROM
+		detection_info
+		WHERE farm_idx = #{farm_idx}
+	</select>
 
 </mapper>

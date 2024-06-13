@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class DetectionInfo {
 	
-    private Date created_at;
+    private String created_at;
     private int sit_cnt;
-    private int livestock_cnt; 
+    private int livestock_cnt;
+    private int farm_idx;
     
 }

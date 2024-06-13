@@ -12,5 +12,9 @@ import java.util.List;
 public interface DetectionInfoMapper {
 
     List<DetectionInfo> getSitCountByFarmIdx(@Param("farm_idx") int farm_idx);
+
+	List<DetectionInfo> gettimeSitCount(@Param("farm_idx") int farm_idx);
+
+	// List<DetectionInfo> getdaySitCount(@Param("farm_idx") int farm_idx);
     
 }

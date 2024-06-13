@@ -123,210 +123,201 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/apexcharts/dist/apexcharts.min.js"></script>
 
-	<script>
-	 var charts = {};
-	 var selectedButton = null;
-	 var selectedPigButton = null; // 초기 돼지 정보 선택 버튼 설정
+<script>
+ var charts = {};
+ var selectedButton = null;
+ var selectedPigButton = null; // 초기 돼지 정보 선택 버튼 설정
 
-	 // 환경 + 돼지 선택 버튼 
-	 $(function() {
-		    console.log("ready!");
-		    selectedButton = $('#temperature');
-		    selectedButton.addClass('active');
-		    loadGraphData('daily', 'temperature', 'myChart');
-		    selectedPigButton = $('#sit');
-		    selectedPigButton.addClass('active');
-		    loadPigData('sit', 'time');
+ // 환경 + 돼지 선택 버튼 
+ $(function() {
+    console.log("ready!");
+    selectedButton = $('#temperature');
+    selectedButton.addClass('active');
+    loadGraphData('daily', 'temperature', 'myChart');
+    selectedPigButton = $('#sit');
+    selectedPigButton.addClass('active');
+    loadPigData('sit', 'time');
 
-		    $('button.btn-outline-primary').click(function() {
-		        if (this.id === 'temperature' || this.id === 'humidity' || this.id === 'co2' || this.id === 'ammonia' || this.id === 'pm') {
-		            if (selectedButton) {
-		                $(selectedButton).removeClass('active');
-		            }
-		            selectedButton = this;
-		            $(this).addClass('active');
-		            updateChart();
-		        } else if (this.id === 'sit' || this.id === 'abnormal') {
-		            if (selectedPigButton) {
-		                $(selectedPigButton).removeClass('active');
-		            }
-		            selectedPigButton = this;
-		            $(this).addClass('active');
-		            updatePigChart();
-		        } 
-		    });
-
-		    $('#periodSelect').change(function() {
-		        updateChart();
-		    });
-
-		    $('#pigSelect').change(function() {
-		        updatePigChart();
-		    });
-		});
-
-	// 환경
-    function updateChart() {
-        if (!selectedButton) return;
-        var type = $(selectedButton).attr('id');
-        var period = $('#periodSelect').val();
-        loadGraphData(period, type, 'myChart');
-    }
-
-    // 환경 그래프
-    function loadGraphData(period, type, chartId) {
-        const urlParams = new URLSearchParams(window.location.search);
-        var farm_id = urlParams.get('farmId');
-
-        $.ajax({
-            url: "${pageContext.request.contextPath}/farm/env",
-            type: "post",
-            dataType: "json",
-            data: { period: period, type: type, farm_id: farm_id },
-            success: function(data) {
-                makeData(data, period, type, chartId);
-            },
-            error: function(request, status, error) {
-                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+    $('button.btn-outline-primary').click(function() {
+        if (this.id === 'temperature' || this.id === 'humidity' || this.id === 'co2' || this.id === 'ammonia' || this.id === 'pm') {
+            if (selectedButton) {
+                $(selectedButton).removeClass('active');
             }
-        });
+            selectedButton = this;
+            $(this).addClass('active');
+            updateChart();
+        } else if (this.id === 'sit' || this.id === 'abnormal') {
+            if (selectedPigButton) {
+                $(selectedPigButton).removeClass('active');
+            }
+            selectedPigButton = this;
+            $(this).addClass('active');
+            updatePigChart();
+        } 
+    });
+
+    $('#periodSelect').change(function() {
+        updateChart();
+    });
+
+    $('#pigSelect').change(function() {
+        updatePigChart();
+    });
+});
+
+ // 환경
+ function updateChart() {
+    if (!selectedButton) return;
+    var type = $(selectedButton).attr('id');
+    var period = $('#periodSelect').val();
+    loadGraphData(period, type, 'myChart');
+ }
+
+ // 환경 그래프
+ function loadGraphData(period, type, chartId) {
+    const urlParams = new URLSearchParams(window.location.search);
+    var farm_id = urlParams.get('farmId');
+
+    console.log(`Requesting data for ${type} over ${period} for farm ${farm_id}`);
+
+    $.ajax({
+        url: "${pageContext.request.contextPath}/farm/env",
+        type: "post",
+        dataType: "json",
+        data: { period: period, type: type, farm_id: farm_id },
+        success: function(data) {
+            console.log("Data received: ", data);
+            makeData(data, period, type, chartId);
+        },
+        error: function(request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+ }
+
+ // 환경 그래프 데이터
+ function makeData(data, period, type, chartId) {
+    var dateList = [];
+    var valueList = [];
+
+    if (period === 'weekly') {
+        const weeks = ['1주차', '2주차', '3주차', '4주차'];
+        dateList = data.map((_, index) => weeks[index % 4]);
+        valueList = data.map(item => item[type]);
+    } else if (period === 'monthly') {
+        dateList = data.map(item => item.created_at.split(' ')[0]);
+        valueList = data.map(item => item[type]);
+    } else {
+        dateList = data.map(item => item.created_at.split(' ')[0]);
+        valueList = data.map(item => item[type]);
     }
 
-    // 환경 그래프 데이터
-    function makeData(data, period, type, chartId) {
-        var dateList = [];
-        var valueList = [];
-
-        if (period === 'weekly') {
-            const weeks = ['1주차', '2주차', '3주차', '4주차'];
-            dateList = data.map((_, index) => weeks[index % 4]);
-            valueList = data.map(item => item[type]);
-        } else if (period === 'monthly') {
-            dateList = data.map(item => item.created_at.split(' ')[0]);
-            valueList = data.map(item => item[type]);
-        } else {
-            dateList = data.map(item => item.created_at.split(' ')[0]);
-            valueList = data.map(item => item[type]);
-        }
-
-        if (charts[chartId]) {
-            charts[chartId].destroy();
-        }
-
-        createCharts(dateList, valueList, chartId, type);
+    if (charts[chartId]) {
+        charts[chartId].destroy();
     }
 
-    // 환경 그래프
-    function createCharts(dateList, valueList, chartId, type) {
-        const container = document.getElementById(chartId);
+    createCharts(dateList, valueList, chartId, type);
+ }
 
-        let zones;
-        if (type === 'temperature') {
-            zones = [
-                { value: 10, color: '#1f77b4' },
-                { value: 26, color: '#90be6d' },
-                { color: '#FF8C8C' }
-            ];
-        } else if (type === 'humidity') {
-            zones = [
-                { value: 80, color: '#90be6d' },
-                { color: '#f9c74f' }
-            ];
-        } else {
-            zones = [{ color: '#f94144' }];
-        }
+ // 환경 그래프
+ function createCharts(dateList, valueList, chartId, type) {
+    const container = document.getElementById(chartId);
 
-        Highcharts.chart(container, {
-            chart: {
-                type: 'line'
+    let zones;
+    if (type === 'temperature') {
+        zones = [
+            { value: 10, color: '#1f77b4' },
+            { value: 26, color: '#90be6d' },
+            { color: '#FF8C8C' }
+        ];
+    } else if (type === 'humidity') {
+        zones = [
+            { value: 80, color: '#90be6d' },
+            { color: '#f9c74f' }
+        ];
+    } else {
+        zones = [{ color: '#f94144' }];
+    }
+
+    Highcharts.chart(container, {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: type.charAt(0).toUpperCase() + type.slice(1),
+            align: 'left',
+            style: {
+                fontSize: '18px'
             },
+            margin: 30
+        },
+        xAxis: {
+            categories: dateList,
+            labels: {
+                rotation: 45,
+                step: Math.max(1, Math.floor(dateList.length / 20))
+            }
+        },
+        yAxis: {
             title: {
-                text: type.charAt(0).toUpperCase() + type.slice(1),
-                align: 'left',
-                style: {
-                    fontSize: '18px'
-                },
-                margin: 30
+                text: type.charAt(0).toUpperCase() + type.slice(1) + (type === 'temperature' ? ' (°C)' : type === 'humidity' ? ' (%)' : ' (ppm)')
             },
-            xAxis: {
-                categories: dateList,
-                labels: {
-                    rotation: 45,
-                    step: Math.max(1, Math.floor(dateList.length / 20))
-                }
+            min: 0
+        },
+        series: [{
+            name: type.charAt(0).toUpperCase() + type.slice(1),
+            data: valueList,
+            zones: zones,
+            dataLabels: {
+                enabled: false
             },
-            yAxis: {
-                title: {
-                    text: type.charAt(0).toUpperCase() + type.slice(1) + (type === 'temperature' ? ' (°C)' : type === 'humidity' ? ' (%)' : ' (ppm)')
-                },
-                min: 0
-            },
-            series: [{
-                name: type.charAt(0).toUpperCase() + type.slice(1),
-                data: valueList,
-                zones: zones,
-                dataLabels: {
-                    enabled: false
-                },
-                marker: {
-                    enabled: false
-                }
-            }],
-            legend: {
-                enabled: true,
-                labelFormatter: function() {
-                    if (type === 'temperature') {
-                        return [
-                            '<span style="color:#1f77b4">10°C 이하</span>',
-                            '<span style="color:#90be6d">10°C ~ 26°C</span>',
-                            '<span style="color:#FF8C8C">27°C 이상</span>'
-                        ].join('<br/>');
-                    } else if (type === 'humidity') {
-                        return [
-                            '<span style="color:#90be6d">80% 이하</span>',
-                            '<span style="color:#f9c74f">80% 이상</span>'
-                        ].join('<br/>');
-                    }
-                }
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.y}</b>'
-            },
-            credits: {
+            marker: {
                 enabled: false
             }
-        });
-    }
-    
-    // 돼지정보 업데이트
-    function updatePigChart() {
-        var period = $('#pigSelect').val();
-        if (period === 'time') {
-            if (charts['pigChart']) {
-                charts['pigChart'].destroy();
+        }],
+        legend: {
+            enabled: true,
+            labelFormatter: function() {
+                if (type === 'temperature') {
+                    return [
+                        '<span style="color:#1f77b4">10°C 이하</span>',
+                        '<span style="color:#90be6d">10°C ~ 26°C</span>',
+                        '<span style="color:#FF8C8C">27°C 이상</span>'
+                    ].join('<br/>');
+                } else if (type === 'humidity') {
+                    return [
+                        '<span style="color:#90be6d">80% 이하</span>',
+                        '<span style="color:#f9c74f">80% 이상</span>'
+                    ].join('<br/>');
+                }
             }
-            return;
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.y}</b>'
+        },
+        credits: {
+            enabled: false
         }
-        if (selectedPigButton.attr('id') === 'sitPigs') {
-            loadPigData('sit', period);
-        } else if (selectedPigButton.attr('id') === 'abnormalPigs') {
-            loadPigData('abnormal', period);
-        }
-    }
-
+    });
+ }
     
-    // 돼지 그래프
-	function loadPigData(type, period) {
-	    if (period === 'time') {
-	        if (charts['pigChart']) {
-	            charts['pigChart'].destroy();
-	        }
-	        return;
-	    }
+ // 돼지정보 업데이트
+ function updatePigChart() {
+    var period = $('#pigSelect').val();
+    console.log(period);
+    if (!selectedPigButton) return;
+    var type = $(selectedPigButton).attr('id');
+    console.log(type);
+    loadPigData(type, period);
+ }
 
+ // 돼지 그래프
+ function loadPigData(type, period) {
     const urlParams = new URLSearchParams(window.location.search);
     var farm_id = urlParams.get('farmId');
     var url;
+	
+    console.log(period);
 
     if (type === 'sit') {
         url = `${pageContext.request.contextPath}/farm/DetectionInfo`;
@@ -338,9 +329,10 @@
         url: url,
         type: "get",
         dataType: "json",
-        data: { farm_idx: farm_id, period: period },
+        data: { farm_idx: farm_id, period: period, type : type},
         success: function(data) {
             console.log("Received data for", type, ":", data);
+            
             if (type === 'sit') {
                 makeSitPigData(data, type);
             } else if (type === 'abnormal') {
@@ -351,7 +343,7 @@
             console.log("Error fetching pig count data for", type, ":", status, error);
         }
     });
-}
+ }
     
 //돼지 그래프 데이터 - 이상있는 돼지 수
 function makeAbnormalPigData(data, type) {
@@ -375,9 +367,13 @@ function makeAbnormalPigData(data, type) {
 // 앉아있는 돼지 정보를 가져오는 함수
 function makeSitPigData(data, type) {
     console.log("Loaded data for sit pigs:", data);  
-    var dateList = data.map(item => new Date(item.created_at).toLocaleDateString('ko-KR'));
+    var dateList = data.map(item => new Date(item.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }));
     var sitCountList = data.map(item => item.sit_cnt);  // 앉아있는 돼지 수 데이터
     var livestockCountList = data.map(item => item.livestock_cnt); // 전체 돼지 수 데이터
+
+    console.log("Date List:", dateList);
+    console.log("Sit Count List:", sitCountList);
+    console.log("Livestock Count List:", livestockCountList);
 
     if (charts['pigChart']) {
         charts['pigChart'].destroy();
@@ -419,58 +415,13 @@ function createPigCharts(dateList, pigCountList, livestockCountList, chartId, ty
             name: '전체 돼지 수',
             data: livestockCountList
         }, {
-            type: type === 'sit' ? 'column' : 'column',  
+            type: 'column',  
             name: type === 'sit' ? '앉아있는 돼지 객체 수' : '이상행동 돼지 수',
             data: pigCountList,
             color: type === 'sit' ? '#3254a8' : '#e03db0'
         }],
         credits: {
             enabled: false
-        }
-    });
-}
-
-// 앉아있는 돼지정보차트 업데이트 함수 
-function updatePigChart() {
-    var type = $(selectedPigButton).attr('id');
-    console.log(type);
-    loadPigData(type); 
-}
-
-// 이상행동 돼지정보차트 업데이트 함수
-function updateAbnormalPigChart() {
-    loadPigData('abnormal'); 
-    var type = $(selectedPigButton).attr('id');
-    var period = $('#periodSelect').val();
-}
-
-// 돼지 그래프 데이터 로드 함수 
-function loadPigData(type) {
-    const urlParams = new URLSearchParams(window.location.search);
-    var farm_id = urlParams.get('farmId');
-    var url;
-
-    if (type === 'sit') {
-        url = `${pageContext.request.contextPath}/farm/DetectionInfo`;
-    } else if (type === 'abnormal') {
-        url = `${pageContext.request.contextPath}/farm/PigInfo`;
-    }
-
-    $.ajax({
-        url: url,
-        type: "get",
-        dataType: "json",
-        data: { farm_idx: farm_id, type: type },
-        success: function(data) {
-            console.log("Received data for", type, ":", data);
-            if (type === 'sit') {
-                makeSitPigData(data, type);  // 앉아있는 돼지 데이터 처리
-            } else if (type === 'abnormal') {
-                makeAbnormalPigData(data, type);  // 이상행동 돼지 데이터 처리
-            }
-        },
-        error: function(request, status, error) {
-            console.log("Error fetching pig count data for", type, ":", status, error);
         }
     });
 }

@@ -196,4 +196,108 @@ SELECT * FROM farm_env_info_day where farm_idx = 19;
 
 SELECT * FROM farm_env_info_day;
 
+WITH recent_data AS (
+    SELECT *
+    FROM (
+        SELECT created_at, sit_cnt, livestock_cnt
+        FROM detection_info
+        WHERE farm_idx = 32
+        ORDER BY created_at DESC
+        LIMIT 15
+    ) sub
+    ORDER BY created_at
+),
+hourly_intervals AS (
+    SELECT 
+        CASE 
+            WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+            ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+        END AS time_interval,
+        sit_cnt, livestock_cnt
+    FROM recent_data
+),
+averaged_data AS (
+    SELECT
+        time_interval,
+        AVG(sit_cnt) AS avg_sit_cnt,
+        AVG(livestock_cnt) AS avg_livestock_cnt
+    FROM hourly_intervals
+    GROUP BY time_interval
+)
+SELECT 
+    time_interval AS `interval`,
+    avg_sit_cnt AS sitCnt,
+    avg_livestock_cnt AS livestockCnt
+FROM averaged_data
+ORDER BY `interval`;
 
+        SELECT *
+        FROM (
+            SELECT created_at, sit_cnt, livestock_cnt
+            FROM detection_info
+            WHERE farm_idx = 32
+            ORDER BY created_at DESC
+            LIMIT 15
+        ) sub
+        ORDER BY created_at
+   ,
+    hourly_intervals AS (
+        SELECT 
+            CASE 
+                WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+                ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+            END AS time_interval,
+            sit_cnt, livestock_cnt
+        FROM recent_data
+    ),
+    averaged_data AS (
+        SELECT
+            time_interval,
+            AVG(sit_cnt) AS avg_sit_cnt,
+            AVG(livestock_cnt) AS avg_livestock_cnt
+        FROM hourly_intervals
+        GROUP BY time_interval
+    )
+    SELECT 
+        time_interval AS `interval`,
+        avg_sit_cnt AS sitCnt,
+        avg_livestock_cnt AS livestockCnt
+    FROM averaged_data
+    ORDER BY `interval`;
+
+    <![CDATA[
+    WITH recent_data AS (
+        SELECT *
+        FROM (
+            SELECT created_at, sit_cnt, livestock_cnt
+            FROM detection_info
+            WHERE farm_idx = 32
+            ORDER BY created_at DESC
+            LIMIT 15
+        ) sub
+        ORDER BY created_at
+    ),
+    hourly_intervals AS (
+        SELECT 
+            CASE 
+                WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+                ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+            END AS time_interval,
+            sit_cnt, livestock_cnt
+        FROM recent_data
+    ),
+    averaged_data AS (
+        SELECT
+            time_interval,
+            AVG(sit_cnt) AS avg_sit_cnt,
+            AVG(livestock_cnt) AS avg_livestock_cnt
+        FROM hourly_intervals
+        GROUP BY time_interval
+    )
+    SELECT 
+        time_interval AS `interval`,
+        avg_sit_cnt AS sitCnt,
+        avg_livestock_cnt AS livestockCnt
+    FROM averaged_data
+    ORDER BY `interval`;
+    ]]>;

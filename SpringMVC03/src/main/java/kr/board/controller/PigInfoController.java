@@ -18,6 +18,7 @@ public class PigInfoController {
     
     @GetMapping("/farm/PigInfo")
     public List<PigInfo> getWarnCount(@RequestParam("farm_idx") int farm_idx){
+    	System.out.println("========================================================================");
         return pigInfoMapper.getWarnCountByFarmIdx(farm_idx);
     }
 }
