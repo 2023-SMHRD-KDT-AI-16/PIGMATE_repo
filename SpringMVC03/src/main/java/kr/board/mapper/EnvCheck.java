@@ -28,11 +28,11 @@ public class EnvCheck {
     @Autowired
     private Env_criteria_infoMapper envCriMapper;
 
-    // private static final Logger logger = Logger.getLogger(EnvCheck.class.getName());
+    private static final Logger logger = Logger.getLogger(EnvCheck.class.getName());
 
     @Scheduled(fixedRate = 3600000) // 1시간마다 실행
     public void checkEnvironments() {
-        // logger.info("Checking environments...");
+        logger.info("Checking environments...");
         
         // 모든 회원의 농장 정보 가져오기
         List<Member> members = memberMapper.getAllMembers();
@@ -70,6 +70,6 @@ public class EnvCheck {
  // 이메일 전송하는 메서드
     private void sendAlert(Member member, Farm farm, FarmEnv env) {
         emailService.sendAlertMessage(member.getMem_id(), farm.getFarm_name(), env.getTemperature(), env.getHumidity(), env.getCo2(), env.getAmmonia(), env.getPm(), farm.getFarm_idx());
-        // logger.info("Sent email alert to " + member.getMem_email());
+        logger.info("Sent email alert to " + member.getMem_email());
     }
 }
