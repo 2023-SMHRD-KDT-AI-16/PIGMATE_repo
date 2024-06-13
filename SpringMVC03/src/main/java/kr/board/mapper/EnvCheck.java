@@ -56,8 +56,8 @@ public class EnvCheck {
                     }
                 }
 
-                // 이상행동 돼지 체크 및 알림 전송
-                pigEmailService.checkAndSendAlert(farm.getFarm_idx(), member.getMem_id());
+                // 돼지 이상 행동 체크 및 알림 전송
+                pigEmailService.checkAndSendAlert(farm.getFarm_idx(), member.getMem_id(), farm.getFarm_name());
             }
         }
     }
@@ -67,8 +67,8 @@ public class EnvCheck {
         float tempDiff = Math.abs(env.getTemperature() - criteria.getTemperature()) / criteria.getTemperature();
         float humidityDiff = Math.abs(env.getHumidity() - criteria.getHumidity()) / criteria.getHumidity();
         int co2Diff = Math.abs(env.getCo2() - criteria.getCo2()) / criteria.getCo2();
-        float ammoniaDiff = Math.abs(env.getAmmonia() - criteria.getAmmonia()) / criteria.getAmmonia();
-        float pmDiff = Math.abs(env.getPm() - criteria.getPm()) / criteria.getPm();
+        float ammoniaDiff = Math.abs(env.getAmmonia()) / criteria.getAmmonia();
+        float pmDiff = Math.abs(env.getPm()) / criteria.getPm();
 
         // +- 5% 이상 벗어났는지 확인
         return tempDiff > 0.05 || humidityDiff > 0.05 || co2Diff > 0.05 || ammoniaDiff > 0.05 || pmDiff > 0.05;

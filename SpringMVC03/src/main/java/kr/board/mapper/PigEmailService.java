@@ -31,16 +31,15 @@ public class PigEmailService {
     private JavaMailSender mailSender;
 
     @Transactional
-    public void checkAndSendAlert(int farmIdx, String memId) {
+    public void checkAndSendAlert(int farmIdx, String memId, String farmName) {
         List<DetectionInfo> abnormalDetections = detectionInfoMapper.getAbnormalDetectionCount(farmIdx);
 
-        if (AbnormalDetection(abnormalDetections, 5)) {
-            sendAlertEmail(memId, farmIdx);
+        if (abnormalDetection(abnormalDetections, 5)) {
+            sendAlertEmail(memId, farmIdx, farmName);
         }
     }
 
-    // 이상행동 돼지 발견 카운팅
-    private boolean AbnormalDetection(List<DetectionInfo> detections, int threshold) {
+    private boolean abnormalDetection(List<DetectionInfo> detections, int threshold) {
         int count = 0;
         for (DetectionInfo detection : detections) {
             if (detection.getResult() == 1) {
@@ -55,8 +54,7 @@ public class PigEmailService {
         return false;
     }
 
-    // 이메일 전송
-    private void sendAlertEmail(String memId, int farmIdx) {
+    private void sendAlertEmail(String memId, int farmIdx, String farmName) {
         Member member = memberMapper.getMember(memId);
         if (member == null) {
             return;
@@ -64,7 +62,7 @@ public class PigEmailService {
 
         String to = member.getMem_email();
         String subject = "농장 돼지 이상 행동 경고";
-        String text = "안녕하세요, 관리자님.\n\n귀하의 농장에서 이상 행동을 보이는 돼지가 연속으로 5번 이상 발견되었습니다.\n조속한 확인이 필요합니다.\n\n감사합니다.\n귀하의 농장 관리팀 드림";
+        String text = String.format("안녕하세요, 관리자님.\n\n귀하의 농장 '%s'에서 이상 행동을 보이는 돼지가 연속으로 5번 이상 발견되었습니다.\n조속한 확인이 필요합니다.\n\n감사합니다.\n귀하의 농장 관리팀 드림", farmName);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -76,7 +74,7 @@ public class PigEmailService {
             System.out.println("Pig Email sent successfully to " + to);
 
             // 알림 저장
-            String alertMsg = "이상 행동 돼지 경고: 연속으로 5번 이상 이상 행동이 발견되었습니다.";
+            String alertMsg = String.format("농장 이름: %s, 내용: 연속으로 5번 이상 돼지의 이상 행동이 발견되었습니다.", farmName);
             Alert alert = new Alert();
             alert.setMemId(memId);
             alert.setAlarmMsg(alertMsg);
