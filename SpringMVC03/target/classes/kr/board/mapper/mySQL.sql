@@ -183,78 +183,107 @@ WHERE
         FROM farm_env_info
         WHERE farm_idx = 19
     )
-ORDER BY
-    created_at;
-    
-    
-SELECT created_date, AVG(lying_cnt) AS avg_lying_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
-FROM (
-    SELECT 
-        DATE(created_at) AS created_date,
-        lying_cnt,
-        livestock_cnt
-    FROM 
-        detection_info
-    WHERE 
-        farm_idx = 19
-    ORDER BY 
-        created_at DESC
-    LIMIT 100  -- 일단 100개로 한정, 필요에 따라 조정
-) subquery
-GROUP BY created_date
-ORDER BY created_date ASC
-LIMIT 10;
 
-
-    SELECT created_date, AVG(warn_cnt) AS avg_warn_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
+WITH recent_data AS (
+    SELECT *
     FROM (
-        SELECT 
-            DATE(created_at) AS created_date,
-            warn_cnt,
-            livestock_cnt
-        FROM 
-           pig_info
-        WHERE 
-            farm_idx = 32
-        ORDER BY 
-            created_at DESC
-        LIMIT 100
-    ) subquery
-    GROUP BY created_date
-    ORDER BY created_date ASC
-    LIMIT 10;
-
-      WITH recent_data AS (
         SELECT *
-        FROM (
-            SELECT *
-            FROM pig_info
-            WHERE farm_idx = 32
-            ORDER BY created_at DESC
-            LIMIT 15
-        ) sub
-        ORDER BY created_at
-    ),
-    hourly_intervals AS (
-        SELECT 
-            CASE 
-                WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
-                ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
-            END AS time_interval,
-            warn_cnt, livestock_cnt
-        FROM recent_data
-    ),
-    averaged_data AS (
-        SELECT
-            time_interval,
-            AVG(warn_cnt) AS avg_warn_cnt,
-            AVG(livestock_cnt) AS avg_livestock_cnt
-        FROM hourly_intervals
-        GROUP BY time_interval
-    )
+        FROM detection_info
+        WHERE farm_idx = 19
+        ORDER BY created_at DESC
+        LIMIT 100
+    ) sub
+    ORDER BY created_at
+)
+SELECT * FROM recent_data;
+
+WITH recent_data AS (
+    SELECT *
+    FROM (
+        SELECT *
+        FROM detection_info
+        WHERE farm_idx = 19
+        ORDER BY created_at DESC
+        LIMIT 100
+    ) sub
+    ORDER BY created_at
+),
+hourly_intervals AS (
     SELECT 
-        time_interval AS `interval`,
-        avg_warn_cnt AS warnCnt,
-        avg_livestock_cnt AS livestockCnt
-    FROM averaged_data
-    ORDER BY `interval`;
+        CASE 
+            WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+            ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+        END AS time_interval,
+        lying_cnt, livestock_cnt
+    FROM recent_data
+)
+SELECT * FROM hourly_intervals;
+
+WITH recent_data AS (
+    SELECT *
+    FROM (
+        SELECT *
+        FROM detection_info
+        WHERE farm_idx = 19
+        ORDER BY created_at DESC
+        LIMIT 100
+    ) sub
+    ORDER BY created_at
+),
+hourly_intervals AS (
+    SELECT 
+        CASE 
+            WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+            ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+        END AS time_interval,
+        lying_cnt, livestock_cnt
+    FROM recent_data
+),
+averaged_data AS (
+    SELECT
+        time_interval,
+        AVG(lying_cnt) AS avg_lying_cnt,
+        AVG(livestock_cnt) AS avg_livestock_cnt
+    FROM hourly_intervals
+    GROUP BY time_interval
+)
+SELECT * FROM averaged_data;
+
+WITH recent_data AS (
+    SELECT *
+    FROM (
+        SELECT *
+        FROM pig_info
+        WHERE farm_idx = 32
+        ORDER BY created_at DESC
+        LIMIT 100 -- 여기서 최근 100개의 데이터를 가져오도록 합니다.
+    ) sub
+    ORDER BY created_at
+),
+hourly_intervals AS (
+    SELECT 
+        CASE 
+            WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+            ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+        END AS time_interval,
+        warn_cnt, livestock_cnt, created_at
+    FROM recent_data
+),
+averaged_data AS (
+    SELECT
+        time_interval,
+        AVG(warn_cnt) AS avg_warn_cnt,
+        AVG(livestock_cnt) AS avg_livestock_cnt,
+        MAX(created_at) AS created_date
+    FROM hourly_intervals
+    GROUP BY time_interval
+)
+SELECT 
+    time_interval AS `interval`,
+    avg_warn_cnt AS warnCnt,
+    avg_livestock_cnt AS livestockCnt,
+    created_date
+FROM averaged_data
+ORDER BY `interval`
+LIMIT 10; -- 여기서 10개의 데이터를 가져오도록 제한합니다.
+
