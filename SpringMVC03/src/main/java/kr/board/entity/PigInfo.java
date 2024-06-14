@@ -14,5 +14,9 @@ public class PigInfo {
 	private String created_at;
 	private int warn_cnt;
 	private int livestock_cnt;
+	private int farm_idx;
+	private double avg_pig_cnt;
+	private double avg_livestock_cnt;
+	private String created_date;
 	
 }

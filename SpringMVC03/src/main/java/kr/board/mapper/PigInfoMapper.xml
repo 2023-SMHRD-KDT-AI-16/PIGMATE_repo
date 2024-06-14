@@ -6,6 +6,68 @@
         SELECT created_at, warn_cnt, livestock_cnt
         FROM pig_info
         WHERE farm_idx = #{farm_idx}
+        LIMIT 10
+    </select>
+    
+    <select id="getdayWarnCount" parameterType="int" resultType="kr.board.entity.PigInfo">
+      <![CDATA[
+    SELECT created_date, AVG(warn_cnt) AS avg_warn_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
+    FROM (
+        SELECT 
+            DATE(created_at) AS created_date,
+            warn_cnt,
+            livestock_cnt
+        FROM 
+           pig_info
+        WHERE 
+            farm_idx = #{farm_idx}
+        ORDER BY 
+            created_at DESC
+        LIMIT 100
+    ) subquery
+    GROUP BY created_date
+    ORDER BY created_date ASC
+    LIMIT 10;
+    ]]>
+    </select>
+    
+    <select id="gettimeWarnCount" parameterType="int" resultType="kr.board.entity.PigInfo">
+     <![CDATA[
+          WITH recent_data AS (
+        SELECT *
+        FROM (
+            SELECT *
+            FROM pig_info
+            WHERE farm_idx = #{farm_idx}
+            ORDER BY created_at DESC
+            LIMIT 15
+        ) sub
+        ORDER BY created_at
+    ),
+    hourly_intervals AS (
+        SELECT 
+            CASE 
+                WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
+                ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
+            END AS time_interval,
+            warn_cnt, livestock_cnt
+        FROM recent_data
+    ),
+    averaged_data AS (
+        SELECT
+            time_interval,
+            AVG(warn_cnt) AS avg_warn_cnt,
+            AVG(livestock_cnt) AS avg_livestock_cnt
+        FROM hourly_intervals
+        GROUP BY time_interval
+    )
+    SELECT 
+        time_interval AS `interval`,
+        avg_warn_cnt AS warnCnt,
+        avg_livestock_cnt AS livestockCnt
+    FROM averaged_data
+    ORDER BY `interval`;
+    ]]>
     </select>
 
 </mapper>

@@ -87,7 +87,7 @@
 									<div class="card-body">
 										<div class="clearfix">
 											<div>
-												<button class="btn btn-outline-primary me-3" id="sit">앉아있는
+												<button class="btn btn-outline-primary me-3" id="lying">누워있는
 													돼지 객체 수</button>
 												<button class="btn btn-outline-primary me-3"
 													id="abnormal">이상행동 객체 수</button>
@@ -134,9 +134,9 @@
     selectedButton = $('#temperature');
     selectedButton.addClass('active');
     loadGraphData('daily', 'temperature', 'myChart');
-    selectedPigButton = $('#sit');
+    selectedPigButton = $('#lying');
     selectedPigButton.addClass('active');
-    loadPigData('sit', 'time');
+    loadPigData('lying', 'time');
 
     $('button.btn-outline-primary').click(function() {
         if (this.id === 'temperature' || this.id === 'humidity' || this.id === 'co2' || this.id === 'ammonia' || this.id === 'pm') {
@@ -146,7 +146,7 @@
             selectedButton = this;
             $(this).addClass('active');
             updateChart();
-        } else if (this.id === 'sit' || this.id === 'abnormal') {
+        } else if (this.id === 'lying' || this.id === 'abnormal') {
             if (selectedPigButton) {
                 $(selectedPigButton).removeClass('active');
             }
@@ -301,130 +301,132 @@
     });
  }
     
- // 돼지정보 업데이트
  function updatePigChart() {
-    var period = $('#pigSelect').val();
-    console.log(period);
-    if (!selectedPigButton) return;
-    var type = $(selectedPigButton).attr('id');
-    console.log(type);
-    loadPigData(type, period);
- }
+	    var period = $('#pigSelect').val();
+	    if (!selectedPigButton) return;
+	    var type = $(selectedPigButton).attr('id');
+	    loadPigData(type, period);
+	}
 
- // 돼지 그래프
- function loadPigData(type, period) {
-    const urlParams = new URLSearchParams(window.location.search);
-    var farm_id = urlParams.get('farmId');
-    var url;
-	
-    console.log(period);
+	function loadPigData(type, period) {
+	    const urlParams = new URLSearchParams(window.location.search);
+	    var farm_id = urlParams.get('farmId');
+	    var url;
 
-    if (type === 'sit') {
-        url = `${pageContext.request.contextPath}/farm/DetectionInfo`;
-    } else if (type === 'abnormal') {
-        url = `${pageContext.request.contextPath}/farm/PigInfo`;
-    }
+	    if (type === 'lying') {
+	        url = `${pageContext.request.contextPath}/farm/DetectionInfo`;
+	    } else if (type === 'abnormal') {
+	        url = `${pageContext.request.contextPath}/farm/PigInfo`;
+	    }
 
-    $.ajax({
-        url: url,
-        type: "get",
-        dataType: "json",
-        data: { farm_idx: farm_id, period: period, type : type},
-        success: function(data) {
-            console.log("Received data for", type, ":", data);
-            
-            if (type === 'sit') {
-                makeSitPigData(data, type);
-            } else if (type === 'abnormal') {
-                makeAbnormalPigData(data, type);
-            }
-        },
-        error: function(request, status, error) {
-            console.log("Error fetching pig count data for", type, ":", status, error);
-        }
-    });
- }
-    
-//돼지 그래프 데이터 - 이상있는 돼지 수
-function makeAbnormalPigData(data, type) {
-    console.log("Loaded data for abnormal pigs:", data);  
+	    $.ajax({
+	        url: url,
+	        type: "get",
+	        dataType: "json",
+	        data: { farm_idx: farm_id, period: period, type : type },
+	        success: function(data) {
+	            console.log("Received data for", type, ":", data);
+	            if (type === 'lying') {
+	                makeLyingPigData(data, type);
+	            } else if (type === 'abnormal') {
+	                makeAbnormalPigData(data, type);
+	            }
+	        },
+	        error: function(request, status, error) {
+	            console.log("Error fetching pig count data for", type, ":", status, error);
+	        }
+	    });
+	}
 
-    var dateList = data.map(item => new Date(item.created_at).toLocaleDateString('ko-KR'));
-    var warnCountList = data.map(item => item.warn_cnt);  
-    var livestockCountList = data.map(item => item.livestock_cnt); // 전체 돼지 수 데이터
+	function makeAbnormalPigData(data, type) {
+	    if (!data || data.length === 0) {
+	        console.log("No data received for abnormal pigs.");
+	        return;
+	    }
 
-    console.log("Date List:", dateList);
-    console.log("Warn Count List:", warnCountList);
-    console.log("Livestock Count List:", livestockCountList);
+	    var dateList = data.map(item => new Date(item.created_date).toLocaleDateString('ko-KR'));
+	    var warnCountList = data.map(item => item.avg_warn_cnt);
+	    var livestockCountList = data.map(item => item.avg_livestock_cnt);
 
-    if (charts['pigChart']) {
-        charts['pigChart'].destroy();
-    }
+	    if (charts['pigChart']) {
+	        charts['pigChart'].destroy();
+	    }
 
-    createPigCharts(dateList, warnCountList, livestockCountList, 'pigChart', type);
-}
+	    createPigCharts(dateList, warnCountList, livestockCountList, 'pigChart', type);
+	}
 
-// 앉아있는 돼지 정보를 가져오는 함수
-function makeSitPigData(data, type) {
-    console.log("Loaded data for sit pigs:", data);  
-    var dateList = data.map(item => new Date(item.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }));
-    var sitCountList = data.map(item => item.sit_cnt);  // 앉아있는 돼지 수 데이터
-    var livestockCountList = data.map(item => item.livestock_cnt); // 전체 돼지 수 데이터
+	function makeLyingPigData(data, type) {
+	    if (!data || data.length === 0) {
+	        console.log("No data received for lying pigs.");
+	        return;
+	    }
 
-    console.log("Date List:", dateList);
-    console.log("Sit Count List:", sitCountList);
-    console.log("Livestock Count List:", livestockCountList);
+	    // 데이터가 올바르게 전달되고 있는지 확인합니다.
+	    console.log("Received data for lying:", data);
 
-    if (charts['pigChart']) {
-        charts['pigChart'].destroy();
-    }
+	    // 'created_date' 속성을 사용하여 날짜 리스트를 만듭니다.
+	    var dateList = data.map(item => item.created_date);
+	    var lyingCountList = data.map(item => item.avg_lying_cnt);  
+	    var livestockCountList = data.map(item => item.avg_livestock_cnt);
 
-    createPigCharts(dateList, sitCountList, livestockCountList, 'pigChart', type);
-}
+	    console.log("Date List:", dateList);
+	    console.log("Lying Count List:", lyingCountList);
+	    console.log("Livestock Count List:", livestockCountList);
 
-// 돼지정보 그래프 생성 함수 
-function createPigCharts(dateList, pigCountList, livestockCountList, chartId, type) {
-    const container = document.getElementById(chartId);
+	    if (charts['pigChart']) {
+	        charts['pigChart'].destroy();
+	    }
 
-    Highcharts.chart(container, {
-        chart: {
-            type: 'line'  
-        },
-        title: {
-            text: type === 'sit' ? '앉아있는 돼지 객체 수' : '이상행동 돼지 수',
-            align: 'left',
-            style: {
-                fontSize: '18px'
-            },
-            margin: 30
-        },
-        xAxis: {
-            categories: dateList,
-            labels: {
-                rotation: 45
-            }
-        },
-        yAxis: {
-            title: {
-                text: '객체 수 (마리)'
-            },
-            min: 0
-        },
-        series: [{
-            type: 'line',  
-            name: '전체 돼지 수',
-            data: livestockCountList
-        }, {
-            type: 'column',  
-            name: type === 'sit' ? '앉아있는 돼지 객체 수' : '이상행동 돼지 수',
-            data: pigCountList,
-            color: type === 'sit' ? '#3254a8' : '#e03db0'
-        }],
-        credits: {
-            enabled: false
-        }
-    });
-}
+	    createPigCharts(dateList, lyingCountList, livestockCountList, 'pigChart', type);
+	}
+
+	function createPigCharts(dateList, pigCountList, livestockCountList, chartId, type) {
+	    // 데이터를 역순으로 정렬
+	    dateList.reverse();
+	    pigCountList.reverse();
+	    livestockCountList.reverse();
+
+	    const container = document.getElementById(chartId);
+
+	    Highcharts.chart(container, {
+	        chart: {
+	            type: 'line'
+	        },
+	        title: {
+	            text: type === 'lying' ? '누워있는 돼지 객체 수' : '이상행동 돼지 수',
+	            align: 'left',
+	            style: {
+	                fontSize: '18px'
+	            },
+	            margin: 30
+	        },
+	        xAxis: {
+	            categories: dateList,
+	            labels: {
+	                rotation: 45
+	            }
+	        },
+	        yAxis: {
+	            title: {
+	                text: '객체 수 (마리)'
+	            },
+	            min: 0
+	        },
+	        series: [{
+	            type: 'line',
+	            name: '전체 돼지 수',
+	            data: livestockCountList
+	        }, {
+	            type: 'column',
+	            name: type === 'lying' ? '누워있는 돼지 객체 수' : '이상행동 돼지 수',
+	            data: pigCountList,
+	            color: type === 'lying' ? '#3254a8' : '#e03db0'
+	        }],
+	        credits: {
+	            enabled: false
+	        }
+	    });
+	}
 
 </script>
 </body>

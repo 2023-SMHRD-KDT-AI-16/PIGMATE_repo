@@ -38,10 +38,10 @@ public class DetectionInfoController {
                 System.out.println("Farm ID: " + farm_idx);
 
                 if ("time".equals(period)) {
-                    detection_info = detectionInfoMapper.gettimeSitCount(farm_idx);
+                    detection_info = detectionInfoMapper.gettimeLyingCount(farm_idx);
                     System.out.println("Detection info (time): " + detection_info);
                 } else if ("day".equals(period)) {
-                    detection_info = detectionInfoMapper.getSitCountByFarmIdx(farm_idx);
+                    detection_info = detectionInfoMapper.getdayLyingCount(farm_idx);
                     System.out.println("Detection info (day): " + detection_info);
                 }
             }

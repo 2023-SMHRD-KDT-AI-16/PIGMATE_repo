@@ -9,12 +9,12 @@ import java.util.List;
 @Mapper
 public interface DetectionInfoMapper {
 	
-    List<DetectionInfo> getSitCountByFarmIdx(@Param("farm_idx") int farm_idx);
+    List<DetectionInfo> getLyingCountByFarmIdx(@Param("farm_idx") int farm_idx);
     
-    List<DetectionInfo> gettimeSitCount(@Param("farm_idx") int farm_idx);
+    List<DetectionInfo> gettimeLyingCount(@Param("farm_idx") int farm_idx);
+    
+    List<DetectionInfo> getdayLyingCount(@Param("farm_idx") int farm_idx);
     
     List<DetectionInfo> getAbnormalDetectionCount(@Param("farm_idx") int farmIdx);
-    
-    List<DetectionInfo> getdaySitCount(@Param("farm_idx") int farm_idx);
     
 }
