@@ -247,7 +247,7 @@
                                             <div class="progress" role="progressbar"
                                                 aria-label="Basic example" aria-valuenow="25"
                                                 aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                                <div class="progress-bar bg-secondary" style="width: 83%"></div>
+                                                <div class="progress-bar bg-secondary" style="width: 0%"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -271,7 +271,7 @@
                                             <div class="progress" role="progressbar"
                                                 aria-label="Basic example" aria-valuenow="25"
                                                 aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                                <div class="progress-bar bg-warning" style="width: 53%"></div>
+                                                <div class="progress-bar bg-warning" style="width: 0%"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -397,6 +397,9 @@ $(document).ready(function() {
     newsList();
     loadEnvCriteria(farmId);
     loadPigCnt(farmId);
+    setInterval(function() {
+        loadPigCnt(farmId);
+    }, 4000);
     initializeCalendar(farmId); // Initial calendar load
 
     // 사이드바에서 farm_id 선택 시, 알림 데이터를 갱신
@@ -682,18 +685,22 @@ function loadPigCnt(farmId){
         data : {farmId : farmId},
         dataType : "json",
         success : function(data){
-            console.log(data);
             console.log("lyingCnt: " + data[0]); // lyingCnt 출력
             console.log("standingCnt: " + data[1]); // standingCnt 출력
             $("#lyingCnt").text(data[0]+"두");
             $("#standCnt").text(data[1]+"두");
+            
+            var lyingPercentage = (data[0] / (data[0] + data[1])) * 100;
+            var standingPercentage = (data[1] / (data[0] + data[1])) * 100;
+            
+            $(".progress-bar.bg-secondary").css("width", lyingPercentage + "%");
+            $(".progress-bar.bg-warning").css("width", standingPercentage + "%");
         },
         error : function(){
             console.log("돼지 객체 탐지 결과 못 가져옴");
         }
     }); // ajax
 }
-
 
 
 // 그래프 데이터 가져오는 함수
