@@ -131,6 +131,13 @@
 <script
     src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
+
+
+
+
+</head>
+<body>
+
 <c:if test="${not empty sessionScope.mvo}">
     <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -139,6 +146,244 @@
     </script>
 </c:if>
 
+
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical"
+        data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <%@ include file="common/sidebar.jsp"%>
+        <div class="body-wrapper">
+            <%@ include file="common/header.jsp"%>
+            <div class="body-wrapper-inner">
+                <div class="container-fluid">
+                    <!--  Row 1 -->
+                    <div class="row">
+                        <div class="col-lg-3 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body1">
+                                    <div class="env-info-box">
+                                        <h6>온도</h6>
+                                        <span id="temperature" class="envContent">N/A</span><span
+                                            id="tem-text" class="unitss">°C</span>
+                                        <div class="status">쾌적해요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body1">
+                                    <div class="env-info-box">
+                                        <h6>습도</h6>
+                                        <span id="humidity" class="envContent">N/A</span> <span
+                                            id="hum-text" class="unitss">%</span>
+                                        <div class="status">쾌적해요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body1">
+                                    <div class="env-info-box">
+                                        <h6>이산화탄소</h6>
+                                        <span id="co2" class="envContent">N/A</span> <span
+                                            id="co2-text" class="unitss">ppm</span>
+                                        <div class="status">쾌적해요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body1">
+                                    <div class="env-info-box">
+                                        <h6>암모니아</h6>
+                                        <span id="ammonia" class="envContent">N/A</span> <span
+                                            id="amm-text" class="unitss">mg/m³</span>
+                                        <div class="status">쾌적해요</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body">
+                                    <div
+                                        class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                        <div class="mb-3 mb-sm-0">
+                                            <h5 class="card-title fw-semibold">축사환경</h5>
+                                        </div>
+                                        <div>
+                                            <select class="form-select">
+                                                <option value="1">March 2024</option>
+                                                <option value="2">April 2024</option>
+                                                <option value="3">May 2024</option>
+                                                <option value="4">June 2024</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <img src="http://localhost:5000/video_feed" width="600" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center gap-6 mb-4 pb-3">
+                                                <span
+                                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
+                                                    <iconify-icon icon="healthicons:animal-pig"
+                                                        class="fs-6 text-secondary"></iconify-icon>
+                                                </span>
+                                                <h6 class="mb-0 fs-4">누워있는 돼지 수</h6>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center justify-content-between mb-6">
+                                                <h6 class="mb-0 fw-medium">객체 탐지 결과</h6>
+                                                <h6 class="mb-0 fw-medium" id="lyingCnt"></h6>
+                                            </div>
+                                            <div class="progress" role="progressbar"
+                                                aria-label="Basic example" aria-valuenow="25"
+                                                aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
+                                                <div class="progress-bar bg-secondary" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center gap-6 mb-4 pb-3">
+                                                <span
+                                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-warning-subtle">
+                                                    <iconify-icon icon="healthicons:animal-pig"
+                                                        class="fs-6 text-warning"></iconify-icon>
+                                                </span>
+                                                <h6 class="mb-0 fs-4">서 있는 돼지 수</h6>
+                                            </div>
+                                            <div
+                                                class="d-flex align-items-center justify-content-between mb-6">
+                                                <h6 class="mb-0 fw-medium">객체 탐지 결과</h6>
+                                                <h6 class="mb-0 fw-medium" id="standCnt"></h6>
+                                            </div>
+                                            <div class="progress" role="progressbar"
+                                                aria-label="Basic example" aria-valuenow="25"
+                                                aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
+                                                <div class="progress-bar bg-warning" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- 한돈 뉴스-->
+                        <div class="col-lg-8 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-semibold mb-4"></h5>
+                                    <!-- FullCalendar 추가 -->
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
+                                    <div class="table-responsive" data-simplebar>
+                                        <table
+                                            class="table text-nowrap align-middle table-custom mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="text-dark fw-normal ps-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="index_newsList">
+                                                <!-- 뉴스 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    <!-- 해야 할 일 모달 창 -->
+    <div class="modal fade" id="pendingTasksModal" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">해야 할 일</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 해야 할 일이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 세부 사항 모달 창 (환경) -->
+    <div class="modal fade" id="environmentAlertDetailsModal" tabindex="-1"
+        role="dialog" aria-labelledby="environmentAlertDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="environmentAlertDetailsModalLabel">환경 알림 세부 사항</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 환경 알림 세부 사항이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 세부 사항 모달 창 (돼지) -->
+    <div class="modal fade" id="pigAlertDetailsModal" tabindex="-1"
+        role="dialog" aria-labelledby="pigAlertDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pigAlertDetailsModalLabel">돼지 알림 세부 사항</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 돼지 알림 세부 사항이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 <script>
 var charts = {};
 var alertCount = {}; // 날짜별 알림 개수 저장 객체
@@ -146,11 +391,15 @@ var envAlertCount = {}; // 날짜별 환경 알림 개수 저장 객체
 var pigAlertCount = {}; // 날짜별 돼지 알림 개수 저장 객체
 
 $(document).ready(function() {
+	
     console.log("Document is ready");
     console.log("firstFarmId: ", farmId);
     newsList();
     loadEnvCriteria(farmId);
-
+    loadPigCnt(farmId);
+    setInterval(function() {
+        loadPigCnt(farmId);
+    }, 4000);
     initializeCalendar(farmId); // Initial calendar load
 
     // 사이드바에서 farm_id 선택 시, 알림 데이터를 갱신
@@ -161,7 +410,7 @@ $(document).ready(function() {
         $('#calendar').fullCalendar('destroy'); // 기존 달력 제거
         initializeCalendar(farmId); // 새로운 farm_id로 달력 초기화
     });
-});
+
 
 function initializeCalendar(farmId) {
     // FullCalendar 초기화
@@ -317,13 +566,13 @@ function makeNews(data) {
     $("#index_newsList").html(listHtml);
 } 
 
-// 함수
+// 쿼리스트링에 있는 farmId 가져오는 함수
 function getQueryStringParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
 
-// 기준
+// 환경 기준 가져오기
 function loadEnvCriteria(farmId) {
     if (!farmId) {
         farmId = getQueryStringParameter('farmId');
@@ -428,6 +677,32 @@ function updateStatus(elementId, value, range) {
     }
 }
 
+//돼지 수 가져오는 함수
+function loadPigCnt(farmId){
+    $.ajax({
+        url : "${contextPath}/farm/pigcnt",
+        type : "get",
+        data : {farmId : farmId},
+        dataType : "json",
+        success : function(data){
+            console.log("lyingCnt: " + data[0]); // lyingCnt 출력
+            console.log("standingCnt: " + data[1]); // standingCnt 출력
+            $("#lyingCnt").text(data[0]+"두");
+            $("#standCnt").text(data[1]+"두");
+            
+            var lyingPercentage = (data[0] / (data[0] + data[1])) * 100;
+            var standingPercentage = (data[1] / (data[0] + data[1])) * 100;
+            
+            $(".progress-bar.bg-secondary").css("width", lyingPercentage + "%");
+            $(".progress-bar.bg-warning").css("width", standingPercentage + "%");
+        },
+        error : function(){
+            console.log("돼지 객체 탐지 결과 못 가져옴");
+        }
+    }); // ajax
+}
+
+
 // 그래프 데이터 가져오는 함수
 function loadGraphData(period, type, chartId, farmId) {
     $.ajax({
@@ -495,245 +770,11 @@ function showPendingTasksModal() {
         }
     });
 }
+});
+
 </script>
 
-</head>
-<body>
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical"
-        data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
-        <%@ include file="common/sidebar.jsp"%>
-        <div class="body-wrapper">
-            <%@ include file="common/header.jsp"%>
-            <div class="body-wrapper-inner">
-                <div class="container-fluid">
-                    <!--  Row 1 -->
-                    <div class="row">
-                        <div class="col-lg-3 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body1">
-                                    <div class="env-info-box">
-                                        <h6>온도</h6>
-                                        <span id="temperature" class="envContent">N/A</span><span
-                                            id="tem-text" class="unitss">°C</span>
-                                        <div class="status">쾌적해요</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body1">
-                                    <div class="env-info-box">
-                                        <h6>습도</h6>
-                                        <span id="humidity" class="envContent">N/A</span> <span
-                                            id="hum-text" class="unitss">%</span>
-                                        <div class="status">쾌적해요</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body1">
-                                    <div class="env-info-box">
-                                        <h6>이산화탄소</h6>
-                                        <span id="co2" class="envContent">N/A</span> <span
-                                            id="co2-text" class="unitss">ppm</span>
-                                        <div class="status">쾌적해요</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body1">
-                                    <div class="env-info-box">
-                                        <h6>암모니아</h6>
-                                        <span id="ammonia" class="envContent">N/A</span> <span
-                                            id="amm-text" class="unitss">mg/m³</span>
-                                        <div class="status">쾌적해요</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body">
-                                    <div
-                                        class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                                        <div class="mb-3 mb-sm-0">
-                                            <h5 class="card-title fw-semibold">축사환경</h5>
-                                        </div>
-                                        <div>
-                                            <select class="form-select">
-                                                <option value="1">March 2024</option>
-                                                <option value="2">April 2024</option>
-                                                <option value="3">May 2024</option>
-                                                <option value="4">June 2024</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <img src="http://localhost:5000/video_feed" width="600" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center gap-6 mb-4 pb-3">
-                                                <span
-                                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
-                                                    <iconify-icon icon="healthicons:animal-pig"
-                                                        class="fs-6 text-secondary"></iconify-icon>
-                                                </span>
-                                                <h6 class="mb-0 fs-4">누워있는 돼지 수</h6>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center justify-content-between mb-6">
-                                                <h6 class="mb-0 fw-medium">객체 탐지 결과</h6>
-                                                <h6 class="mb-0 fw-medium">8두</h6>
-                                            </div>
-                                            <div class="progress" role="progressbar"
-                                                aria-label="Basic example" aria-valuenow="25"
-                                                aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                                <div class="progress-bar bg-secondary" style="width: 83%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center gap-6 mb-4 pb-3">
-                                                <span
-                                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-warning-subtle">
-                                                    <iconify-icon icon="healthicons:animal-pig"
-                                                        class="fs-6 text-warning"></iconify-icon>
-                                                </span>
-                                                <h6 class="mb-0 fs-4">서 있는 돼지 수</h6>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center justify-content-between mb-6">
-                                                <h6 class="mb-0 fw-medium">객체 탐지 결과</h6>
-                                                <h6 class="mb-0 fw-medium">5두</h6>
-                                            </div>
-                                            <div class="progress" role="progressbar"
-                                                aria-label="Basic example" aria-valuenow="25"
-                                                aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                                <div class="progress-bar bg-warning" style="width: 53%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- 한돈 뉴스-->
-                        <div class="col-lg-8 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4"></h5>
-                                    <!-- FullCalendar 추가 -->
-                                    <div id="calendar"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-stretch">
-                            <div class="card w-100">
-                                <div class="card-body p-4">
-                                    <h5 class="card-title fw-semibold mb-4">한돈 뉴스</h5>
-                                    <div class="table-responsive" data-simplebar>
-                                        <table
-                                            class="table text-nowrap align-middle table-custom mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="text-dark fw-normal ps-0"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="index_newsList">
-                                                <!-- 뉴스 -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-    <!-- 해야 할 일 모달 창 -->
-    <div class="modal fade" id="pendingTasksModal" tabindex="-1"
-        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">해야 할 일</h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 해야 할 일이 여기에 표시됩니다 -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 알림 세부 사항 모달 창 (환경) -->
-    <div class="modal fade" id="environmentAlertDetailsModal" tabindex="-1"
-        role="dialog" aria-labelledby="environmentAlertDetailsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="environmentAlertDetailsModalLabel">환경 알림 세부 사항</h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 환경 알림 세부 사항이 여기에 표시됩니다 -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 알림 세부 사항 모달 창 (돼지) -->
-    <div class="modal fade" id="pigAlertDetailsModal" tabindex="-1"
-        role="dialog" aria-labelledby="pigAlertDetailsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pigAlertDetailsModalLabel">돼지 알림 세부 사항</h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 돼지 알림 세부 사항이 여기에 표시됩니다 -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </body>
 </html>

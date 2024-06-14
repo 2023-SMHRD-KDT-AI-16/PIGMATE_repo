@@ -15,6 +15,10 @@ public interface DetectionInfoMapper {
     
     List<DetectionInfo> getdayLyingCount(@Param("farm_idx") int farm_idx);
     
-    List<DetectionInfo> getAbnormalDetectionCount(@Param("farm_idx") int farmIdx);
+    List<DetectionInfo> getAbnormalDetectionCount(@Param("farm_idx") int farm_idx);
+    
+    List<DetectionInfo> getLastLyingCount(@Param("farm_idx") int farm_idx);
+    
+    
     
 }

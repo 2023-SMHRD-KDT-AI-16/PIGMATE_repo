@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.board.entity.Member;
 import kr.board.entity.PigInfo;
+import kr.board.mapper.DetectionInfoMapper;
 import kr.board.mapper.PigInfoMapper;
 
 @RestController
@@ -58,3 +59,5 @@ public class PigInfoController {
         return pig_info;
     }
 }
+
+
