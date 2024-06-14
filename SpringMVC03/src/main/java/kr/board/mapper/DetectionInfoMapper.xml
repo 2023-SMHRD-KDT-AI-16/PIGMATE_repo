@@ -73,18 +73,17 @@
     ]]>
 	</select>
 
-	<select id="getAbnormalDetectionCount" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
-		SELECT created_at, lying_cnt, livestock_cnt, result
-		FROM detection_info
-		WHERE farm_idx = #{farm_idx} AND result = 1
-		ORDER BY created_at ASC
-		LIMIT 10
-	</select>
 
+    <select id="getAbnormalDetectionCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
+        SELECT created_at, lying_cnt, livestock_cnt, result
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx} AND result = 1
+        ORDER BY created_at ASC
+        LIMIT 10
+    </select>
+    
     <select id="getLastLyingCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
         select * from detection_info where farm_idx = #{farm_idx} order by created_at DESC
 	</select>
     
-
 </mapper>

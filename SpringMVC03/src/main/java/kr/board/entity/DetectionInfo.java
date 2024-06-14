@@ -16,8 +16,8 @@ public class DetectionInfo {
     private int livestock_cnt;
     private int farm_idx;
     private int result;
-//    private double avg_lying_cnt;
-//    private double avg_livestock_cnt;
-//    private String created_date;
+    private double avg_lying_cnt;
+    private double avg_livestock_cnt;
+    private String created_date;
     
 }
