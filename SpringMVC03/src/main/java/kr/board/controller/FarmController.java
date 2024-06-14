@@ -296,6 +296,13 @@ public class FarmController {
 		}
 	}
 
-
+	// 리포트 - 날짜별 하루 단위 환경 정보
+	@GetMapping("/farm/env/date")
+	public List<FarmEnv> getDailyEnvByDate(@RequestParam("farm_id") int farm_idx, @RequestParam("date") String date) {
+	    System.out.println("Fetching data for farm_id: " + farm_idx + " and date: " + date);
+	    List<FarmEnv> result = farmMapper.getDailyEnvByDate(farm_idx, date);
+	    System.out.println("Data fetched: " + result);
+	    return result;
+	}
 	
 }

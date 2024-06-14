@@ -287,3 +287,13 @@ FROM averaged_data
 ORDER BY `interval`
 LIMIT 10; -- 여기서 10개의 데이터를 가져오도록 제한합니다.
 
+        SELECT * FROM farm_env_info_hour
+        WHERE farm_idx = 32 
+        AND DATE(created_at) = 2023-01-01
+        
+        SELECT * FROM farm_env_info_hour
+WHERE farm_idx = 32
+AND DATE(created_at) = '2023-01-01';
+
+SELECT * FROM farm_env_info_hour WHERE farm_idx = 32 AND DATE(created_at) = '2023-01-01';
+SELECT * FROM farm_env_info_hour WHERE farm_idx = 32 AND DATE(created_at) = '2024-06-11';

@@ -45,4 +45,7 @@ public interface FarmMapper {
 	}
     
     int insertFarmEnvTime(FarmEnv farm_env);
+    
+    List<FarmEnv> getDailyEnvByDate(@Param("farm_idx") int farm_idx, @Param("date") String date);
+    
 }
