@@ -3,7 +3,7 @@
 <mapper namespace="kr.board.mapper.PigInfoMapper">
 
 <select id="getWarnCountByFarmIdx" parameterType="int" resultType="kr.board.entity.PigInfo">
-        SELECT created_at, warn_cnt, livestock_cnt
+        SELECT *
         FROM pig_info
         WHERE farm_idx = #{farm_idx}
         LIMIT 10

@@ -78,4 +78,8 @@
         LIMIT 10
     </select>
     
+    <select id="getLastLyingCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
+        select * from detection_info where farm_idx = #{farm_idx} order by created_at DESC
+	</select>
+    
 </mapper>
