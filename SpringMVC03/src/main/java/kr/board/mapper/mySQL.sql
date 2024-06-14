@@ -187,90 +187,48 @@ ORDER BY
     created_at;
     
     
-SELECT m.*, f.*
-		FROM member_info m
-		LEFT JOIN farm_info f ON m.mem_id = f.mem_id
-		WHERE m.mem_id = 'admin' AND m.mem_pw = MD5('1234');
-		
-SELECT * FROM farm_env_info_day where farm_idx = 19;
+SELECT created_date, AVG(lying_cnt) AS avg_lying_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
+FROM (
+    SELECT 
+        DATE(created_at) AS created_date,
+        lying_cnt,
+        livestock_cnt
+    FROM 
+        detection_info
+    WHERE 
+        farm_idx = 19
+    ORDER BY 
+        created_at DESC
+    LIMIT 100  -- 일단 100개로 한정, 필요에 따라 조정
+) subquery
+GROUP BY created_date
+ORDER BY created_date ASC
+LIMIT 10;
 
-SELECT * FROM farm_env_info_day;
 
-WITH recent_data AS (
-    SELECT *
+    SELECT created_date, AVG(warn_cnt) AS avg_warn_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
     FROM (
-        SELECT created_at, sit_cnt, livestock_cnt
-        FROM detection_info
-        WHERE farm_idx = 32
-        ORDER BY created_at DESC
-        LIMIT 15
-    ) sub
-    ORDER BY created_at
-),
-hourly_intervals AS (
-    SELECT 
-        CASE 
-            WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
-            ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
-        END AS time_interval,
-        sit_cnt, livestock_cnt
-    FROM recent_data
-),
-averaged_data AS (
-    SELECT
-        time_interval,
-        AVG(sit_cnt) AS avg_sit_cnt,
-        AVG(livestock_cnt) AS avg_livestock_cnt
-    FROM hourly_intervals
-    GROUP BY time_interval
-)
-SELECT 
-    time_interval AS `interval`,
-    avg_sit_cnt AS sitCnt,
-    avg_livestock_cnt AS livestockCnt
-FROM averaged_data
-ORDER BY `interval`;
-
-        SELECT *
-        FROM (
-            SELECT created_at, sit_cnt, livestock_cnt
-            FROM detection_info
-            WHERE farm_idx = 32
-            ORDER BY created_at DESC
-            LIMIT 15
-        ) sub
-        ORDER BY created_at
-   ,
-    hourly_intervals AS (
         SELECT 
-            CASE 
-                WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
-                ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
-            END AS time_interval,
-            sit_cnt, livestock_cnt
-        FROM recent_data
-    ),
-    averaged_data AS (
-        SELECT
-            time_interval,
-            AVG(sit_cnt) AS avg_sit_cnt,
-            AVG(livestock_cnt) AS avg_livestock_cnt
-        FROM hourly_intervals
-        GROUP BY time_interval
-    )
-    SELECT 
-        time_interval AS `interval`,
-        avg_sit_cnt AS sitCnt,
-        avg_livestock_cnt AS livestockCnt
-    FROM averaged_data
-    ORDER BY `interval`;
+            DATE(created_at) AS created_date,
+            warn_cnt,
+            livestock_cnt
+        FROM 
+           pig_info
+        WHERE 
+            farm_idx = 32
+        ORDER BY 
+            created_at DESC
+        LIMIT 100
+    ) subquery
+    GROUP BY created_date
+    ORDER BY created_date ASC
+    LIMIT 10;
 
-    <![CDATA[
-    WITH recent_data AS (
+      WITH recent_data AS (
         SELECT *
         FROM (
-            SELECT created_at, sit_cnt, livestock_cnt
-            FROM detection_info
+            SELECT *
+            FROM pig_info
             WHERE farm_idx = 32
             ORDER BY created_at DESC
             LIMIT 15
@@ -283,21 +241,20 @@ ORDER BY `interval`;
                 WHEN MINUTE(created_at) < 30 THEN DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00')
                 ELSE DATE_FORMAT(created_at, '%Y-%m-%d %H:30:00')
             END AS time_interval,
-            sit_cnt, livestock_cnt
+            warn_cnt, livestock_cnt
         FROM recent_data
     ),
     averaged_data AS (
         SELECT
             time_interval,
-            AVG(sit_cnt) AS avg_sit_cnt,
+            AVG(warn_cnt) AS avg_warn_cnt,
             AVG(livestock_cnt) AS avg_livestock_cnt
         FROM hourly_intervals
         GROUP BY time_interval
     )
     SELECT 
         time_interval AS `interval`,
-        avg_sit_cnt AS sitCnt,
+        avg_warn_cnt AS warnCnt,
         avg_livestock_cnt AS livestockCnt
     FROM averaged_data
     ORDER BY `interval`;
-    ]]>;

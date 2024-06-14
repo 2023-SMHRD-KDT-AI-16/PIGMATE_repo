@@ -12,9 +12,12 @@ import lombok.NoArgsConstructor;
 public class DetectionInfo {
 	
     private String created_at;
-    private int sit_cnt;
+    private int lying_cnt;
     private int livestock_cnt;
     private int farm_idx;
     private int result;
+    private double avg_lying_cnt;
+    private double avg_livestock_cnt;
+    private String created_date;
     
 }
