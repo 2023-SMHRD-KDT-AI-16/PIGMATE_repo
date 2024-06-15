@@ -2,14 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.DetectionInfoMapper">
 
-    <select id="getLyingCountByFarmIdx" parameterType="int" resultType="kr.board.entity.DetectionInfo">
-        SELECT *
-        FROM detection_info
-        WHERE farm_idx = #{farm_idx}
-        ORDER BY created_at ASC
-    </select>
+	<select id="getLyingCountByFarmIdx" parameterType="int"
+		resultType="kr.board.entity.DetectionInfo">
+		SELECT *
+		FROM detection_info
+		WHERE farm_idx = #{farm_idx}
+		ORDER BY created_at ASC
+	</select>
 
-    <select id="gettimeLyingCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
+	<select id="gettimeLyingCount" parameterType="int"
+		resultType="kr.board.entity.DetectionInfo">
        <![CDATA[
     WITH recent_data AS (
         SELECT *
@@ -46,9 +48,10 @@
     FROM averaged_data
     ORDER BY `interval`;
     ]]>
-    </select>
+	</select>
 
-<select id="getdayLyingCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
+	<select id="getdayLyingCount" parameterType="int"
+		resultType="kr.board.entity.DetectionInfo">
     <![CDATA[
     SELECT created_date, AVG(lying_cnt) AS avg_lying_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
     FROM (
@@ -68,7 +71,8 @@
     ORDER BY created_date DESC
     LIMIT 10;
     ]]>
-</select>
+	</select>
+
 
     <select id="getAbnormalDetectionCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
         SELECT created_at, lying_cnt, livestock_cnt, result
