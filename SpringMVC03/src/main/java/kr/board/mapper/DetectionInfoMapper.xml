@@ -12,7 +12,7 @@
 
 	<select id="gettimeLyingCount" parameterType="int"
 		resultType="kr.board.entity.DetectionInfo">
-       <![CDATA[
+ <!--       <![CDATA[
     WITH recent_data AS (
         SELECT *
         FROM (
@@ -47,7 +47,27 @@
         avg_livestock_cnt AS livestockCnt
     FROM averaged_data
     ORDER BY `interval`;
-    ]]>
+    ]]> -->
+     <![CDATA[
+    SELECT 
+	    CONCAT(SUBSTR(MIN(created_at), 1, 10), ' ',
+	           CASE 
+	               WHEN SUBSTR(MIN(created_at), 15, 2) < '30' THEN CONCAT(SUBSTR(MIN(created_at), 12, 2), ':00')
+	               ELSE CONCAT(SUBSTR(MIN(created_at), 12, 2), ':30')
+	           END) AS created_date,
+	    ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
+	    ROUND(AVG(lying_cnt)) AS avg_lying_cnt, 
+	    farm_idx
+	FROM detection_info
+	WHERE farm_idx = #{farm_idx}
+	GROUP BY farm_idx, SUBSTR(created_at, 1, 10), 
+	         CASE 
+             WHEN SUBSTR(created_at, 15, 2) < '30' THEN CONCAT(SUBSTR(created_at, 12, 2), ':00')
+             ELSE CONCAT(SUBSTR(created_at, 12, 2), ':30')
+         END
+	ORDER BY created_date DESC
+	LIMIT 10
+ 	]]>
 	</select>
 
 	<select id="getdayLyingCount" parameterType="int"
