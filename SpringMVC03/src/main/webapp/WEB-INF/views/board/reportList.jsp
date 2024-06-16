@@ -184,7 +184,10 @@
         $(document).ready(function() {
             var currentDate = moment();
             var currentDateIndex = 0;
-
+            updateDates();
+            var date = moment().format('YYYY-MM-DD');
+            DailyData(date);
+            
             function updateDates() {
                 var dates = [];
                 for (var i = -1; i <= 1; i++) {
@@ -194,9 +197,9 @@
                         dateItem.addClass('current-date');
                     }
                     dates.push(dateItem);
-                }
+                } // 반복문
                 $('#dates').empty().append(dates);
-            }
+            }; // 함수
 
             $('#prev-day').on('click', function() {
                 currentDate.subtract(1, 'days');
@@ -207,8 +210,7 @@
                 currentDate.add(1, 'days');
                 updateDates();
             });
-
-            updateDates();
+           
 
             $('#calendarMini').fullCalendar({
                 header : {
@@ -243,10 +245,10 @@
             });
 
             // 날짜에 맞는 데이터를 가져오는 함수
-            function fetchDailyData(date) {
+            function DailyData(date) {
                 const farmId = 32; // 여기에 farmId를 지정하세요.
                 $.ajax({
-                    url: `${pageContext.request.contextPath}/farm/env/date`,
+                    url: "${pageContext.request.contextPath}/farm/env/date",
                     type: "get",
                     dataType: "json",
                     data: { farm_id: farmId, date: date },
@@ -256,9 +258,9 @@
                     error: function(request, status, error) {
                         console.log("Error fetching data for date " + date + ": " + error);
                     }
-                });
-            }
-        });
+                }); // ajax
+            } // 함수
+        }); //ready 함수
     </script>
 </body>
 </html>

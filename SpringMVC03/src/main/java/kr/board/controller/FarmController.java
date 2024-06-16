@@ -301,7 +301,7 @@ public class FarmController {
 	public List<FarmEnv> getDailyEnvByDate(@RequestParam("farm_id") int farm_idx, @RequestParam("date") String date) {
 	    System.out.println("Fetching data for farm_id: " + farm_idx + " and date: " + date);
 	    List<FarmEnv> result = farmMapper.getDailyEnvByDate(farm_idx, date);
-	    System.out.println("Data fetched: " + result);
+	    System.out.println("하루 환경 정보: " + result);
 	    return result;
 	}
 	
