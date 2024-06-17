@@ -200,12 +200,12 @@ body {
 							<div class="col-md-6 text-content">
 								<div class="info-section text-left">
 									<p>
-										<span class="highlight">딥러닝</span>기술을 통해 농장 내 <span
+										딥러닝기술을 통해 농장 내 <span
 											class="highlight">돼지를 실시간으로 탐지하고</span> 돼지의 자세를 분석할 수 있습니다.
 									</p>
 									<p>
-										또한, 환경 데이터를 수집하여 축사 내 <span class="highlight">환경 오염 문제를
-											신속히 파악</span>할 수 있습니다.
+										또한, 환경 데이터를 수집하여 축사 내 <span class="highlight">환경 오염 문제</span>를
+											신속히 파악할 수 있습니다.
 									</p>
 									<p>
 										<span class="bold_">" 피그메이트는 <span class="highlight">최고
