@@ -48,4 +48,19 @@ public interface FarmMapper {
     
     List<FarmEnv> getDailyEnvByDate(@Param("farm_idx") int farm_idx, @Param("date") String date);
     
+    int insertMonthTable(@Param("farm_idx") int farm_idx);
+    
+    int insertDayTable(@Param("farm_idx") int farm_idx);
+    
+    int insertHourTable(@Param("farm_idx") int farm_idx);
+    
+    int deleteTimeTable(@Param("farm_idx") int farm_idx);
+    
+    int countMonthlyData(@Param("farm_idx") int farm_idx, @Param("date") String date);
+    
+    int countDailyData(@Param("farm_idx") int farm_idx);
+    
+    int countHourlyData(@Param("farm_idx") int farm_idx);
+    
+    
 }

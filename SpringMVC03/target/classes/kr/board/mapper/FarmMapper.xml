@@ -110,5 +110,131 @@
 		WHERE farm_idx = #{farm_idx}
 		AND DATE(created_at) = #{date}
 	</select>
+	
+	<!-- month 테이블에 day 테이블 값 넣기 -->
+	<insert id="insertMonthTable" parameterType="int">
+    <![CDATA[
+    INSERT INTO farm_env_info_month (temperature, humidity, co2, ammonia, pm, created_at, farm_idx)
+    WITH monthly_averages AS (
+        SELECT
+            farm_idx,
+            DATE_FORMAT(created_at, '%Y-%m-01') AS month,
+            AVG(temperature) AS avg_temperature,
+            AVG(humidity) AS avg_humidity,
+            AVG(co2) AS avg_co2,
+            AVG(ammonia) AS avg_ammonia,
+            AVG(pm) AS avg_pm
+        FROM farm_env_info_day
+        WHERE farm_idx = #{farm_idx}
+        AND created_at < DATE_FORMAT(NOW(), '%Y-%m-01')
+        GROUP BY farm_idx, month
+    )
+    SELECT
+        avg_temperature,
+        avg_humidity,
+        avg_co2,   
+        avg_ammonia,
+        avg_pm, 
+        month,
+        farm_idx
+    FROM monthly_averages
+    ]]>
+</insert>
+
+	
+	<!-- day 테이블에 hour 테이블 값 넣기 -->
+	<insert id="insertDayTable" parameterType="int">
+		<![CDATA[
+		INSERT INTO farm_env_info_day (temperature, humidity, co2, ammonia, pm, created_at, farm_idx)
+		WITH daily_averages AS (
+		    SELECT
+		        farm_idx,
+		        DATE(created_at) AS date,
+		        AVG(temperature) AS avg_temperature,
+		        AVG(humidity) AS avg_humidity,
+		        AVG(co2) AS avg_co2,
+		        AVG(ammonia) AS avg_ammonia,
+		        AVG(pm) AS avg_pm
+		    FROM farm_env_info_hour
+		    WHERE farm_idx = #{farm_idx}
+		    AND DATE(created_at) < CURDATE() 
+		    GROUP BY farm_idx, DATE(created_at)
+		)
+		SELECT
+		    avg_temperature,
+		    avg_humidity,
+		    avg_co2,   
+		    avg_ammonia,
+		    avg_pm, 
+		    date,
+		    farm_idx
+		FROM daily_averages
+		]]>
+	</insert>
+	
+	<!-- 시간별 평균 hour 테이블로 이동 -->
+	<insert id="insertHourTable" parameterType="int">
+		<![CDATA[
+		INSERT INTO farm_env_info_hour (temperature, humidity, co2, ammonia, pm, created_at, farm_idx)
+		WITH hourly_averages AS (
+		    SELECT
+		        farm_idx,
+		        DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00') AS hour,
+		        AVG(temperature) AS avg_temperature,
+		        AVG(humidity) AS avg_humidity,
+		        AVG(co2) AS avg_co2,
+		        AVG(ammonia) AS avg_ammonia,
+		        AVG(pm) AS avg_pm
+		    FROM farm_env_info_time
+		    WHERE farm_idx = #{farm_idx}
+		    AND created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)
+		    GROUP BY farm_idx, hour
+		)
+		SELECT
+		    avg_temperature,
+		    avg_humidity,
+		    avg_co2,   
+		    avg_ammonia,
+		    avg_pm, 
+		    hour,
+		    farm_idx
+		FROM hourly_averages
+		]]>
+	</insert>
+	
+	<!-- time 테이블에서 값 지우기 -->
+	<delete id="deleteTimeTable" parameterType="int">
+		<![CDATA[
+		DELETE FROM farm_env_info_time
+		WHERE farm_idx = #{farm_idx}
+		AND DATE(created_at) < DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+		]]>
+	</delete>
+	
+	<!-- 데이터 존재 여부 확인 쿼리 -->
+    <select id="countMonthlyData" parameterType="map" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) FROM farm_env_info_month
+        WHERE farm_idx = #{farm_idx}
+        AND created_at = DATE_FORMAT(#{date}, '%Y-%m-01')
+        ]]>
+    </select>
+
+    <select id="countDailyData" parameterType="int" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) FROM farm_env_info_day
+        WHERE farm_idx = #{farm_idx}
+        AND created_at = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        ]]>
+    </select>
+
+    <select id="countHourlyData" parameterType="int" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) FROM farm_env_info_hour
+        WHERE farm_idx = #{farm_idx}
+        AND created_at = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:00:00')
+        ]]>
+    </select>
+	
 
 </mapper>
