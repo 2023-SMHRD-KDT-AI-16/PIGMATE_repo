@@ -92,7 +92,7 @@ body {
 	font-weight: bold;
 }
 
-#dashboard-preview > p:nth-child(9) > span {
+#dashboard-preview > p:nth-child(8) > span {
 	color: #FF0000;
 	font-weight: bold;
 }
@@ -177,9 +177,6 @@ body {
 	text-align: left;
 }
 
-#dashboard-preview > p:nth-child(9) > span{
-
-}
 </style>
 </style>
 </head>
@@ -226,13 +223,14 @@ body {
 					<!-- Dashboard Preview Section -->
 					<div class="dashboard-preview" id="dashboard-preview">
 						<h2>실시간 데이터 및 대시보드 미리보기</h2>
+						<br>
 						<!-- 첫 번째 이미지와 설명 -->
 						<img
 							src="${pageContext.request.contextPath}/resources/img/logos/home_example01.png"
 							alt="Dashboard Preview 1">
 						<p class="left-align">피그메이트는 돼지우리의 온도, 습도, 이산화탄소 및 암모니아 수치를
 							실시간으로 모니터링합니다.</p>
-						<br>
+						
 						<p class="left-align">
 							수치가 환경 기준에서 벗어나면 <span class="highlight1">빨간색</span>으로 나타납니다.
 						</p>
@@ -243,7 +241,7 @@ body {
 							src="${pageContext.request.contextPath}/resources/img/logos/home_example02.png"
 							alt="Dashboard Preview 2">
 						<p class="left-align">돼지의 자세를 분석하여 누워있는 돼지와 서있는 돼지의 수를 보여주고</p>
-						<br>
+						
 						<p class="left-align">
 							돼지의 체온을 측정하여 기준을 벗어나면 <span class="highlight1">빨간색</span>으로
 							나타납니다.
