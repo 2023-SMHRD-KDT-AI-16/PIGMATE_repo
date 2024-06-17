@@ -303,9 +303,8 @@ body {
 
     // 버튼 클릭 시 페이지 상단으로 스크롤
     function topFunction() {
-        window.scrollTo({
-            top: 0
-        });
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
     </script>
 
