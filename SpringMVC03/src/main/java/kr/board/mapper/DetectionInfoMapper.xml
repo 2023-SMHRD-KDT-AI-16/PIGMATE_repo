@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.DetectionInfoMapper">
 
-	<select id="getLyingCountByFarmIdx" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
-		SELECT *
-		FROM detection_info
-		WHERE farm_idx = #{farm_idx}
-		ORDER BY created_at ASC
-	</select>
+   <select id="getLyingCountByFarmIdx" parameterType="int"
+      resultType="kr.board.entity.DetectionInfo">
+      SELECT *
+      FROM detection_info
+      WHERE farm_idx = #{farm_idx}
+      ORDER BY created_at ASC
+   </select>
 
-	<select id="gettimeLyingCount" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
+   <select id="gettimeLyingCount" parameterType="int"
+      resultType="kr.board.entity.DetectionInfo">
  <!--       <![CDATA[
     WITH recent_data AS (
         SELECT *
@@ -50,28 +50,28 @@
     ]]> -->
      <![CDATA[
     SELECT 
-	    CONCAT(SUBSTR(MIN(created_at), 1, 10), ' ',
-	           CASE 
-	               WHEN SUBSTR(MIN(created_at), 15, 2) < '30' THEN CONCAT(SUBSTR(MIN(created_at), 12, 2), ':00')
-	               ELSE CONCAT(SUBSTR(MIN(created_at), 12, 2), ':30')
-	           END) AS created_date,
-	    ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
-	    ROUND(AVG(lying_cnt)) AS avg_lying_cnt, 
-	    farm_idx
-	FROM detection_info
-	WHERE farm_idx = #{farm_idx}
-	GROUP BY farm_idx, SUBSTR(created_at, 1, 10), 
-	         CASE 
+       CONCAT(SUBSTR(MIN(created_at), 1, 10), ' ',
+              CASE 
+                  WHEN SUBSTR(MIN(created_at), 15, 2) < '30' THEN CONCAT(SUBSTR(MIN(created_at), 12, 2), ':00')
+                  ELSE CONCAT(SUBSTR(MIN(created_at), 12, 2), ':30')
+              END) AS created_date,
+       ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
+       ROUND(AVG(lying_cnt)) AS avg_lying_cnt, 
+       farm_idx
+   FROM detection_info
+   WHERE farm_idx = #{farm_idx}
+   GROUP BY farm_idx, SUBSTR(created_at, 1, 10), 
+            CASE 
              WHEN SUBSTR(created_at, 15, 2) < '30' THEN CONCAT(SUBSTR(created_at, 12, 2), ':00')
              ELSE CONCAT(SUBSTR(created_at, 12, 2), ':30')
          END
-	ORDER BY created_date DESC
-	LIMIT 10
- 	]]>
-	</select>
+   ORDER BY created_date DESC
+   LIMIT 10
+    ]]>
+   </select>
 
-	<select id="getdayLyingCount" parameterType="int"
-		resultType="kr.board.entity.DetectionInfo">
+   <select id="getdayLyingCount" parameterType="int"
+      resultType="kr.board.entity.DetectionInfo">
     <![CDATA[
     SELECT created_date, AVG(lying_cnt) AS avg_lying_cnt, AVG(livestock_cnt) AS avg_livestock_cnt
     FROM (
@@ -91,7 +91,7 @@
     ORDER BY created_date DESC
     LIMIT 10;
     ]]>
-	</select>
+   </select>
 
 
     <select id="getAbnormalDetectionCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
@@ -104,6 +104,22 @@
     
     <select id="getLastLyingCount" parameterType="int" resultType="kr.board.entity.DetectionInfo">
         select * from detection_info where farm_idx = #{farm_idx} order by created_at DESC
-	</select>
+   </select>
+   
+   <!-- 날짜 선택 시 시간별 돼기객체 탐지 평균 -->
+    <select id="getDailyDetectionInfoByDate" parameterType="map" resultType="kr.board.entity.DetectionInfo">
+        <![CDATA[
+        SELECT
+            CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+            ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt,
+            ROUND(AVG(lying_cnt)) AS avg_lying_cnt,
+            farm_idx
+        FROM detection_info
+        WHERE farm_idx = #{farm_idx} AND DATE(created_at) = #{date}
+        GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
+        ORDER BY created_date DESC
+        LIMIT 10;
+        ]]>
+    </select>
     
 </mapper>
