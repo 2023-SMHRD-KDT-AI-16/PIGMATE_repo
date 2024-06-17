@@ -222,7 +222,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <img src="http://localhost:5000/video_feed" width="600" />
+                                    <img src="http://192.168.219:5000/video_feed" width="600" />
                                 </div>
                             </div>
                         </div>
