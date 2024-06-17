@@ -74,6 +74,7 @@ body {
 	font-size: 2.5rem;
 	font-weight: bold;
 	margin-bottom: 30px;
+	text-align: center;
 }
 
 .info-section p {
