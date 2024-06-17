@@ -66,7 +66,7 @@
 
 .envContent {
     display: block;
-    font-size: 53px;
+    font-size: 50px;
     margin-bottom: 5px;
 }
 
