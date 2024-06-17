@@ -185,8 +185,9 @@
             var currentDate = moment();
             var currentDateIndex = 0;
             updateDates();
-            var date = moment().format('YYYY-MM-DD');
-            DailyData(date);
+            var date = moment().format('YYYY-MM-DD'); // 초기 날짜값
+            var farmId = getQueryStringParameter('farmId');
+            DailyData(date, farmId);
             
             function updateDates() {
                 var dates = [];
@@ -225,7 +226,7 @@
                     $('#reportDate').val(date);
                     currentDate = moment(start); // 선택한 날짜로 업데이트
                     updateDates(); // 선택한 날짜로 가로 날짜 업데이트
-                    fetchDailyData(date); // 선택한 날짜의 데이터 가져오기
+                    DailyData(date, farmId); // 선택한 날짜의 데이터 가져오기
                     $('#calendarModal').modal('hide');
                 },
                 editable : true,
@@ -244,16 +245,22 @@
                 $('#calendarModal').modal('show');
             });
 
+         	// 쿼리스트링에 있는 farmId 가져오는 함수
+            function getQueryStringParameter(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+            
             // 날짜에 맞는 데이터를 가져오는 함수
-            function DailyData(date) {
-                const farmId = 32; // 여기에 farmId를 지정하세요.
+            function DailyData(date, farmId) {
+            	console.log(farmId);
                 $.ajax({
                     url: "${pageContext.request.contextPath}/farm/env/date",
                     type: "get",
                     dataType: "json",
                     data: { farm_id: farmId, date: date },
                     success: function(data) {
-                        console.log("Data received for date " + date + ": ", data);
+                        console.log("날짜마다의 시간별 데이터 " + date + ": ", data);
                     },
                     error: function(request, status, error) {
                         console.log("Error fetching data for date " + date + ": " + error);
