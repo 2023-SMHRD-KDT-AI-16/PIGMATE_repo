@@ -296,6 +296,7 @@ function createCharts(dateList, valueList, chartId, type) {
     });
 }
 
+// 돼지 차트 시각화
 function updatePigChart() {
     var period = $('#pigSelect').val();
     if (!selectedPigButton) return;
@@ -303,6 +304,7 @@ function updatePigChart() {
     loadPigData(type, period);
 }
 
+// 돼지 시각화 데이터 가져오기
 function loadPigData(type, period) {
     const urlParams = new URLSearchParams(window.location.search);
     var farm_id = urlParams.get('farmId');
@@ -335,6 +337,7 @@ function loadPigData(type, period) {
     });
 }
 
+// 이상행동 돼지 데이터 가져오기
 function makeAbnormalPigData(data, type) {
     if (!data || data.length === 0) {
         console.log("No data received for abnormal pigs.");
@@ -356,6 +359,7 @@ function makeAbnormalPigData(data, type) {
     createPigCharts(dateList, warnCountList, livestockCountList, 'pigChart', type);
 }
 
+// 누워있는 돼지 데이터 가져오기
 function makeLyingPigData(data, type) {
     if (!data || data.length === 0) {
         console.log("No data received for lying pigs.");

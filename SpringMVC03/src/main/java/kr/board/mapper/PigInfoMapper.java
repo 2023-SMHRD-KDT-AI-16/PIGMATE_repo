@@ -16,5 +16,6 @@ public interface PigInfoMapper {
     List<PigInfo> gettimeWarnCount(@Param("farm_idx") int farm_idx);
     
     List<PigInfo> getdayWarnCount(@Param("farm_idx") int farm_idx);
+    
 }
 

@@ -28,7 +28,6 @@ public class PigInfoController {
         List<PigInfo> pig_info = new ArrayList<>();
 
         Member m = (Member) session.getAttribute("mvo");
-        System.out.println("Session member: " + m);
 
         System.out.println("농장 번호:" + farm_id);
         if (m != null) {

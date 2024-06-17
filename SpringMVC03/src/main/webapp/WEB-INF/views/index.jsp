@@ -400,6 +400,7 @@ $(document).ready(function() {
     setInterval(function() {
         loadPigCnt(farmId);
     }, 4000);
+    returnData(farmId)
     initializeCalendar(farmId); // Initial calendar load
 
     // 사이드바에서 farm_id 선택 시, 알림 데이터를 갱신
@@ -409,6 +410,7 @@ $(document).ready(function() {
         loadEnvCriteria(farmId);
         $('#calendar').fullCalendar('destroy'); // 기존 달력 제거
         initializeCalendar(farmId); // 새로운 farm_id로 달력 초기화
+       
     });
 
 
@@ -675,6 +677,22 @@ function updateStatus(elementId, value, range) {
         element.css("color", "green");
         statusElement.text("쾌적해요").css("color", "green");
     }
+}
+
+//flask 데이터 전송
+function returnData(farmId) {
+    $.ajax({
+        url: "http://localhost:5000/receive_data",
+        type: "post",
+        data: JSON.stringify({ farmId: farmId }),
+        contentType: "application/json; charset=UTF-8",
+        success: function(response) {
+            console.log("서버 응답:", response);
+        },
+        error: function(error) {
+            console.log("에러:", error);
+        }
+    });
 }
 
 //돼지 수 가져오는 함수

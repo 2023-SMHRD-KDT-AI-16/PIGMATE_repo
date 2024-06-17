@@ -35,7 +35,7 @@
 
 	<select id="gettimeWarnCount" parameterType="int"
 		resultType="kr.board.entity.PigInfo">
-    <![CDATA[
+<!--     <![CDATA[
 WITH recent_data AS (
     SELECT *
     FROM pig_info
@@ -61,7 +61,29 @@ FROM half_hour_intervals
 GROUP BY time_interval
 ORDER BY `interval` DESC
 LIMIT 10;
-    ]]>
+    ]]> -->
+     <![CDATA[
+    SELECT 
+	    CONCAT(SUBSTR(MIN(created_at), 1, 10), ' ',
+	           CASE 
+	               WHEN SUBSTR(MIN(created_at), 15, 2) < '30' THEN CONCAT(SUBSTR(MIN(created_at), 12, 2), ':00')
+	               ELSE CONCAT(SUBSTR(MIN(created_at), 12, 2), ':30')
+	           END) AS created_date,
+	    ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
+	    ROUND(AVG(warn_cnt)) AS avg_warn_cnt, 
+	    farm_idx
+	FROM pig_info
+	WHERE farm_idx = #{farm_idx}
+	GROUP BY farm_idx, SUBSTR(created_at, 1, 10), 
+	         CASE 
+             WHEN SUBSTR(created_at, 15, 2) < '30' THEN CONCAT(SUBSTR(created_at, 12, 2), ':00')
+             ELSE CONCAT(SUBSTR(created_at, 12, 2), ':30')
+         END
+	ORDER BY created_date DESC
+	LIMIT 10
+ 	]]>
 	</select>
+
+
 
 </mapper>
