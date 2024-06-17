@@ -66,7 +66,7 @@
 
 .envContent {
     display: block;
-    font-size: 53px;
+    font-size: 50px;
     margin-bottom: 5px;
 }
 
@@ -222,7 +222,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <img src="http://192.168.219.151:5000/video_feed" width="600" />
+                                    <img src="" id="modelVideo" width="600" />
                                 </div>
                             </div>
                         </div>
@@ -394,13 +394,13 @@ $(document).ready(function() {
 	
     console.log("Document is ready");
     console.log("firstFarmId: ", farmId);
+    returnData(farmId);
     newsList();
     loadEnvCriteria(farmId);
     loadPigCnt(farmId);
     setInterval(function() {
         loadPigCnt(farmId);
     }, 4000);
-    returnData(farmId)
     initializeCalendar(farmId); // Initial calendar load
 
     // 사이드바에서 farm_id 선택 시, 알림 데이터를 갱신
@@ -413,7 +413,7 @@ $(document).ready(function() {
        
     });
 
-
+    
 function initializeCalendar(farmId) {
     // FullCalendar 초기화
     $('#calendar').fullCalendar({
@@ -684,13 +684,17 @@ function returnData(farmId) {
     $.ajax({
         url: "http://localhost:5000/receive_data",
         type: "post",
+        contentType: "application/json",
         data: JSON.stringify({ farmId: farmId }),
-        contentType: "application/json; charset=UTF-8",
+        xhrFields: {
+            withCredentials: true
+        },
         success: function(response) {
-            console.log("서버 응답:", response);
+            console.log("flask 서버 응답:", response);
+            $('#modelVideo').attr('src', 'http://localhost:5000/video_feed');
         },
         error: function(error) {
-            console.log("에러:", error);
+            console.log("flask 에러:", error);
         }
     });
 }

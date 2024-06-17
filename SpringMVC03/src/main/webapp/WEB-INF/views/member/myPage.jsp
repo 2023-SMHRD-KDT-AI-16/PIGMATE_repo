@@ -174,10 +174,10 @@
                 + "' readonly></td>";
 		newRow += "<td><input type='text' class='form-control' value='" + farmData.farm_livestock_cnt + "' readonly></td>";
 		newRow += "<td>";
-		newRow += "<button class='btn btn-outline-primary' onclick='editFarm(this)'>수정</button> ";
-		newRow += "<button class='btn btn-outline-success' onclick='saveFarm(this)' style='display:none'>저장</button> ";
-		newRow += "<button class='btn btn-outline-danger' onclick='deleteFarm(this)'>삭제</button> ";
-		newRow += "<button class='btn btn-outline-dark' onclick='editEnv(this)' data-farm-id='"
+		newRow += "<button class='btn btn-outline-primary btn-sm' onclick='editFarm(this)'>수정</button> ";
+		newRow += "<button class='btn btn-outline-success btn-sm' onclick='saveFarm(this)' style='display:none'>저장</button> ";
+		newRow += "<button class='btn btn-outline-danger btn-sm' onclick='deleteFarm(this)'>삭제</button> ";
+		newRow += "<button class='btn btn-outline-dark btn-sm' onclick='editEnv(this)' data-farm-id='"
 				+ farmData.farm_idx
 				+ "' data-farm-name='"
 				+ farmData.farm_name

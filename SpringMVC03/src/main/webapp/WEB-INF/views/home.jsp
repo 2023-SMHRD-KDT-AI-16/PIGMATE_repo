@@ -74,6 +74,7 @@ body {
 	font-size: 2.5rem;
 	font-weight: bold;
 	margin-bottom: 30px;
+	text-align: center;
 }
 
 .info-section p {
@@ -91,7 +92,7 @@ body {
 	font-weight: bold;
 }
 
-#dashboard-preview > p:nth-child(9) > span {
+#dashboard-preview > p:nth-child(8) > span {
 	color: #FF0000;
 	font-weight: bold;
 }
@@ -176,9 +177,25 @@ body {
 	text-align: left;
 }
 
-#dashboard-preview > p:nth-child(9) > span{
-
+#topBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
 }
+#topBtn:hover {
+    background-color: #1e7e34;
+}
+
 </style>
 </style>
 </head>
@@ -225,13 +242,14 @@ body {
 					<!-- Dashboard Preview Section -->
 					<div class="dashboard-preview" id="dashboard-preview">
 						<h2>실시간 데이터 및 대시보드 미리보기</h2>
+						<br>
 						<!-- 첫 번째 이미지와 설명 -->
 						<img
 							src="${pageContext.request.contextPath}/resources/img/logos/home_example01.png"
 							alt="Dashboard Preview 1">
 						<p class="left-align">피그메이트는 돼지우리의 온도, 습도, 이산화탄소 및 암모니아 수치를
 							실시간으로 모니터링합니다.</p>
-						<br>
+						
 						<p class="left-align">
 							수치가 환경 기준에서 벗어나면 <span class="highlight1">빨간색</span>으로 나타납니다.
 						</p>
@@ -242,7 +260,7 @@ body {
 							src="${pageContext.request.contextPath}/resources/img/logos/home_example02.png"
 							alt="Dashboard Preview 2">
 						<p class="left-align">돼지의 자세를 분석하여 누워있는 돼지와 서있는 돼지의 수를 보여주고</p>
-						<br>
+						
 						<p class="left-align">
 							돼지의 체온을 측정하여 기준을 벗어나면 <span class="highlight1">빨간색</span>으로
 							나타납니다.
@@ -263,10 +281,32 @@ body {
 							src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg"
 							alt="pigimages">
 					</div>
+					 <button id="topBtn" onclick="topFunction()">Top</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script>
+    // 스크롤 시 버튼 표시/숨김 처리
+    window.onscroll = function() {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("topBtn").style.display = "block";
+        } else {
+            document.getElementById("topBtn").style.display = "none";
+        }
+    }
+
+    // 버튼 클릭 시 페이지 상단으로 스크롤
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+    </script>
 
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
