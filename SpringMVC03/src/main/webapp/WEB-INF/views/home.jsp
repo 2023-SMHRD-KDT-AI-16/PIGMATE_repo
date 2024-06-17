@@ -106,6 +106,13 @@ body {
 	max-height: 500px; /* 이미지 최대 높이 설정 */
 	width: auto; /* 너비는 자동 조정 */
 }
+#home_example2{
+		max-width: 100%;
+	height: auto;
+	border-radius: 10px;
+	max-height: 500px; /* 이미지 최대 높이 설정 */
+	width: auto; /* 너비는 자동 조정 */
+}
 </style>
 </head>
 <body>
@@ -159,7 +166,8 @@ body {
 							"피그메이트의 개발자들을 소개합니다!"
 						</h2>
 						<br>
-						<img id="home_example1" src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg" alt="pigimages">
+
+						<img id="home_example2" src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg" alt="pigimages">
 													
 					</div>
 
