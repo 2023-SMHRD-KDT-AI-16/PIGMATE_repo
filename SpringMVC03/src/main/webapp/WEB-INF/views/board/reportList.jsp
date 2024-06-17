@@ -180,94 +180,118 @@
     <script src="${pageContext.request.contextPath}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/sidebarmenu.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/app.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var currentDate = moment();
-            var currentDateIndex = 0;
+<script>
+    $(document).ready(function() {
+        var currentDate = moment();
+        var currentDateIndex = 0;
+        updateDates();
+        var date = moment().format('YYYY-MM-DD'); // 초기 날짜값
+        var farmId = getQueryStringParameter('farmId');
+        DailyData(date, farmId); // 초기 데이터 로드
+
+        function updateDates() {
+            var dates = [];
+            for (var i = -1; i <= 1; i++) {
+                var date = currentDate.clone().add(i, 'days');
+                var dateItem = $('<span class="date-item"></span>').text(date.format('MM/DD'));
+                if (i === 0) {
+                    dateItem.addClass('current-date');
+                }
+                dates.push(dateItem);
+            } // 반복문
+            $('#dates').empty().append(dates);
+        }; // 함수
+
+        $('#prev-day').on('click', function() {
+            currentDate.subtract(1, 'days');
             updateDates();
-            var date = moment().format('YYYY-MM-DD'); // 초기 날짜값
-            var farmId = getQueryStringParameter('farmId');
-            DailyData(date, farmId);
-            
-            function updateDates() {
-                var dates = [];
-                for (var i = -1; i <= 1; i++) {
-                    var date = currentDate.clone().add(i, 'days');
-                    var dateItem = $('<span class="date-item"></span>').text(date.format('MM/DD'));
-                    if (i === 0) {
-                        dateItem.addClass('current-date');
-                    }
-                    dates.push(dateItem);
-                } // 반복문
-                $('#dates').empty().append(dates);
-            }; // 함수
+            DailyData(currentDate.format('YYYY-MM-DD'), farmId); // 이전 날짜 데이터 로드
+        });
 
-            $('#prev-day').on('click', function() {
-                currentDate.subtract(1, 'days');
-                updateDates();
-            });
+        $('#next-day').on('click', function() {
+            currentDate.add(1, 'days');
+            updateDates();
+            DailyData(currentDate.format('YYYY-MM-DD'), farmId); // 다음 날짜 데이터 로드
+        });
 
-            $('#next-day').on('click', function() {
-                currentDate.add(1, 'days');
-                updateDates();
-            });
-           
+        $('#calendarMini').fullCalendar({
+            header : {
+                left : 'prev,next today',
+                center : 'title',
+                right : 'month'
+            },
+            selectable : true,
+            selectHelper : true,
+            select : function(start, end) {
+                var date = moment(start).format('YYYY-MM-DD');
+                $('#reportDate').val(date);
+                currentDate = moment(start); // 선택한 날짜로 업데이트
+                updateDates(); // 선택한 날짜로 가로 날짜 업데이트
+                DailyData(date, farmId); // 선택한 날짜의 데이터 가져오기
+                $('#calendarModal').modal('hide');
+            },
+            editable : true,
+            events : []
+            // 여기에서 서버에서 가져온 이벤트 데이터를 넣을 수 있습니다.
+        });
 
-            $('#calendarMini').fullCalendar({
-                header : {
-                    left : 'prev,next today',
-                    center : 'title',
-                    right : 'month'
+        $('#reportForm').submit(function(event) {
+            event.preventDefault();
+            // 여기에서 폼 데이터를 서버로 전송하는 코드를 추가합니다.
+            alert('리포트가 저장되었습니다.');
+        });
+
+        // 모달 관련 코드
+        $('.calendar-button').click(function() {
+            $('#calendarModal').modal('show');
+        });
+
+        // 쿼리스트링에 있는 farmId 가져오는 함수
+        function getQueryStringParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 날짜에 맞는 데이터를 가져오는 함수 (환경 데이터 호출)
+        function DailyData(date, farmId) {
+            console.log(farmId);
+            $.ajax({
+                url: "${pageContext.request.contextPath}/farm/env/date",
+                type: "get",
+                dataType: "json",
+                data: { farm_id: farmId, date: date },
+                success: function(data) {
+                    console.log("날짜마다의 시간별 데이터 " + date + ": ", data);
+                    // 데이터가 올바르게 들어왔는지 확인
                 },
-                selectable : true,
-                selectHelper : true,
-                select : function(start, end) {
-                    var date = moment(start).format('YYYY-MM-DD');
-                    $('#reportDate').val(date);
-                    currentDate = moment(start); // 선택한 날짜로 업데이트
-                    updateDates(); // 선택한 날짜로 가로 날짜 업데이트
-                    DailyData(date, farmId); // 선택한 날짜의 데이터 가져오기
-                    $('#calendarModal').modal('hide');
-                },
-                editable : true,
-                events : []
-                // 여기에서 서버에서 가져온 이벤트 데이터를 넣을 수 있습니다.
-            });
+                error: function(request, status, error) {
+                    console.log("Error fetching data for date " + date + ": " + error);
+                }
+            }); // ajax
+            getDetectionInfo(date, farmId); // 탐지 정보 호출
+        }
 
-            $('#reportForm').submit(function(event) {
-                event.preventDefault();
-                // 여기에서 폼 데이터를 서버로 전송하는 코드를 추가합니다.
-                alert('리포트가 저장되었습니다.');
-            });
-
-            // 모달 관련 코드
-            $('.calendar-button').click(function() {
-                $('#calendarModal').modal('show');
-            });
-
-         	// 쿼리스트링에 있는 farmId 가져오는 함수
-            function getQueryStringParameter(name) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(name);
-            }
-            
-            // 날짜에 맞는 데이터를 가져오는 함수
-            function DailyData(date, farmId) {
-            	console.log(farmId);
-                $.ajax({
-                    url: "${pageContext.request.contextPath}/farm/env/date",
-                    type: "get",
-                    dataType: "json",
-                    data: { farm_id: farmId, date: date },
-                    success: function(data) {
-                        console.log("날짜마다의 시간별 데이터 " + date + ": ", data);
-                    },
-                    error: function(request, status, error) {
-                        console.log("Error fetching data for date " + date + ": " + error);
+        // 날짜에 맞는 탐지 정보를 가져오는 함수 추가
+        function getDetectionInfo(date, farmId) {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/farm/DetectionInfo/date",
+                type: "get",
+                dataType: "json",
+                data: { farm_id: farmId, date: date },
+                success: function(data) {
+                    console.log("날짜별 탐지 정보 " + date + ": ", data);
+                    if (data.length === 0) {
+                        console.log("탐지 정보가 없습니다.");
+                    } else {
+                        console.log("탐지 정보: ", data);
                     }
-                }); // ajax
-            } // 함수
-        }); //ready 함수
-    </script>
+                },
+                error: function(request, status, error) {
+                    console.log("Error fetching detection data for date " + date + ": " + error);
+                }
+            }); // ajax
+        }
+    }); //ready 함수
+</script>
 </body>
 </html>

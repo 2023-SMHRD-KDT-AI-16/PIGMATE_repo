@@ -297,3 +297,47 @@ AND DATE(created_at) = '2023-01-01';
 
 SELECT * FROM farm_env_info_hour WHERE farm_idx = 32 AND DATE(created_at) = '2023-01-01';
 SELECT * FROM farm_env_info_hour WHERE farm_idx = 32 AND DATE(created_at) = '2024-06-11';
+
+SELECT *
+FROM detection_info
+WHERE farm_idx = 32
+AND DATE(created_at) = '2024-06-17'
+ORDER BY created_at ASC;
+
+SELECT 
+    CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+    ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
+    ROUND(AVG(lying_cnt)) AS avg_lying_cnt, 
+    
+    SELECT 
+    CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+    ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
+    ROUND(AVG(lying_cnt)) AS avg_lying_cnt, 
+    farm_idx
+FROM detection_info
+WHERE farm_idx = 32
+GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
+ORDER BY created_date DESC
+LIMIT 10;
+
+SELECT 
+    CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+    ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt, 
+    ROUND(AVG(lying_cnt)) AS avg_lying_cnt, 
+    farm_idx
+FROM detection_info
+WHERE farm_idx = #{farm_idx}
+GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
+ORDER BY created_date DESC
+LIMIT 10;
+
+SELECT
+            CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+            ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt,
+            ROUND(AVG(lying_cnt)) AS avg_lying_cnt,
+            farm_idx
+        FROM detection_info
+        WHERE farm_idx = 32 AND DATE(created_at) = '2024-06-17'
+        GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
+        ORDER BY created_date DESC
+        LIMIT 10;
