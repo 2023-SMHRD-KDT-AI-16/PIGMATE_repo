@@ -113,6 +113,48 @@ body {
 	max-height: 500px; /* 이미지 최대 높이 설정 */
 	width: auto; /* 너비는 자동 조정 */
 }
+.dashboard-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    margin-top: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.dashboard-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    max-height: 400px;
+    width: auto;
+}
+.dashboard-preview h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.dashboard-preview p {
+    font-size: 1.0rem;
+    margin-bottom: 20px;
+}
+.dashboard-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.dashboard-details .detail-item {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
 </style>
 </head>
 <body>
@@ -168,9 +210,47 @@ body {
 						<br>
 
 						<img id="home_example2" src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg" alt="pigimages">
-													
 					</div>
 
+					<!-- Dashboard Preview Section -->
+					<div class="dashboard-preview" id="dashboard-preview">
+						<h2>실시간 데이터 및 대시보드 미리보기</h2>
+						<p>우리의 대시보드를 통해 돼지우리의 환경 및 돼지의 상태를 실시간으로 모니터링하세요.</p>
+						<img src="${pageContext.request.contextPath}/resources/img/logos/home_example01.png" alt="Dashboard Preview">
+						
+						<!-- Dashboard Details -->
+						<div class="dashboard-details">
+							<div class="detail-item">
+								<h3>온도</h3>
+								<p>현재 온도: 29.3°C</p>
+								<p>상태: 쾌적해요</p>
+							</div>
+							<div class="detail-item">
+								<h3>습도</h3>
+								<p>현재 습도: 30.7%</p>
+								<p>상태: 위험해요</p>
+							</div>
+							<div class="detail-item">
+								<h3>이산화탄소</h3>
+								<p>현재 농도: 243 ppm</p>
+								<p>상태: 위험해요</p>
+							</div>
+							<div class="detail-item">
+								<h3>암모니아</h3>
+								<p>현재 농도: 1.1 mg/m³</p>
+								<p>상태: 위험해요</p>
+							</div>
+							<div class="detail-item">
+								<h3>축사 환경</h3>
+								<p>실시간 영상 스트리밍</p>
+							</div>
+							<div class="detail-item">
+								<h3>돼지 자세 분석</h3>
+								<p>누워있는 돼지 수: 14두</p>
+								<p>서 있는 돼지 수: 0두</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
