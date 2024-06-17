@@ -341,3 +341,37 @@ SELECT
         GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
         ORDER BY created_date DESC
         LIMIT 10;
+        
+         SELECT
+            CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+            ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt,
+            ROUND(AVG(warn_cnt)) AS avg_warn_cnt,
+            farm_idx
+        FROM pig_info
+        WHERE farm_idx = #{farm_idx} AND DATE(created_at) = #{date}
+        GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
+        ORDER BY created_date DESC
+        LIMIT 10;
+
+           SELECT
+            DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00') AS created_date,
+            ROUND(IFNULL(AVG(livestock_cnt), 0)) AS avg_livestock_cnt,
+            ROUND(IFNULL(AVG(warn_cnt), 0)) AS avg_warn_cnt,
+            farm_idx
+        FROM pig_info
+        WHERE farm_idx = #{farm_idx} AND DATE(created_at) = #{date}
+        GROUP BY farm_idx, DATE_FORMAT(created_at, '%Y-%m-%d %H')
+        ORDER BY created_date DESC
+        LIMIT 10;
+        ]]>
+        
+           SELECT
+            CONCAT(SUBSTR(MIN(created_at), 1, 13), ':00:00') AS created_date,
+            ROUND(AVG(livestock_cnt)) AS avg_livestock_cnt,
+            ROUND(AVG(warn_cnt)) AS avg_warn_cnt,
+            farm_idx
+        FROM pig_info
+        WHERE farm_idx = 32 AND DATE(created_at) = '2024-06-17'
+        GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
+        ORDER BY created_date DESC
+        LIMIT 10;
