@@ -30,13 +30,12 @@ body {
 	padding: 50px;
 	max-width: 1200px;
 	margin: auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	text-align: center;
 }
 
 .main-section .text-content {
 	max-width: 600px;
+	margin: auto;
 }
 
 .main-section h1 {
@@ -59,14 +58,13 @@ body {
 	max-width: 100%;
 	height: auto;
 	border-radius: 10px;
-	max-height: 400px; /* 이미지 최대 높이 설정 */
 	width: auto; /* 너비는 자동 조정 */
 }
 
 .info-section {
 	background-color: #ffffff;
 	padding: 50px;
-	text-align: center;
+	text-align: left;
 	margin-top: 30px;
 	border-radius: 10px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -76,6 +74,7 @@ body {
 	font-size: 2.5rem;
 	font-weight: bold;
 	margin-bottom: 30px;
+	text-align: center;
 }
 
 .info-section p {
@@ -85,6 +84,16 @@ body {
 
 .highlight {
 	color: #28a745;
+	font-weight: bold;
+}
+
+#dashboard-preview > p:nth-child(5) > span {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+#dashboard-preview > p:nth-child(8) > span {
+	color: #FF0000;
 	font-weight: bold;
 }
 
@@ -99,13 +108,95 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	margin-bottom: 20px;
 }
-#home_example1{
-		max-width: 100%;
+
+#home_example1 {
+	max-width: 100%;
 	height: auto;
 	border-radius: 10px;
 	max-height: 500px; /* 이미지 최대 높이 설정 */
 	width: auto; /* 너비는 자동 조정 */
 }
+
+#home_example2 {
+	max-width: 100%;
+	height: auto;
+	border-radius: 10px;
+	max-height: 500px; /* 이미지 최대 높이 설정 */
+	width: auto; /* 너비는 자동 조정 */
+}
+
+.dashboard-preview {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 50px;
+	margin-top: 30px;
+	background-color: #f4f7fb;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-preview img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 10px;
+	max-height: 400px;
+	width: auto;
+}
+
+.dashboard-preview h2 {
+	font-size: 2.5rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.dashboard-preview p {
+	font-size: 1.0rem;
+	margin-bottom: 20px;
+}
+
+.dashboard-details {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	margin-top: 20px;
+}
+
+.dashboard-details .detail-item {
+	flex: 1;
+	min-width: 200px;
+	margin: 10px;
+	padding: 20px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+.left-align {
+	text-align: left;
+}
+
+#topBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+#topBtn:hover {
+    background-color: #1e7e34;
+}
+
+</style>
 </style>
 </head>
 <body>
@@ -118,55 +209,105 @@ body {
 			<div class="body-wrapper-inner">
 				<div class="container-fluid">
 					<!-- Main Section -->
-					<div class="main-section section" id="home">
-						<div class="text-content">
-							<h1>
-								<span class="highlight">"피그메이트"</span>
-							</h1>
-							<br><br>
-							<p>
-								<span class="highlight">딥러닝</span>기술을 통해 농장 내 <span
-									class="highlight">돼지를 실시간으로 탐지하고</span> 돼지의 자세를 분석할 수 있습니다.<br>
-								<br> 또한, 환경 데이터를 수집하여 축사 내 <span class="highlight">환경
-									오염 문제를 신속히 파악</span>할 수 있습니다. <br> <br> <br>
-								<span class="bold_">" 피그메이트는 <span class="highlight">최고
-										품질의 돼지</span>를 생산할 수 있습니다. "
-								</span>
-
-							</p>
-
-						</div>
+					<div class="main-section section text-center" id="home">
 						<img
-							src="${pageContext.request.contextPath}/resources/img/logos/background-pig.png"
-							alt="Pig Detection Technology">
+							src="${pageContext.request.contextPath}/resources/img/logos/400x100.png"
+							alt="Pigmate Logo"> <br> <br>
+						<div class="row justify-content-center">
+							<div class="col-md-6 text-content">
+								<div class="info-section text-left">
+									<p>
+										딥러닝기술을 통해 농장 내 <span
+											class="highlight">돼지를 실시간으로 탐지하고</span> 돼지의 자세를 분석할 수 있습니다.
+									</p>
+									<p>
+										또한, 환경 데이터를 수집하여 축사 내 <span class="highlight">환경 오염 문제</span>를
+											신속히 파악할 수 있습니다.
+									</p>
+									<p>
+										<span class="bold_">" 피그메이트는 <span class="highlight">최고
+												품질의 돼지</span>를 생산할 수 있습니다. "
+										</span>
+									</p>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<img
+									src="${pageContext.request.contextPath}/resources/img/logos/background-pig.png"
+									alt="Pig Detection Technology">
+							</div>
+						</div>
 					</div>
 
+					<!-- Dashboard Preview Section -->
+					<div class="dashboard-preview" id="dashboard-preview">
+						<h2>실시간 데이터 및 대시보드 미리보기</h2>
+						<br>
+						<!-- 첫 번째 이미지와 설명 -->
+						<img
+							src="${pageContext.request.contextPath}/resources/img/logos/home_example01.png"
+							alt="Dashboard Preview 1">
+						<p class="left-align">피그메이트는 돼지우리의 온도, 습도, 이산화탄소 및 암모니아 수치를
+							실시간으로 모니터링합니다.</p>
+						
+						<p class="left-align">
+							수치가 환경 기준에서 벗어나면 <span class="highlight1">빨간색</span>으로 나타납니다.
+						</p>
+
+
+						<!-- 두 번째 이미지와 설명 -->
+						<img
+							src="${pageContext.request.contextPath}/resources/img/logos/home_example02.png"
+							alt="Dashboard Preview 2">
+						<p class="left-align">돼지의 자세를 분석하여 누워있는 돼지와 서있는 돼지의 수를 보여주고</p>
+						
+						<p class="left-align">
+							돼지의 체온을 측정하여 기준을 벗어나면 <span class="highlight1">빨간색</span>으로
+							나타납니다.
+						</p>
+					</div>
+
+					<div class="info-section section" id="learn-more">
+						<h2>국내 양돈 기사를 확인해보세요!</h2>
+						<br> <img
+							src="${pageContext.request.contextPath}/resources/img/logos/home_example03.png"
+							alt="pigimages">
+					</div>
 					<!-- Info Section -->
 					<div class="info-section section" id="learn-more">
-						<h2>Why Choose Our Technology?</h2>
-						<p>"우리의 기술은 돼지를 정확하게 감지하도록 설계되어 농부와 연구원에게 안정적이고 효율적인 솔루션을
-							제공합니다."</p>
-						<p>
-							"최첨단 AI를 활용해 실시간 모니터링과 데이터 수집을 보장해 의사결정 프로세스를 강화합니다."
-						</p>
-						<p>
-							"직관적인 인터페이스와 강력한 기능을 통해 기존 시스템에 쉽게 통합할 수 있어 원활한 작동이 보장됩니다."
-						</p>
+						<h2>"개발자들을 소개합니다!"</h2>
 						<br>
-						<hr>
-						<br>
-						<h2>
-							"피그메이트의 개발자들을 소개합니다!"
-						</h2>
-						<br>
-						<img id="home_example1" src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg" alt="pigimages">
-													
+						<br> <img id="home_example2"
+							src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg"
+							alt="pigimages">
 					</div>
-
+					 <button id="topBtn" onclick="topFunction()">Top</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script>
+    // 스크롤 시 버튼 표시/숨김 처리
+    window.onscroll = function() {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("topBtn").style.display = "block";
+        } else {
+            document.getElementById("topBtn").style.display = "none";
+        }
+    }
+
+    // 버튼 클릭 시 페이지 상단으로 스크롤
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+    </script>
+
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
 	<script
