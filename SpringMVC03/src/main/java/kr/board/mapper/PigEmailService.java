@@ -1,14 +1,14 @@
 package kr.board.mapper;
 
+import kr.board.entity.Alert;
 import kr.board.entity.DetectionInfo;
 import kr.board.entity.Member;
+import kr.board.mapper.AlertInfoMapper;
 import kr.board.mapper.DetectionInfoMapper;
 import kr.board.mapper.MemberMapper;
-import kr.board.mapper.AlertInfoMapper;
-import kr.board.entity.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,12 +74,13 @@ public class PigEmailService {
             System.out.println("Pig Email sent successfully to " + to);
 
             // 알림 저장
-            String alertMsg = String.format("농장 이름: %s, 내용: 연속으로 5번 이상 돼지의 이상 행동이 발견되었습니다.", farmName);
+            String alertMsg = String.format("농장 이름: %s, 내용: 연속으로 5번 이상 이상 행동이 발견되었습니다.", farmName);
             Alert alert = new Alert();
             alert.setMemId(memId);
             alert.setAlarmMsg(alertMsg);
             alert.setAlarmedAt(new Date());
             alert.setFarm_idx(farmIdx);
+            alert.setType("pig"); // 알림 유형 설정
             System.out.println("Inserting Pig alert with farmId: " + alert.getFarm_idx());
             alertMapper.insertAlert(alert);
         } catch (Exception e) {

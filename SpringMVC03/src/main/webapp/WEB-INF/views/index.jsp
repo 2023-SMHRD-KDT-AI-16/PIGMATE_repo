@@ -131,6 +131,13 @@
 <script
     src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
+
+
+
+
+</head>
+<body>
+
 <c:if test="${not empty sessionScope.mvo}">
     <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -139,319 +146,7 @@
     </script>
 </c:if>
 
-<script>
-var charts = {};
-var alertCount = {}; // 날짜별 알림 개수 저장 객체
 
-$(document).ready(function() {
-    console.log("Document is ready");
-    console.log("firstFarmId: ", farmId);
-    newsList();
-    loadEnvCriteria(farmId);
-
-    initializeCalendar(farmId); // Initial calendar load
-
-    // 사이드바에서 farm_id 선택 시, 알림 데이터를 갱신
-    $('.sidebar-item').on('click', function() {
-        farmId = $(this).data('farmId');
-        loadEnvInfo(farmId);
-        loadEnvCriteria(farmId);
-        $('#calendar').fullCalendar('destroy'); // 기존 달력 제거
-        initializeCalendar(farmId); // 새로운 farm_id로 달력 초기화
-    });
-});
-
-function initializeCalendar(farmId) {
-    // FullCalendar 초기화
-    $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month'
-        },
-        editable: true,
-        events: function(start, end, timezone, callback) {
-            $.ajax({
-                url: '${contextPath}/getAlerts', // 알림 데이터를 가져오는 서버측 URL
-                data: { farmId: farmId }, // farmId를 파라미터로 추가
-                dataType: 'json',
-                success: function(data) {
-                    console.log("Fetched alerts data: ", data); // 데이터를 확인하는 출력문
-                    var events = [];
-                    alertCount = {}; // 날짜별 알림 개수 저장 객체 초기화
-
-                    $(data).each(function() {
-                        var date = moment(this.alarmedAt).format('YYYY-MM-DD');
-                        if (!alertCount[date]) {
-                            alertCount[date] = {
-                                count: 0,
-                                alerts: []
-                            };
-                        }
-                        alertCount[date].count += 1;
-                        alertCount[date].alerts.push(this.alarmMsg);
-                    });
-
-                    // 알림 개수 표시
-                    $.each(alertCount, function(date, details) {
-                        events.push({
-                            id: date,
-                            title: '<span class="fc-event-dot"></span>' + details.count + '개',
-                            start: date // 알림 날짜,
-                        });
-                    });
-
-                    console.log("Events to display: ", events); // 이벤트 데이터를 확인하는 출력문
-                    callback(events);
-                },
-                error: function(xhr, status, error) {
-                    console.error("Failed to fetch alerts data: ", status, error); // 오류 메시지 출력
-                }
-            });
-        },
-        eventRender: function(event, element) {
-            element.find('.fc-title').html(event.title); // 이벤트 타이틀 HTML 업데이트
-        },
-        eventClick: function(event) {
-            var date = event.id;
-            var alerts = alertCount[date] ? alertCount[date].alerts : [];
-            var alertDetails = alerts.map(alert => {
-                var parts = alert.split('내용:');
-                return '내용:' + parts[1];
-            }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
-            $('#alertDetailsModal .modal-body').html(alertDetails); // 모달 창에 세부 사항 표시
-            $('#alertDetailsModal').modal('show'); // 모달 창 표시
-        }
-    });
-
-    // 로그인 시 해야 할 일 모달 창 표시
-    showPendingTasksModal();
-    
-    // 모달 닫기 버튼 이벤트 리스너
-    $('.modal .close, .modal .btn-secondary').on('click', function() {
-        $(this).closest('.modal').modal('hide');
-    });
-}
-
-// 뉴스 기사 가져오기
-function newsList() {
-    $.ajax({
-        url : "board/newsList",
-        type : "get",
-        dataType : "json",
-        success : function(data) {
-            makeNews(data);
-        },
-        error : function() {
-            alert("news error");
-        }
-    }); // ajax 끝
-} // 함수
-
-// 뉴스 기사 띄우기
-function makeNews(data) {
-    console.log("받은 데이터:", data);
-    var listHtml = "";
-
-    if (data.newsList) {
-        $.each(data.newsList.slice(0, 11), function(index, obj) {
-            console.log("뉴스 데이터 이동 성공");
-            listHtml += "<tr>";
-            listHtml += "<td colspan='2'>";
-            listHtml += "<a href='news?news_idx=" + obj.news_idx + "' class='news-title'>" + obj.news_title + "</a>";
-            listHtml += "</td>";
-            listHtml += "</tr>";
-        }); // 반복문 종료
-    } else {
-        console.error("뉴스 데이터를 찾을 수 없습니다.");
-    }
-
-    $("#index_newsList").html(listHtml);
-} // 함수
-
-function getQueryStringParameter(name) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name);
-}
-
-// 기준
-function loadEnvCriteria(farmId) {
-    if (!farmId) {
-        farmId = getQueryStringParameter('farmId');
-    }
-    console.log("loadEnvCriteria farmId: ", farmId);
-    $.ajax({
-        url: "env/cri",
-        type: "get",
-        data: { farmId: farmId },
-        dataType: "json",
-        success: function(criteria) {
-            console.log("환경 기준:", criteria);
-            loadEnvInfo(criteria);
-            console.log(criteria);
-        },
-        error: function() {
-            // alert("환경 기준 정보 로드 오류");
-        }
-    }); // ajax
-}
-
-
-
-// 실시간 정보 가져오기
-function loadEnvInfo(criteria) {
-    if (!farmId) {
-        farmId = getQueryStringParameter('farmId');
-    }
-    console.log("loadEnvInfo farmId: ", farmId);
-    
-    $.ajax({
-        url: "env/randomCri",
-        type: "get",
-        data: { farmId: farmId },
-        dataType: "json",
-        success: function(data) {
-            console.log("랜덤값 가져옴")
-            displayEnvInfo(data);
-            updateEnvStatus(data, criteria);
-        },
-        error: function() {
-           console.log("랜덤값 못 가져옴");
-        }
-   
-    }); // ajax
-    
-}
-
-
-//환경 기준에 띄울 정보
-function displayEnvInfo(data) {
-    var temperature = "N/A";
-    var humidity = "N/A";
-    var co2 = "N/A";
-    var ammonia = "N/A";
-
-    if (Object.keys(data).length > 0) {
-        var latestEnv = data;
-        temperature = latestEnv.temperature;
-        humidity = latestEnv.humidity;
-        co2 = latestEnv.co2;
-        ammonia = latestEnv.ammonia;
-    }
-    
-    $("#temperature").text(temperature);
-    $("#humidity").text(humidity);
-    $("#co2").text(co2);
-    $("#ammonia").text(ammonia);
-}
-
-// 환경 정보 요약 카드
-function updateEnvStatus(envData, criteria) {
-    if (!criteria) {
-        console.warn("Criteria is undefined or null");
-        return;
-    }
-
-    var latestEnv = envData;
-    console.log("Latest Environment Data: ", latestEnv);
-    console.log("Criteria: ", criteria);
-
-    var tempRange = { min: criteria.temperature * 0.85, max: criteria.temperature * 1.15 };
-    var humidityRange = { min: criteria.humidity * 0.85, max: criteria.humidity * 1.15 };
-    var co2Range = { min: criteria.co2 * 0.85, max: criteria.co2 * 1.15 };
-    var ammoniaRange = { min: criteria.ammonia * 0.85, max: criteria.ammonia * 1.15 };
-
-    updateStatus("#temperature", latestEnv.temperature, tempRange);
-    updateStatus("#humidity", latestEnv.humidity, humidityRange);
-    updateStatus("#co2", latestEnv.co2, co2Range);
-    updateStatus("#ammonia", latestEnv.ammonia, ammoniaRange);
-}
-
-// 상태 업데이트(안전, 위험)
-function updateStatus(elementId, value, range) {
-    var element = $(elementId);
-    var statusElement = element.siblings(".status");
-
-    if (value < range.min || value > range.max) {
-        element.css("color", "red");
-        statusElement.text("위험해요").css("color", "red");
-    } else {
-        element.css("color", "green");
-        statusElement.text("쾌적해요").css("color", "green");
-    }
-}
-
-// 그래프 데이터 가져오는 함수
-function loadGraphData(period, type, chartId, farmId) {
-    $.ajax({
-        url: "${contextPath}/farm/env",
-        type: "post",
-        dataType: "json",
-        data: { period: period, type: type, farmId: farmId },
-        success: function(data) {
-            console.log("Received data: ", data);
-            makeData(data, type, chartId);
-        },
-        error: function(request, status, error) {
-            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-        }
-    });
-}
-
-// 환경 차트 데이터 만드는 함수
-function makeData(data, type, chartId) {
-    var dateList = [];
-    var valueList = [];
-
-    dateList = data.map(item => item.created_at);
-    valueList = data.map(item => item[type]);
-
-    console.log("dateList: ", dateList);
-    console.log("valueList: ", valueList);
-
-    if (charts[chartId]) {
-        charts[chartId].destroy();
-    }
-
-    if (type === 'temperature') {
-        charts[chartId] = createChartTemp(dateList, valueList, chartId);
-    } else if (type === 'humidity') {
-        charts[chartId] = createChartHumid(dateList, valueList, chartId);
-    } else if (type === 'co2') {
-        charts[chartId] = createChartCo2(dateList, valueList, chartId);
-    } else if (type === 'ammonia') {
-        charts[chartId] = createChartAmm(dateList, valueList, chartId);
-    } else if (type === 'pm') {
-        charts[chartId] = createChartPm(dateList, valueList, chartId);
-    }
-}
-
-// 해야 할 일 모달 창 표시 함수
-function showPendingTasksModal() {
-    $.ajax({
-        url: 'getPendingTasks',
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            if (data.length > 0) {
-                var tasks = '<ul>';
-                $.each(data, function(index, task) {
-                    tasks += '<li>' + task.description + '</li>';
-                });
-                tasks += '</ul>';
-                $('#pendingTasksModal .modal-body').html(tasks);
-                $('#pendingTasksModal').modal('show');
-            }
-        },
-        error: function() {
-            console.log('Error while fetching pending tasks');
-        }
-    });
-}
-</script>
-
-</head>
-<body>
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical"
         data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -547,12 +242,12 @@ function showPendingTasksModal() {
                                             <div
                                                 class="d-flex align-items-center justify-content-between mb-6">
                                                 <h6 class="mb-0 fw-medium">객체 탐지 결과</h6>
-                                                <h6 class="mb-0 fw-medium">8두</h6>
+                                                <h6 class="mb-0 fw-medium" id="lyingCnt"></h6>
                                             </div>
                                             <div class="progress" role="progressbar"
                                                 aria-label="Basic example" aria-valuenow="25"
                                                 aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                                <div class="progress-bar bg-secondary" style="width: 83%"></div>
+                                                <div class="progress-bar bg-secondary" style="width: 0%"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -571,12 +266,12 @@ function showPendingTasksModal() {
                                             <div
                                                 class="d-flex align-items-center justify-content-between mb-6">
                                                 <h6 class="mb-0 fw-medium">객체 탐지 결과</h6>
-                                                <h6 class="mb-0 fw-medium">5두</h6>
+                                                <h6 class="mb-0 fw-medium" id="standCnt"></h6>
                                             </div>
                                             <div class="progress" role="progressbar"
                                                 aria-label="Basic example" aria-valuenow="25"
                                                 aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                                <div class="progress-bar bg-warning" style="width: 53%"></div>
+                                                <div class="progress-bar bg-warning" style="width: 0%"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -640,21 +335,21 @@ function showPendingTasksModal() {
         </div>
     </div>
 
-    <!-- 알림 세부 사항 모달 창 -->
-    <div class="modal fade" id="alertDetailsModal" tabindex="-1"
-        role="dialog" aria-labelledby="alertDetailsModalLabel"
+    <!-- 알림 세부 사항 모달 창 (환경) -->
+    <div class="modal fade" id="environmentAlertDetailsModal" tabindex="-1"
+        role="dialog" aria-labelledby="environmentAlertDetailsModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="alertDetailsModalLabel">알림 세부 사항</h5>
+                    <h5 class="modal-title" id="environmentAlertDetailsModalLabel">환경 알림 세부 사항</h5>
                     <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- 알림 세부 사항이 여기에 표시됩니다 -->
+                    <!-- 환경 알림 세부 사항이 여기에 표시됩니다 -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
@@ -663,6 +358,441 @@ function showPendingTasksModal() {
             </div>
         </div>
     </div>
+
+    <!-- 알림 세부 사항 모달 창 (돼지) -->
+    <div class="modal fade" id="pigAlertDetailsModal" tabindex="-1"
+        role="dialog" aria-labelledby="pigAlertDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pigAlertDetailsModalLabel">돼지 알림 세부 사항</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 돼지 알림 세부 사항이 여기에 표시됩니다 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+var charts = {};
+var alertCount = {}; // 날짜별 알림 개수 저장 객체
+var envAlertCount = {}; // 날짜별 환경 알림 개수 저장 객체
+var pigAlertCount = {}; // 날짜별 돼지 알림 개수 저장 객체
+
+$(document).ready(function() {
+	
+    console.log("Document is ready");
+    console.log("firstFarmId: ", farmId);
+    newsList();
+    loadEnvCriteria(farmId);
+    loadPigCnt(farmId);
+    setInterval(function() {
+        loadPigCnt(farmId);
+    }, 4000);
+    returnData(farmId)
+    initializeCalendar(farmId); // Initial calendar load
+
+    // 사이드바에서 farm_id 선택 시, 알림 데이터를 갱신
+    $('.sidebar-item').on('click', function() {
+        farmId = $(this).data('farmId');
+        loadEnvInfo(farmId);
+        loadEnvCriteria(farmId);
+        $('#calendar').fullCalendar('destroy'); // 기존 달력 제거
+        initializeCalendar(farmId); // 새로운 farm_id로 달력 초기화
+       
+    });
+
+
+function initializeCalendar(farmId) {
+    // FullCalendar 초기화
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month'
+        },
+        editable: true,
+        events: function(start, end, timezone, callback) {
+            $.ajax({
+                url: '${contextPath}/getAlerts', // 알림 데이터를 가져오는 서버측 URL
+                data: { farmId: farmId }, // farmId를 파라미터로 추가
+                dataType: 'json',
+                success: function(data) {
+                    console.log("Fetched alerts data: ", data); // 데이터를 확인하는 출력문
+                    var events = [];
+                    alertCount = {}; // 날짜별 알림 개수 저장 객체 초기화
+                    envAlertCount = {}; // 날짜별 환경 알림 개수 저장 객체 초기화
+                    pigAlertCount = {}; // 날짜별 돼지 알림 개수 저장 객체 초기화
+
+                    $(data).each(function() {
+                        var date = moment(this.alarmedAt).format('YYYY-MM-DD');
+                        var type = this.type;
+
+                        if (!alertCount[date]) {
+                            alertCount[date] = {
+                                count: 0,
+                                alerts: []
+                            };
+                        }
+                        alertCount[date].count += 1;
+                        alertCount[date].alerts.push(this);
+
+                        if (type === 'env') {
+                            if (!envAlertCount[date]) {
+                                envAlertCount[date] = {
+                                    count: 0,
+                                    alerts: []
+                                };
+                            }
+                            envAlertCount[date].count += 1;
+                            envAlertCount[date].alerts.push(this);
+                        } else if (type === 'pig') {
+                            if (!pigAlertCount[date]) {
+                                pigAlertCount[date] = {
+                                    count: 0,
+                                    alerts: []
+                                };
+                            }
+                            pigAlertCount[date].count += 1;
+                            pigAlertCount[date].alerts.push(this);
+                        }
+                    });
+
+                    // 알림 개수 표시
+                    $.each(envAlertCount, function(date, details) {
+                        events.push({
+                            id: date,
+                            title: '<span class="fc-event-dot"></span> 환경: ' + details.count + '개',
+                            start: date,
+                            className: 'env-alert' // 환경 알림에 대한 클래스 추가
+                        });
+                    });
+
+                    $.each(pigAlertCount, function(date, details) {
+                        events.push({
+                            id: date,
+                            title: '<span class="fc-event-dot"></span> 돼지: ' + details.count + '개',
+                            start: date,
+                            className: 'pig-alert' // 돼지 알림에 대한 클래스 추가
+                        });
+                    });
+
+                    console.log("Events to display: ", events); // 이벤트 데이터를 확인하는 출력문
+                    callback(events);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Failed to fetch alerts data: ", status, error); // 오류 메시지 출력
+                }
+            });
+        },
+        eventRender: function(event, element) {
+            element.find('.fc-title').html(event.title); // 이벤트 타이틀 HTML 업데이트
+        },
+        eventClick: function(event) {
+            var date = event.id;
+            var alerts;
+
+            if (event.className.includes('env-alert')) {
+                alerts = envAlertCount[date] ? envAlertCount[date].alerts : [];
+                var alertDetails = alerts.map(alert => {
+                    var parts = alert.alarmMsg.split('내용:');
+                    return '내용:' + parts[1];
+                }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
+                $('#environmentAlertDetailsModal .modal-body').html(alertDetails); // 환경 알림 세부 사항 표시
+                $('#environmentAlertDetailsModal').modal('show'); // 환경 알림 모달 창 표시
+            } else if (event.className.includes('pig-alert')) {
+                alerts = pigAlertCount[date] ? pigAlertCount[date].alerts : [];
+                var alertDetails = alerts.map(alert => {
+                    var parts = alert.alarmMsg.split('내용:');
+                    return '내용:' + parts[1];
+                }).join('<br><hr>'); // 각 알림 사이에 줄과 줄바꿈 추가
+                $('#pigAlertDetailsModal .modal-body').html(alertDetails); // 돼지 알림 세부 사항 표시
+                $('#pigAlertDetailsModal').modal('show'); // 돼지 알림 모달 창 표시
+            }
+        }
+    });
+
+    // 로그인 시 해야 할 일 모달 창 표시
+    showPendingTasksModal();
+    
+    // 모달 닫기 버튼 이벤트 리스너
+    $('.modal .close, .modal .btn-secondary').on('click', function() {
+        $(this).closest('.modal').modal('hide');
+    });
+}
+
+// 뉴스 기사 가져오기
+function newsList() {
+    $.ajax({
+        url : "board/newsList",
+        type : "get",
+        dataType : "json",
+        success : function(data) {
+            makeNews(data);
+        },
+        error : function() {
+            alert("news error");
+        }
+    }); // ajax 끝
+} // 함수
+
+// 뉴스 기사 띄우기
+function makeNews(data) {
+    console.log("받은 데이터:", data);
+    var listHtml = "";
+
+    if (data.newsList) {
+        $.each(data.newsList.slice(0, 11), function(index, obj) {
+            console.log("뉴스 데이터 이동 성공");
+            listHtml += "<tr>";
+            listHtml += "<td colspan='2'>";
+            listHtml += "<a href='news?news_idx=" + obj.news_idx + "' class='news-title'>" + obj.news_title + "</a>";
+            listHtml += "</td>";
+            listHtml += "</tr>";
+        }); // 반복문 종료
+    } else {
+        console.error("뉴스 데이터를 찾을 수 없습니다.");
+    }
+
+    $("#index_newsList").html(listHtml);
+} 
+
+// 쿼리스트링에 있는 farmId 가져오는 함수
+function getQueryStringParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// 환경 기준 가져오기
+function loadEnvCriteria(farmId) {
+    if (!farmId) {
+        farmId = getQueryStringParameter('farmId');
+    }
+    console.log("loadEnvCriteria farmId: ", farmId);
+    $.ajax({
+        url: "env/cri",
+        type: "get",
+        data: { farmId: farmId },
+        dataType: "json",
+        success: function(criteria) {
+            console.log("환경 기준:", criteria);
+            loadEnvInfo(criteria);
+            console.log(criteria);
+        },
+        error: function() {
+            // alert("환경 기준 정보 로드 오류");
+        }
+    }); // ajax
+}
+
+// 실시간 정보 가져오기
+function loadEnvInfo(criteria) {
+    if (!farmId) {
+        farmId = getQueryStringParameter('farmId');
+    }
+    console.log("loadEnvInfo farmId: ", farmId);
+    
+    $.ajax({
+        url: "env/randomCri",
+        type: "get",
+        data: { farmId: farmId },
+        dataType: "json",
+        success: function(data) {
+            console.log("랜덤값 가져옴")
+            displayEnvInfo(data);
+            updateEnvStatus(data, criteria);
+        },
+        error: function() {
+           console.log("랜덤값 못 가져옴");
+        }
+   
+    }); // ajax
+    
+}
+
+
+//환경 기준에 띄울 정보
+function displayEnvInfo(data) {
+    var temperature = "N/A";
+    var humidity = "N/A";
+    var co2 = "N/A";
+    var ammonia = "N/A";
+
+    if (Object.keys(data).length > 0) {
+        var latestEnv = data;
+        temperature = latestEnv.temperature;
+        humidity = latestEnv.humidity;
+        co2 = latestEnv.co2;
+        ammonia = latestEnv.ammonia;
+    }
+    
+    $("#temperature").text(temperature);
+    $("#humidity").text(humidity);
+    $("#co2").text(co2);
+    $("#ammonia").text(ammonia);
+}
+
+// 환경 정보 요약 카드
+function updateEnvStatus(envData, criteria) {
+    if (!criteria) {
+        console.warn("Criteria is undefined or null");
+        return;
+    }
+
+    var latestEnv = envData;
+    console.log("Latest Environment Data: ", latestEnv);
+    console.log("Criteria: ", criteria);
+
+    var tempRange = { min: criteria.temperature * 0.85, max: criteria.temperature * 1.15 };
+    var humidityRange = { min: criteria.humidity * 0.85, max: criteria.humidity * 1.15 };
+    var co2Range = { min: criteria.co2 * 0.85, max: criteria.co2 * 1.15 };
+    var ammoniaRange = { min: criteria.ammonia * 0.85, max: criteria.ammonia * 1.15 };
+
+    updateStatus("#temperature", latestEnv.temperature, tempRange);
+    updateStatus("#humidity", latestEnv.humidity, humidityRange);
+    updateStatus("#co2", latestEnv.co2, co2Range);
+    updateStatus("#ammonia", latestEnv.ammonia, ammoniaRange);
+}
+
+// 상태 업데이트(안전, 위험)
+function updateStatus(elementId, value, range) {
+    var element = $(elementId);
+    var statusElement = element.siblings(".status");
+
+    if (value < range.min || value > range.max) {
+        element.css("color", "red");
+        statusElement.text("위험해요").css("color", "red");
+    } else {
+        element.css("color", "green");
+        statusElement.text("쾌적해요").css("color", "green");
+    }
+}
+
+//flask 데이터 전송
+function returnData(farmId) {
+    $.ajax({
+        url: "http://localhost:5000/receive_data",
+        type: "post",
+        data: JSON.stringify({ farmId: farmId }),
+        contentType: "application/json; charset=UTF-8",
+        success: function(response) {
+            console.log("서버 응답:", response);
+        },
+        error: function(error) {
+            console.log("에러:", error);
+        }
+    });
+}
+
+//돼지 수 가져오는 함수
+function loadPigCnt(farmId){
+    $.ajax({
+        url : "${contextPath}/farm/pigcnt",
+        type : "get",
+        data : {farmId : farmId},
+        dataType : "json",
+        success : function(data){
+            console.log("lyingCnt: " + data[0]); // lyingCnt 출력
+            console.log("standingCnt: " + data[1]); // standingCnt 출력
+            $("#lyingCnt").text(data[0]+"두");
+            $("#standCnt").text(data[1]+"두");
+            
+            var lyingPercentage = (data[0] / (data[0] + data[1])) * 100;
+            var standingPercentage = (data[1] / (data[0] + data[1])) * 100;
+            
+            $(".progress-bar.bg-secondary").css("width", lyingPercentage + "%");
+            $(".progress-bar.bg-warning").css("width", standingPercentage + "%");
+        },
+        error : function(){
+            console.log("돼지 객체 탐지 결과 못 가져옴");
+        }
+    }); // ajax
+}
+
+
+// 그래프 데이터 가져오는 함수
+function loadGraphData(period, type, chartId, farmId) {
+    $.ajax({
+        url: "${contextPath}/farm/env",
+        type: "post",
+        dataType: "json",
+        data: { period: period, type: type, farmId: farmId },
+        success: function(data) {
+            console.log("Received data: ", data);
+            makeData(data, type, chartId);
+        },
+        error: function(request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+}
+
+// 환경 차트 데이터 만드는 함수
+function makeData(data, type, chartId) {
+    var dateList = [];
+    var valueList = [];
+
+    dateList = data.map(item => item.created_at);
+    valueList = data.map(item => item[type]);
+
+    console.log("dateList: ", dateList);
+    console.log("valueList: ", valueList);
+
+    if (charts[chartId]) {
+        charts[chartId].destroy();
+    }
+
+    if (type === 'temperature') {
+        charts[chartId] = createChartTemp(dateList, valueList, chartId);
+    } else if (type === 'humidity') {
+        charts[chartId] = createChartHumid(dateList, valueList, chartId);
+    } else if (type === 'co2') {
+        charts[chartId] = createChartCo2(dateList, valueList, chartId);
+    } else if (type === 'ammonia') {
+        charts[chartId] = createChartAmm(dateList, valueList, chartId);
+    } else if (type === 'pm') {
+        charts[chartId] = createChartPm(dateList, valueList, chartId);
+    }
+}
+
+// 해야 할 일 모달 창 표시 함수
+function showPendingTasksModal() {
+    $.ajax({
+        url: 'getPendingTasks',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if (data.length > 0) {
+                var tasks = '<ul>';
+                $.each(data, function(index, task) {
+                    tasks += '<li>' + task.description + '</li>';
+                });
+                tasks += '</ul>';
+                $('#pendingTasksModal .modal-body').html(tasks);
+                $('#pendingTasksModal').modal('show');
+            }
+        },
+        error: function() {
+            console.log('Error while fetching pending tasks');
+        }
+    });
+}
+});
+
+</script>
+
+
 
 </body>
 </html>

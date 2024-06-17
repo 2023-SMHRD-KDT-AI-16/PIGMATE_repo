@@ -2,29 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.board.mapper.AlertInfoMapper">
 
-	<select id="findAll" resultType="kr.board.entity.Alert">
-		SELECT alarm_idx AS alarmIdx,
-		mem_id AS memId, alarm_msg AS alarmMsg,
-		alarmed_at AS alarmedAt
-		FROM
-		alert_info
-	</select>
+    <select id="findAll" resultType="kr.board.entity.Alert">
+        SELECT alarm_idx AS alarmIdx,
+               mem_id AS memId,
+               alarm_msg AS alarmMsg,
+               alarmed_at AS alarmedAt,
+               farm_idx AS farmIdx,
+               type AS type
+        FROM alert_info
+    </select>
 
-	<insert id="insertAlert" parameterType="kr.board.entity.Alert">
-		INSERT INTO alert_info
-		(mem_id, alarm_msg, alarmed_at, farm_idx)
-		VALUES (#{memId},
-		#{alarmMsg}, #{alarmedAt}, #{farm_idx})
-	</insert>
+    <insert id="insertAlert" parameterType="kr.board.entity.Alert">
+        INSERT INTO alert_info
+        (mem_id, alarm_msg, alarmed_at, farm_idx, type)
+        VALUES (#{memId},
+                #{alarmMsg}, #{alarmedAt}, #{farm_idx}, #{type})
+    </insert>
 
-	<select id="findAlertsByFarmId" parameterType="int"
-		resultType="kr.board.entity.Alert">
-		SELECT alarm_idx AS alarmIdx, mem_id AS memId, alarm_msg AS
-		alarmMsg,
-		alarmed_at AS alarmedAt,
-		farm_idx AS farmIdx
-		FROM alert_info
-		WHERE farm_idx = #{farm_idx}
-	</select>
+    <select id="findAlertsByFarmId" parameterType="int"
+            resultType="kr.board.entity.Alert">
+        SELECT alarm_idx AS alarmIdx,
+               mem_id AS memId,
+               alarm_msg AS alarmMsg,
+               alarmed_at AS alarmedAt,
+               farm_idx AS farmIdx,
+               type AS type
+        FROM alert_info
+        WHERE farm_idx = #{farm_idx}
+    </select>
 
 </mapper>

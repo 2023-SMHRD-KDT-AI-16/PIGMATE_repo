@@ -105,6 +105,7 @@
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
+}
 </style>
 </head>
 <body>
@@ -183,7 +184,10 @@
         $(document).ready(function() {
             var currentDate = moment();
             var currentDateIndex = 0;
-
+            updateDates();
+            var date = moment().format('YYYY-MM-DD');
+            DailyData(date);
+            
             function updateDates() {
                 var dates = [];
                 for (var i = -1; i <= 1; i++) {
@@ -193,9 +197,9 @@
                         dateItem.addClass('current-date');
                     }
                     dates.push(dateItem);
-                }
+                } // 반복문
                 $('#dates').empty().append(dates);
-            }
+            }; // 함수
 
             $('#prev-day').on('click', function() {
                 currentDate.subtract(1, 'days');
@@ -206,8 +210,7 @@
                 currentDate.add(1, 'days');
                 updateDates();
             });
-
-            updateDates();
+           
 
             $('#calendarMini').fullCalendar({
                 header : {
@@ -222,6 +225,7 @@
                     $('#reportDate').val(date);
                     currentDate = moment(start); // 선택한 날짜로 업데이트
                     updateDates(); // 선택한 날짜로 가로 날짜 업데이트
+                    fetchDailyData(date); // 선택한 날짜의 데이터 가져오기
                     $('#calendarModal').modal('hide');
                 },
                 editable : true,
@@ -239,7 +243,24 @@
             $('.calendar-button').click(function() {
                 $('#calendarModal').modal('show');
             });
-        });
+
+            // 날짜에 맞는 데이터를 가져오는 함수
+            function DailyData(date) {
+                const farmId = 32; // 여기에 farmId를 지정하세요.
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/farm/env/date",
+                    type: "get",
+                    dataType: "json",
+                    data: { farm_id: farmId, date: date },
+                    success: function(data) {
+                        console.log("Data received for date " + date + ": ", data);
+                    },
+                    error: function(request, status, error) {
+                        console.log("Error fetching data for date " + date + ": " + error);
+                    }
+                }); // ajax
+            } // 함수
+        }); //ready 함수
     </script>
 </body>
 </html>

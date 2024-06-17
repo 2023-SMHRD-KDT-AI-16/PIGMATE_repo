@@ -47,6 +47,7 @@ public class FarmController {
 		return "index";
 	}
 
+	// 농장 환경 정보 정해준 기간별로 가져오기
 	@PostMapping("/farm/env")
 	public List<FarmEnv> FarmEnvList(HttpSession session, @RequestParam("period") String period,
 			@RequestParam("type") String type, @RequestParam("farm_id") String farm_id) {
@@ -218,14 +219,26 @@ public class FarmController {
 	    Random random = new Random();
 	    
 	    for (int i = 0; i < values.size(); i++) {
-            Number value = values.get(i);
-            double baseValue = value.doubleValue();
-            double percentage = 0.25; // 30%
-
-            double min = baseValue * (1 - percentage);
-            double max = baseValue * (1 + percentage);
-
-            double randomValue = min + (max - min) * random.nextDouble();
+	    	
+	    	double randomValue = 0.0;
+	    	Number value = values.get(i);
+	    	
+	    	if (i == 0) {
+	    		
+	    		double min = 1 * (1 - 0.5);
+	            double max = 1 * (1 + 0.5);
+	
+	            randomValue = min + (max - min) * random.nextDouble();
+	    	}else {
+	            
+	            double baseValue = value.doubleValue();
+	            double percentage = 0.25; // 30%
+	
+	            double min = baseValue * (1 - percentage);
+	            double max = baseValue * (1 + percentage);
+	
+	            randomValue = min + (max - min) * random.nextDouble();
+            }
             randomValue = Math.round(randomValue * 10.0) / 10.0;
 
             // 리스트의 값을 변경
@@ -283,6 +296,13 @@ public class FarmController {
 		}
 	}
 
-
+	// 리포트 - 날짜별 하루 단위 환경 정보
+	@GetMapping("/farm/env/date")
+	public List<FarmEnv> getDailyEnvByDate(@RequestParam("farm_id") int farm_idx, @RequestParam("date") String date) {
+	    System.out.println("Fetching data for farm_id: " + farm_idx + " and date: " + date);
+	    List<FarmEnv> result = farmMapper.getDailyEnvByDate(farm_idx, date);
+	    System.out.println("하루 환경 정보: " + result);
+	    return result;
+	}
 	
 }
