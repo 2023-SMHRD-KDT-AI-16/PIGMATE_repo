@@ -682,7 +682,7 @@ function updateStatus(elementId, value, range) {
 //flask 데이터 전송
 function returnData(farmId) {
     $.ajax({
-        url: "http://192.168.219.151:5000/receive_data",
+        url: "http://localhost:5000/receive_data",
         type: "post",
         contentType: "application/json",
         data: JSON.stringify({ farmId: farmId }),
@@ -691,7 +691,7 @@ function returnData(farmId) {
         },
         success: function(response) {
             console.log("flask 서버 응답:", response);
-            $('#modelVideo').attr('src', 'http://192.168.219.151:5000/video_feed');
+            $('#modelVideo').attr('src', 'http://localhost:5000/video_feed');
         },
         error: function(error) {
             console.log("flask 에러:", error);
