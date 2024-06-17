@@ -177,6 +177,25 @@ body {
 	text-align: left;
 }
 
+#topBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+#topBtn:hover {
+    background-color: #1e7e34;
+}
+
 </style>
 </style>
 </head>
@@ -262,10 +281,33 @@ body {
 							src="${pageContext.request.contextPath}/resources/img/logos/our_team.jpg"
 							alt="pigimages">
 					</div>
+					 <button id="topBtn" onclick="topFunction()">Top</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script>
+    // 스크롤 시 버튼 표시/숨김 처리
+    window.onscroll = function() {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("topBtn").style.display = "block";
+        } else {
+            document.getElementById("topBtn").style.display = "none";
+        }
+    }
+
+    // 버튼 클릭 시 페이지 상단으로 스크롤
+    function topFunction() {
+        window.scrollTo({
+            top: 0
+        });
+    }
+    </script>
 
 	<script
 		src="${pageContext.request.contextPath}/resources/libs/jquery/dist/jquery.min.js"></script>
