@@ -107,10 +107,10 @@ public class BoardController {
  	    }
  	    // 같은 시간 데이터 없으면 시간별 평균 데이터 넣기
  	    if (farmMapper.countHourlyData(farm_idx) == 0) {
- 		    int hour_insert = farmMapper.insertHourTable(farm_idx);
- 		    System.out.println("hour_insert : " + hour_insert);
- 		    int time_delete = farmMapper.deleteTimeTable(farm_idx);
- 		    System.out.println("time_delete : " + time_delete);
+// 		    int hour_insert = farmMapper.insertHourTable(farm_idx);
+// 		    System.out.println("hour_insert : " + hour_insert);
+// 		    int time_delete = farmMapper.deleteTimeTable(farm_idx);
+// 		    System.out.println("time_delete : " + time_delete);
  	    }
  	    
  	    List<FarmEnv> result = farmMapper.getDailyEnvByDate(farm_idx, date);
