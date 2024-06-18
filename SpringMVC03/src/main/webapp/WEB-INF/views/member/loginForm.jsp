@@ -87,7 +87,7 @@ $(document).ready(function(){
 			<div class="d-flex align-items-center justify-content-center w-100">
 				<div class="row justify-content-center w-100">
 					<div class="col-md-8 col-lg-6 col-xxl-3">
-						<a href="${contextPath}/index.html"
+						<a href="#"
 							class="text-nowrap logo-img text-center d-block py-3 w-100 logo-container">
 							<img width="450" height="120"
 							src="${pageContext.request.contextPath}/resources/img/logos/pigmate_small.png"
