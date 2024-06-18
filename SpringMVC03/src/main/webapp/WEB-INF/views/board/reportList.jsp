@@ -263,7 +263,7 @@ $(document).ready(function() {
 	var warnPigs = [];
 	var alertDateList = [];
 	var envList = [];
-	var pigList = [];
+    var pigList = [];
 	
 	
     function DailyData(date, farmId) {
@@ -310,7 +310,8 @@ $(document).ready(function() {
                 const alertData = responses[3];
 
                 console.log("날짜별 환경 데이터 " + date + ": ", envData);
-                envDateList = envData.map(item => item.created_at.split(' ')[1].split(':')[0]);
+                const uniqueEnvDates = new Set(envData.map(item => item.created_at.split(' ')[1].split(':')[0]));
+                envDateList = [...uniqueEnvDates];
                 console.log(envDateList);
                 ammList = envData.map(item => item.ammonia);
                 tempList = envData.map(item => item.temperature);
@@ -330,25 +331,27 @@ $(document).ready(function() {
                 console.log("날짜별 알림 정보" + date + ': ', alertData);
                 const uniqueAlertDates = new Set(alertData.map(item => item.created_at.split(' ')[1].split(':')[0]));
                 alertDateList = [...uniqueAlertDates];
+                console.log("알람 날짜" + alertDateList);
+                envList = [];
+                pigList = [];
                 alertData.forEach(item => {
-                    if (item.type === "env") {
-                        envList.push(item.count);
-                    } else if (item.type === "pig") {
-                        pigList.push(item.count);
-                    }
+                	if (item.type === "env") {
+                		envList.push(item.count);
+                	} else if (item.type === "pig") {
+                		pigList.push(item.count);
+                	}
                 });
 
                 // 모든 데이터가 준비되면 차트 생성
-                createPigCharts(pigDateList, livestocks, lyingPigs, warnPigs)
-                createEnvCharts(envDateList, ammList, tempList, humidList, co2List, pmList);
-                createAlertCharts(alertDateList, envList, pigList);
-                createTempCharts(tempList);
+                createPigCharts(date, pigDateList, livestocks, lyingPigs, warnPigs)
+                createEnvCharts(date, envDateList, ammList, tempList, humidList, co2List, pmList);
+                createAlertCharts(date, alertDateList, envList, pigList);
             })
     } // 함수
 
     
     // 돼지 관련 모든 정보 보여주는 bar 그래프
-    function createPigCharts(pigDateList, livestocks, lyingPigs, warnPigs) {
+    function createPigCharts(date, pigDateList, livestocks, lyingPigs, warnPigs) {
     	console.log("이상 객체 차트 함수 도착");
         const container = document.getElementById("everyPigChart");
 
@@ -357,7 +360,7 @@ $(document).ready(function() {
                 type: 'column'
             },
             title: {
-                text: '오늘의 돼지 정보',
+                text: date+' 돼지 정보',
                 align: 'left'
             },
             xAxis: {
@@ -433,8 +436,12 @@ $(document).ready(function() {
         }); // 차트
     } // 차트 함수
 
+    if (alertDateList.length !== envList.length || alertDateList.length !== pigList.length) {
+        console.error("데이터 리스트의 길이가 일치하지 않습니다.");
+        return;
+    }
     // 모든 환경 정보 보여주는 그래프
-    function createEnvCharts(envDateList, ammList, tempList, humidList, co2List, pmList) {
+    function createEnvCharts(date, envDateList, ammList, tempList, humidList, co2List, pmList) {
     	console.log("환경 차트 함수 도착");
         const container = document.getElementById("everyEnvChart");
 
@@ -443,7 +450,7 @@ $(document).ready(function() {
                 type: 'line'
             },
             title: {
-                text: '오늘의 환경 정보',
+                text: date+' 환경 정보',
                 align: 'left'
             },
             xAxis: {
@@ -527,8 +534,11 @@ $(document).ready(function() {
         }); // 차트
     } // 차트 함수
     
-    function createAlertCharts(alertDateList, envList, pigList) {
+    function createAlertCharts(date, alertDateList, envList, pigList) {
     	console.log("알림 차트 함수 도착");
+    	console.log(alertDateList);
+    	console.log("envList", envList);
+    	console.log("pigList", pigList);
         const container = document.getElementById("everyAlertChart");
 
         Highcharts.chart(container, {
@@ -536,7 +546,7 @@ $(document).ready(function() {
                 type: 'column'
             },
             title: {
-                text: '오늘의 알림 정보',
+                text: date+' 알림 정보',
                 align: 'left'
             },
             xAxis: {

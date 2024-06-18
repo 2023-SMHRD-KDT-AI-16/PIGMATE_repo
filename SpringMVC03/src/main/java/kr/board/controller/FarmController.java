@@ -192,6 +192,7 @@ public class FarmController {
 		try {
 			EnvCri envCri = env_criteria_infoMapper.getEnvCriByFarmIdx(farm_idx);
 			if (envCri != null) {
+				System.out.println(envCri);
 				return new ResponseEntity<>(envCri, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(new EnvCri(), HttpStatus.OK);

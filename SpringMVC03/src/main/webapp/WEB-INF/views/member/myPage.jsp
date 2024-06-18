@@ -260,12 +260,13 @@
 			$addEnvForm.hide();
 		} else {
 			$.ajax({
-				url : 'getEnvCriteria.do',
+				url : 'env/cri',
 				type : 'get',
 				data : {
-					farm_idx : farmId
+					farmId : farmId
 				},
 				success : function(response) {
+					console.log(response);
 					$("#temperature").val(response.temperature);
 					$("#humidity").val(response.humidity);
 					$("#co2").val(response.co2);
