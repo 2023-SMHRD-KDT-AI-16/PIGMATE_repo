@@ -97,16 +97,15 @@
     font-weight: bold;
 }
 
-.calendar-container .calendar-button {
-    position: absolute;
-    top: -50px;
-    right: -300px;
+#main-wrapper > div > div > div > div > div > div.horizontal-dates > button.calendar-button {
+    position: relative;
     cursor: pointer;
     background-color: #6EB876;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
+    margin-left: 10px;
 }
 </style>
 </head>
@@ -125,22 +124,17 @@
                                 <button id="prev-day">&lt;</button>
                                 <span id="dates"></span>
                                 <button id="next-day">&gt;</button>
+                                <button class="calendar-button" data-toggle="modal" data-target="#calendarModal">달력 열기</button>
                             </div>
                             <div class="row">
-                                <div class="col-lg-8 d-flex align-items-stretch">
+                                <div class="col-lg-12 d-flex align-items-stretch">
                                     <div class="graph-container">
-                                        <h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
                                         <!-- 그래프를 추가할 공간 -->
                                         <div id="everyPigChart" style="width: 100%; height: 400px;"></div>
                                         <div id="everyEnvChart" style="width: 100%; height: 400px;"></div>
                                         <div id="everyAlertChart" style="width: 100%; height: 400px;"></div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4 d-flex align-items-stretch">
                                     <div class="calendar-container">
-                                        <button class="calendar-button" data-toggle="modal" data-target="#calendarModal">
-                                            달력 열기
-                                        </button>
                                         <!-- 날짜를 선택했을 때 나타나는 입력 폼 -->
                                         <form id="reportForm">
                                             <div class="form-group mb-3">
@@ -156,6 +150,7 @@
                                             </div>
                                         </form>
                                     </div>
+                                </div>                               
                                 </div>
                             </div>
                         </div>
@@ -344,8 +339,7 @@ $(document).ready(function() {
                 });
 
                 // 모든 데이터가 준비되면 차트 생성
-                createPigCharts(pigDateList, standingPigs, lyingPigs, warnPigs);
-                createPigCharts2(pigDateList, livestocks, lyingPigs, warnPigs)
+                createPigCharts(pigDateList, livestocks, lyingPigs, warnPigs)
                 createEnvCharts(envDateList, ammList, tempList, humidList, co2List, pmList);
                 createAlertCharts(alertDateList, envList, pigList);
                 createTempCharts(tempList);
@@ -405,7 +399,37 @@ $(document).ready(function() {
                     data: warnPigs
                 }
                 
-            ]
+            ],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            align: 'center',
+                            verticalAlign: 'bottom',
+                            layout: 'horizontal'
+                        },
+                        yAxis: {
+                            labels: {
+                                align: 'left',
+                                x: 0,
+                                y: -5
+                            },
+                            title: {
+                                text: ''
+                            }
+                        },
+                        subtitle: {
+                            text: null
+                        },
+                        credits: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
         }); // 차트
     } // 차트 함수
 
@@ -469,7 +493,37 @@ $(document).ready(function() {
                 	data: pmList
                 }
                 
-            ]
+            ],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            align: 'center',
+                            verticalAlign: 'bottom',
+                            layout: 'horizontal'
+                        },
+                        yAxis: {
+                            labels: {
+                                align: 'left',
+                                x: 0,
+                                y: -5
+                            },
+                            title: {
+                                text: ''
+                            }
+                        },
+                        subtitle: {
+                            text: null
+                        },
+                        credits: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
         }); // 차트
     } // 차트 함수
     
@@ -520,7 +574,37 @@ $(document).ready(function() {
                 	data: pigList
                 }
                 
-            ]
+            ],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            align: 'center',
+                            verticalAlign: 'bottom',
+                            layout: 'horizontal'
+                        },
+                        yAxis: {
+                            labels: {
+                                align: 'left',
+                                x: 0,
+                                y: -5
+                            },
+                            title: {
+                                text: ''
+                            }
+                        },
+                        subtitle: {
+                            text: null
+                        },
+                        credits: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
         }); // 차트
     } // 차트 함수
     
