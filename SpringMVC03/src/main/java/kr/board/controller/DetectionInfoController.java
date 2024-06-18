@@ -113,13 +113,6 @@ public class DetectionInfoController {
 		return pigCnt;
 	}
 
-	// 날짜 선택 시 시간별 돼지객체 탐지 평균
-	@GetMapping("/farm/DetectionInfo/date")
-	public List<DetectionInfo> getDailyDetectionInfoByDate(@RequestParam("farm_id") int farm_idx,
-			@RequestParam("date") String date) {
-		List<DetectionInfo> detectionInfoList = detectionInfoMapper.getDailyDetectionInfoByDate(farm_idx, date);
-		System.out.println("날짜별 탐지 정보: " + detectionInfoList);
-		return detectionInfoList;
-	}
+	
 
 }

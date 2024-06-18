@@ -16,6 +16,8 @@ public class Alert {
     private String alarmMsg;
     private Date alarmedAt;
     private int farm_idx;
-    private String type; 
+    private String type;
+    private int count;
+    private String created_at;
 
 }

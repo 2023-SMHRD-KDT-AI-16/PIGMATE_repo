@@ -213,14 +213,6 @@
                                         <div class="mb-3 mb-sm-0">
                                             <h5 class="card-title fw-semibold">축사환경</h5>
                                         </div>
-                                        <div>
-                                            <select class="form-select">
-                                                <option value="1">March 2024</option>
-                                                <option value="2">April 2024</option>
-                                                <option value="3">May 2024</option>
-                                                <option value="4">June 2024</option>
-                                            </select>
-                                        </div>
                                     </div>
                                     <img src="" id="modelVideo" width="600" />
                                 </div>

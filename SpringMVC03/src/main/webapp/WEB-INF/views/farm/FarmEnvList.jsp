@@ -272,6 +272,9 @@ function createCharts(dateList, valueList, chartId, type) {
         }],
         legend: {
             enabled: true,
+            symbolWidth: 10, // 심볼의 넓이 설정
+            symbolHeight: 10, // 심볼의 높이 설정
+            symbolRadius: 0, // 심볼의 반지름 설정 (원 모양을 방지)
             labelFormatter: function() {
                 if (type === 'temperature') {
                     return [
@@ -284,7 +287,7 @@ function createCharts(dateList, valueList, chartId, type) {
                         '<span style="color:#90be6d">80% 이하</span>',
                         '<span style="color:#f9c74f">80% 이상</span>'
                     ].join('<br/>');
-                }
+                } 
             }
         },
         tooltip: {

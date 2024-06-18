@@ -77,7 +77,7 @@
         FROM pig_info
         WHERE farm_idx = #{farm_idx} AND DATE(created_at) = #{date}
         GROUP BY farm_idx, SUBSTR(created_at, 1, 13)
-        ORDER BY created_date DESC
+        ORDER BY created_date ASC
         LIMIT 10;
         ]]>
 	</select>

@@ -59,19 +59,5 @@ public class PigInfoController {
 		return pig_info;
 	}
 
-	// 날짜 선택 시 시간별 이상 돼지 객체 탐지 평균
-	 @GetMapping("/farm/AbnormalInfo/date")
-	    public List<PigInfo> getDailyAbnormalInfoByDate(@RequestParam("farm_id") int farm_idx,
-	                                                    @RequestParam("date") String date) {
-	        System.out.println("Fetching abnormal detection info for farm_id: " + farm_idx + ", date: " + date);
-	        List<PigInfo> abnormalInfoList = new ArrayList<>();
-	        try {
-	            abnormalInfoList = pigInfoMapper.getDailyAbonormalInfoByDate(farm_idx, date);
-	            System.out.println("Fetched abnormal detection info: " + abnormalInfoList);
-	        } catch (Exception e) {
-	            System.err.println("Error fetching abnormal detection info: " + e.getMessage());
-	            e.printStackTrace();
-	        }
-	        return abnormalInfoList;
-	    }
+	
 }

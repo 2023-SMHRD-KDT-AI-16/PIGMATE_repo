@@ -23,6 +23,8 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 <script
     src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <style>
 .sidebar-nav .sidebar-item .collapse .sidebar-item {
     padding-left: 20px;
@@ -129,6 +131,11 @@
                                     <div class="graph-container">
                                         <h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
                                         <!-- 그래프를 추가할 공간 -->
+                                        <div id="everyPigChart" style="width: 100%; height: 400px;"></div>
+                                        <div id="everyPigChart2" style="width: 100%; height: 400px;"></div>
+                                        <div id="everyEnvChart" style="width: 100%; height: 400px;"></div>
+                                        <div id="everyAlertChart" style="width: 100%; height: 400px;"></div>
+                                        <div id="temptChart" style="width: 100%; height: 400px;"></div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 d-flex align-items-stretch">
@@ -249,64 +256,339 @@ $(document).ready(function() {
         return urlParams.get(name);
     }
 
+    
+	var envDateList = [];
+	var ammList = [];
+	var tempList = [];
+	var humidList = [];
+	var co2List = [];
+	var pmList = [];
+	var pigDateList = [];
+	var livestocks = [];
+	var lyingPigs = [];
+	var standingPigs = [];
+	var warnPigs = [];
+	var alertDateList = [];
+	var envList = [];
+	var pigList = [];
+	
+	
     function DailyData(date, farmId) {
+
         console.log(farmId);
-        $.ajax({
+        // 환경 데이터 가져옴
+        const envPromise = $.ajax({
             url: "${pageContext.request.contextPath}/farm/env/date",
             type: "get",
             dataType: "json",
-            data: { farm_id: farmId, date: date },
-            success: function(data) {
-                console.log("날짜마다의 시간별 데이터 " + date + ": ", data);
-            },
-            error: function(request, status, error) {
-                console.log("Error fetching data for date " + date + ": " + error);
-            }
+            data: { farm_id: farmId, date: date }
         });
-        getDetectionInfo(date, farmId); // 탐지 정보 호출
-        getAbnormalInfo(date, farmId); // 이상 탐지 정보 호출
-    }
-
-    function getDetectionInfo(date, farmId) {
-        $.ajax({
+        
+        // 객체 탐지 정보 가져옴
+        const detectionPromise = $.ajax({
             url: "${pageContext.request.contextPath}/farm/DetectionInfo/date",
             type: "get",
             dataType: "json",
-            data: { farm_id: farmId, date: date },
-            success: function(data) {
-                console.log("날짜별 탐지 정보 " + date + ": ", data);
-                if (data.length === 0) {
-                    console.log("탐지 정보가 없습니다.");
-                } else {
-                    // console.log("탐지 정보: ", data);
-                }
-            },
-            error: function(request, status, error) {
-                console.log("Error fetching detection data for date " + date + ": " + error);
-            }
+            data: { farm_id: farmId, date: date }
         });
-    }
-
-    function getAbnormalInfo(date, farmId) {
-        $.ajax({
+        
+        // 돼지 이상 탐지 정보 가져옴
+        const abnormalPromise = $.ajax({
             url: "${pageContext.request.contextPath}/farm/AbnormalInfo/date",
             type: "get",
             dataType: "json",
-            data: { farm_id: farmId, date: date },
-            success: function(data) {
-                console.log("날짜별 이상 탐지 정보 " + date + ": ", data);
-                if (data.length === 0) {
-                    console.log("이상 탐지 정보가 없습니다.");
-                } else {
-                    // console.log("이상 탐지 정보: ", data);
+            data: { farm_id: farmId, date: date }
+        });
+        
+        const alertPromise = $.ajax({
+        	 url: "${pageContext.request.contextPath}/farm/alertDate",
+             type: "get",
+             dataType: "json",
+             data: { farm_id: farmId, date: date }
+        })
+        
+        // 모든 프로미스가 완료되었을 때 차트 생성
+        Promise.all([envPromise, detectionPromise, abnormalPromise, alertPromise])
+            .then(function (responses) {
+                // 각각의 AJAX 응답 처리
+                const envData = responses[0];
+                const detectionData = responses[1];
+                const abnormalData = responses[2];
+                const alertData = responses[3];
+
+                console.log("날짜별 환경 데이터 " + date + ": ", envData);
+                envDateList = envData.map(item => item.created_at.split(' ')[1].split(':')[0]);
+                console.log(envDateList);
+                ammList = envData.map(item => item.ammonia);
+                tempList = envData.map(item => item.temperature);
+                humidList = envData.map(item => item.humidity);
+                co2List = envData.map(item => item.co2);
+                pmList = envData.map(item => item.pm);
+
+                console.log("날짜별 탐지 정보 " + date + ": ", detectionData);
+                pigDateList = detectionData.map(item => item.created_date.split(' ')[1].split(':')[0]);
+                lyingPigs = detectionData.map(item => item.avg_lying_cnt);
+
+                console.log("날짜별 이상 탐지 정보 " + date + ": ", abnormalData);
+                warnPigs = abnormalData.map(item => item.avg_warn_cnt);
+                livestocks = abnormalData.map(item => item.avg_livestock_cnt);
+                standingPigs = livestocks.map((livestock, index) => livestock - lyingPigs[index]);
+                
+                console.log("날짜별 알림 정보" + date + ': ', alertData);
+                const uniqueAlertDates = new Set(alertData.map(item => item.created_at.split(' ')[1].split(':')[0]));
+                alertDateList = [...uniqueAlertDates];
+                alertData.forEach(item => {
+                    if (item.type === "env") {
+                        envList.push(item.count);
+                    } else if (item.type === "pig") {
+                        pigList.push(item.count);
+                    }
+                });
+
+                // 모든 데이터가 준비되면 차트 생성
+                createPigCharts(pigDateList, standingPigs, lyingPigs, warnPigs);
+                createPigCharts2(pigDateList, livestocks, lyingPigs, warnPigs)
+                createEnvCharts(envDateList, ammList, tempList, humidList, co2List, pmList);
+                createAlertCharts(alertDateList, envList, pigList);
+                createTempCharts(tempList);
+            })
+    } // 함수
+
+    
+
+    
+    // 돼지 관련 모든 정보 보여주는 bar 그래프
+    function createPigCharts(pigDateList, standingPigs, lyingPigs, warnPigs) {
+    	console.log("이상 객체 차트 함수 도착");
+        const container = document.getElementById("everyPigChart");
+
+        Highcharts.chart(container, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '오늘의 돼지 정보',
+                align: 'left'
+            },
+            xAxis: {
+                categories: pigDateList,
+                crosshair: true,
+                accessibility: {
+                    description: 'hour'
                 }
             },
-            error: function(request, status, error) {
-                console.log("Error fetching abnormal detection data for date " + date + ": " + error);
-            }
-        });
-    }
-});
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '돼지 수 (마리)'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' (마리)'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                   /*  pointPadding: 0.2,
+                    borderWidth: 0 */
+                    stacking : 'normal'
+                }
+            },
+            series: [
+                {
+                    name: '서 있는 돼지 수',
+                    data: standingPigs,
+                    stack :'전체 돼지 수'
+                },
+                {
+                	name : '누워 있는 돼지 수',
+                	data: lyingPigs,
+                	stack :'전체 돼지 수'
+                },
+                {
+                    name: '이상 돼지 수',
+                    data: warnPigs
+                }
+                
+            ]
+        }); // 차트
+    } // 차트 함수
+    // 돼지 관련 모든 정보 보여주는 bar 그래프
+    function createPigCharts2(pigDateList, livestocks, lyingPigs, warnPigs) {
+    	console.log("이상 객체 차트 함수 도착");
+        const container = document.getElementById("everyPigChart2");
+
+        Highcharts.chart(container, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '오늘의 돼지 정보',
+                align: 'left'
+            },
+            xAxis: {
+                categories: pigDateList,
+                crosshair: true,
+                accessibility: {
+                    description: 'hour'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '돼지 수 (마리)'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' (마리)'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [
+                {
+                    name: '전체 돼지 수',
+                    data: livestocks,
+                },
+                {
+                	name : '누워 있는 돼지 수',
+                	data: lyingPigs,
+                },
+                {
+                    name: '이상 돼지 수',
+                    data: warnPigs
+                }
+                
+            ]
+        }); // 차트
+    } // 차트 함수
+
+    // 모든 환경 정보 보여주는 그래프
+    function createEnvCharts(envDateList, ammList, tempList, humidList, co2List, pmList) {
+    	console.log("환경 차트 함수 도착");
+        const container = document.getElementById("everyEnvChart");
+
+        Highcharts.chart(container, {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: '오늘의 환경 정보',
+                align: 'left'
+            },
+            xAxis: {
+                categories: pigDateList,
+                crosshair: true,
+                accessibility: {
+                    description: 'hour'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [
+                {
+                	name : '온도',
+                	data: tempList
+                },
+                {
+                    name: '습도',
+                    data: humidList
+                },
+                {
+                    name: '암모니아',
+                    data: ammList
+                },
+                {
+                	name: '이산화탄소',
+                	data: co2List
+                },
+                {
+                	name: '이산화황',
+                	data: pmList
+                }
+                
+            ]
+        }); // 차트
+    } // 차트 함수
+    
+    function createAlertCharts(alertDateList, envList, pigList) {
+    	console.log("알림 차트 함수 도착");
+        const container = document.getElementById("everyAlertChart");
+
+        Highcharts.chart(container, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '오늘의 알림 정보',
+                align: 'left'
+            },
+            xAxis: {
+                categories: alertDateList,
+                crosshair: true,
+                accessibility: {
+                    description: 'hour'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '수 (개수)'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' (개)'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [
+                {
+                    name: '이상 환경 알림 수',
+                    data: envList
+                },
+                {
+                	name : '이상 돼지 알림 수',
+                	data: pigList
+                }
+                
+            ]
+        }); // 차트
+    } // 차트 함수
+    
+   
+    
+}); // ready 함수 
 
 </script>
 </body>

@@ -296,32 +296,6 @@ public class FarmController {
 		}
 	}
 
-	// 리포트 - 날짜별 하루 단위 환경 정보
-	@GetMapping("/farm/env/date")
-	public List<FarmEnv> getDailyEnvByDate(@RequestParam("farm_id") int farm_idx, @RequestParam("date") String date) {
-		System.out.println("날짜별 데이터 farm_id: " + farm_idx + " and date: " + date);
-	    
-		// 같은 달 데이터 없으면 month데이터에 월 평균 데이터 넣기
-		if (farmMapper.countMonthlyData(farm_idx, date) == 0) {
-			int month_insert = farmMapper.insertMonthTable(farm_idx);
-		    System.out.println("month_insert : " + month_insert);
-	    }
-		// 같은 날짜 데이터 없으면 일 평균 데이터 넣기
-	    if (farmMapper.countDailyData(farm_idx) == 0) {
-		    int day_insert = farmMapper.insertDayTable(farm_idx);
-		    System.out.println("day_insert : " + day_insert);
-	    }
-	    // 같은 시간 데이터 없으면 시간별 평균 데이터 넣기
-	    if (farmMapper.countHourlyData(farm_idx) == 0) {
-		    int hour_insert = farmMapper.insertHourTable(farm_idx);
-		    System.out.println("hour_insert : " + hour_insert);
-	    }
-	    int time_delete = farmMapper.deleteTimeTable(farm_idx);
-	    System.out.println("time_delete : " + time_delete);
-	    
-	    List<FarmEnv> result = farmMapper.getDailyEnvByDate(farm_idx, date);
-	    System.out.println("하루 환경 정보: " + result);
-	    return result;
-	}
+	
 	
 }

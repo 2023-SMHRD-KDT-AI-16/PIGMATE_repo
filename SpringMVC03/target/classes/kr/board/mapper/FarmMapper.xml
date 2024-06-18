@@ -109,6 +109,7 @@
 		SELECT * FROM farm_env_info_hour
 		WHERE farm_idx = #{farm_idx}
 		AND DATE(created_at) = #{date}
+		ORDER BY created_at ASC;
 	</select>
 	
 	<!-- month 테이블에 day 테이블 값 넣기 -->
@@ -207,7 +208,7 @@
 		<![CDATA[
 		DELETE FROM farm_env_info_time
 		WHERE farm_idx = #{farm_idx}
-		AND DATE(created_at) < DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+		AND DATE(created_at) < DATE_SUB(CURDATE(), INTERVAL 4 HOUR)
 		]]>
 	</delete>
 	
@@ -216,7 +217,7 @@
         <![CDATA[
         SELECT COUNT(*) FROM farm_env_info_month
         WHERE farm_idx = #{farm_idx}
-        AND created_at = DATE_FORMAT(#{date}, '%Y-%m-01')
+        AND created_at = DATE_FORMAT(DATE_SUB(#{date}, INTERVAL 1 MONTH), '%Y-%m-01')
         ]]>
     </select>
 
@@ -224,7 +225,7 @@
         <![CDATA[
         SELECT COUNT(*) FROM farm_env_info_day
         WHERE farm_idx = #{farm_idx}
-        AND created_at = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        AND created_at = DATE_SUB(CURDATE(), INTERVAL 5 DAY)
         ]]>
     </select>
 
@@ -232,7 +233,7 @@
         <![CDATA[
         SELECT COUNT(*) FROM farm_env_info_hour
         WHERE farm_idx = #{farm_idx}
-        AND created_at = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:00:00')
+        AND created_at = DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 12 HOUR), '%Y-%m-%d %H:00:00')
         ]]>
     </select>
 	

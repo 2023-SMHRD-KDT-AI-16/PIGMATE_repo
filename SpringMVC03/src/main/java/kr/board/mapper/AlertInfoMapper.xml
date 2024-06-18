@@ -30,5 +30,15 @@
         FROM alert_info
         WHERE farm_idx = #{farm_idx}
     </select>
+    
+    <!-- 하루의 알람 정보 시간별로 개수 가져옴 -->
+    <select id="getAlertData" parameterType="map" resultType="kr.board.entity.Alert">
+	SELECT DATE_FORMAT(CONCAT(SUBSTR(MIN(alarmed_at), 1, 13), ':00:00'), '%Y-%m-%d %H:%i:%s') AS created_at, farm_idx, type, count(alarm_msg) AS count
+	FROM alert_info 
+	WHERE farm_idx = #{farm_idx} AND DATE(alarmed_at) = #{date}
+	GROUP BY farm_idx, type, SUBSTR(alarmed_at, 1, 13)
+	ORDER BY created_at ASC;
+</select>
+
 
 </mapper>
