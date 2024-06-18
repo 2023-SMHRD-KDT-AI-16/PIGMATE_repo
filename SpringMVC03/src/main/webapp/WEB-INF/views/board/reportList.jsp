@@ -132,10 +132,8 @@
                                         <h5 class="card-title fw-semibold mb-4">리포트 목록</h5>
                                         <!-- 그래프를 추가할 공간 -->
                                         <div id="everyPigChart" style="width: 100%; height: 400px;"></div>
-                                        <div id="everyPigChart2" style="width: 100%; height: 400px;"></div>
                                         <div id="everyEnvChart" style="width: 100%; height: 400px;"></div>
                                         <div id="everyAlertChart" style="width: 100%; height: 400px;"></div>
-                                        <div id="temptChart" style="width: 100%; height: 400px;"></div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 d-flex align-items-stretch">
@@ -355,70 +353,10 @@ $(document).ready(function() {
     } // 함수
 
     
-
-    
     // 돼지 관련 모든 정보 보여주는 bar 그래프
-    function createPigCharts(pigDateList, standingPigs, lyingPigs, warnPigs) {
+    function createPigCharts(pigDateList, livestocks, lyingPigs, warnPigs) {
     	console.log("이상 객체 차트 함수 도착");
         const container = document.getElementById("everyPigChart");
-
-        Highcharts.chart(container, {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: '오늘의 돼지 정보',
-                align: 'left'
-            },
-            xAxis: {
-                categories: pigDateList,
-                crosshair: true,
-                accessibility: {
-                    description: 'hour'
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: '돼지 수 (마리)'
-                }
-            },
-            tooltip: {
-                valueSuffix: ' (마리)'
-            },
-            credits: {
-                enabled: false
-            },
-            plotOptions: {
-                column: {
-                   /*  pointPadding: 0.2,
-                    borderWidth: 0 */
-                    stacking : 'normal'
-                }
-            },
-            series: [
-                {
-                    name: '서 있는 돼지 수',
-                    data: standingPigs,
-                    stack :'전체 돼지 수'
-                },
-                {
-                	name : '누워 있는 돼지 수',
-                	data: lyingPigs,
-                	stack :'전체 돼지 수'
-                },
-                {
-                    name: '이상 돼지 수',
-                    data: warnPigs
-                }
-                
-            ]
-        }); // 차트
-    } // 차트 함수
-    // 돼지 관련 모든 정보 보여주는 bar 그래프
-    function createPigCharts2(pigDateList, livestocks, lyingPigs, warnPigs) {
-    	console.log("이상 객체 차트 함수 도착");
-        const container = document.getElementById("everyPigChart2");
 
         Highcharts.chart(container, {
             chart: {
