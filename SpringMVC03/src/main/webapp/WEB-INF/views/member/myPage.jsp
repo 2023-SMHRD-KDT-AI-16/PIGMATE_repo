@@ -449,7 +449,7 @@
 												class="form-control" id="ammonia" name="ammonia">
 										</div>
 										<div class="form-group mb-3">
-											<label for="pm">미세먼지</label> <input type="text"
+											<label for="pm">이산화황</label> <input type="text"
 												class="form-control" id="pm" name="pm">
 										</div>
 										<div class="row">
