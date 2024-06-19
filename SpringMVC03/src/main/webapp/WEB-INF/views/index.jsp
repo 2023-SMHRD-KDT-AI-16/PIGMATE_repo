@@ -683,7 +683,7 @@ function returnData(farmId) {
         data: JSON.stringify({ farmId: farmId }),
         success: function(response) {
             console.log("flask 서버 응답:", response);
-            $('#modelVideo').attr('src', 'http://192.168.219.151:5000/videoFeed');
+            $('#modelVideo').attr('src', 'http://192.168.219.151:5000/videoFeed?farmId='+farmId);
         },
         error: function(error) {
             console.log("flask 에러:", error);
