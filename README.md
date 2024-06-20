@@ -72,3 +72,132 @@
         </td>
     </tr>
 </table>
+<br>
+
+## ⚙ 시스템 아키텍처(구조)
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/f0b66352-eecc-490d-b2fb-efdd52bb20a6)
+
+
+<br>
+
+## 📌 SW유스케이스
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/d28b324b-1287-436f-8a89-a64de1aad0d9)
+
+
+## 📌서비스 흐름도
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/785aea78-68c2-4115-b4eb-2f4132829340)
+<br>
+
+## 📌 ER다이어그램
+
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/3859c8da-0f61-4f08-95c1-88553ca5805d)
+
+
+<br>
+
+## 🖥 화면 구성
+
+#### 회원가입
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/68662649-0dd8-46f1-b6a5-a8f52fdd2f68)
+<br>
+
+#### 로그인
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/77e7b05e-492c-4856-a81d-0d74371c6987)
+<br>
+
+#### 홈페이지 소개
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/85924ade-ed6f-4f97-8d53-c61f2b853a35)
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/facc65c2-29d6-4e41-8046-3d0d38f07e95)
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/d2cb64b9-566b-4396-aa51-33b26794de9d)
+#### 사이드바
+
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/1e8ec1a0-9b57-44d5-87bc-eebbd46a195b)
+
+
+<br>
+
+#### 메인 페이지
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/fbc0a00d-07b6-429f-bff3-ae28c1a2da20)
+
+<br>
+
+#### 축사정보
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/429caab0-668e-4f2b-886e-560cc2209bd5)
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/bddc719e-2b2f-4901-bce6-0520786bedbe)
+
+<br>
+
+#### 리포트
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/247b024c-5db1-416e-bfae-2f4d25f951b2)
+
+<br>
+
+#### 마이페이지
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/998c0617-c0c7-47d0-9cd4-fb3cbc6874c2)
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/6fb9f241-d040-457c-97c5-97a4f43c01b5)
+
+<br>
+
+#### 뉴스 게시판
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/b8ea4cf4-285a-4055-aa21-a7d036019206)
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/cacd420b-0ddd-4af1-b8c3-bf19f0dba381)
+
+<br>
+
+## 😎 트러블 슈팅
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/1f7c2322-d4d2-473f-83cf-a326dcb52885)
+
+<br>
+
+분명 2600장의 돼지 사진을 라벨링하여 학습하였는데 왜 외부에서 가져온 사진으로는 잘 잡지 못하는 것일까? 혹시 정규화(Normalize)의 문제일까? -> 하이퍼파라미터 튜닝을 많이 시도했다.
+
+하지만 문제가 해결되지 않았다. 
+
+그렇다면 데이터가 부족한 것일까?
+iStock에서 돼지 영상 데이터를 수집하여 python에서 0.5초마다 영상을 캡처해서 사진데이터로 만들었다.
+다시 라벨링 시작
+
+- 결과
+  <br>
+
+![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/f4c1c0e8-4c6c-45d4-ab54-e1fefc1b7925)
+
+  
+다양한 각도에서의 사진 데이터가 부족해 yolov7 모델이 잘 동작하지 않았다.
+
+
+<br>
+
+## 👨‍👩‍👦‍👦 팀원 역할
+
+
+<table>
+  <tr width="100" height="100" >
+    <td align="center">![image](https://github.com/2023-SMHRD-KDT-AI-16/PIGMATE_repo/assets/157657483/ccf8dac5-e9f2-40d5-a68a-832291dcaad5)
+</td>
+    <td align="center"><img src="https://mb.ntdtv.kr/assets/uploads/2019/01/Screen-Shot-2019-01-08-at-4.31.55-PM-e1546932545978.png" width="100" height="100"/></td>
+    <td align="center"><img src="https://mblogthumb-phinf.pstatic.net/20160127_177/krazymouse_1453865104404DjQIi_PNG/%C4%AB%C4%AB%BF%C0%C7%C1%B7%BB%C1%EE_%B6%F3%C0%CC%BE%F0.png?type=w2" width="100" height="100"/></td>
+    <td align="center"><img src="https://i.pinimg.com/236x/ed/bb/53/edbb53d4f6dd710431c1140551404af9.jpg" width="100" height="100"/></td>
+    <td align="center"><img src="https://pbs.twimg.com/media/B-n6uPYUUAAZSUx.png" width="100" height="100"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>김시은</strong></td>
+    <td align="center"><strong>나인혜</strong></td>
+    <td align="center"><strong>임정민</strong></td>
+    <td align="center"><strong>장민중</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><b>PM,Data Modeling</b></td>
+    <td align="center"><b>Back-End</b></td>
+    <td align="center"><b>Front-End</b></td>
+    <td align="center"><b>Back-End</b></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/duggie27" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+  </tr>
+</table>
+
