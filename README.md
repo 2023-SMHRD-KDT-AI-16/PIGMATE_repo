@@ -187,10 +187,10 @@ iStock에서 돼지 영상 데이터를 수집하여 python에서 0.5초마다 �
     <td align="center"><b>Back-End</b></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
-    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/sinni16" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/inhvee" target='_blank'>github</a></td>
     <td align="center"><a href="https://github.com/duggie27" target='_blank'>github</a></td>
-    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/Beyond-Boolean" target='_blank'>github</a></td>
   </tr>
 </table>
 
